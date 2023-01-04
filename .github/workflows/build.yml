@@ -12,7 +12,7 @@ jobs:
     strategy: 
       fail-fast: false 
       matrix: 
-        projectPath: [game] 
+        projectPath: [ourhillofstars] 
         targetPlatform: [WebGL, StandaloneWindows] 
         include:  
           - targetPlatform: StandaloneWindows 
