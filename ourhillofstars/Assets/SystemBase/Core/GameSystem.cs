@@ -55,7 +55,7 @@ namespace SystemBase.Core
         public abstract void Register(TComponent2 component);
     }
 
-    public abstract class GameSystem<TComponent> : GameSystem where TComponent : GameComponent
+    public abstract class GameSystem<TComponent> : GameSystem
     {
         private Dictionary<Type, Action<GameComponent>> _registerMethods;
 
