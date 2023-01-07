@@ -28,7 +28,7 @@ namespace Systems.Grid
         public void LoadGrid(MainGridComponent component, Level level)
         {
             var asset = $"Levels/{level.File}";
-            var tex = Resources.Load<Texture2D>(asset);
+            var tex = Resources.Load<Sprite>(asset).texture;
 
             if (!tex)
             {

@@ -2,6 +2,34 @@
   {
     "name": "Level #1",
     "file": "level_1",
+    "startDirection": 0,
+    "topArrows": 11,
+    "leftArrows": 9,
+    "rightArrows": 12,
+    "bottomArrows": 8
+  },
+  {
+    "name": "Level #2",
+    "file": "level_2",
+    "startDirection": 0,
+    "topArrows": 11,
+    "leftArrows": 9,
+    "rightArrows": 12,
+    "bottomArrows": 8
+  },
+  {
+    "name": "Level #3",
+    "file": "level_3",
+    "startDirection": 0,
+    "topArrows": 11,
+    "leftArrows": 9,
+    "rightArrows": 12,
+    "bottomArrows": 8
+  },
+  {
+    "name": "Level #4",
+    "file": "level_4",
+    "startDirection": 0,
     "topArrows": 11,
     "leftArrows": 9,
     "rightArrows": 12,
