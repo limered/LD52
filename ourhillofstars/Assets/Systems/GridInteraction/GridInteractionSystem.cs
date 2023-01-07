@@ -5,8 +5,10 @@ using SystemBase.Utils;
 using Systems.Grid;
 using Systems.GridInteraction.Events;
 using Systems.GridRendering;
+using Systems.Selector;
 using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Systems.GridInteraction
 {
@@ -23,35 +25,57 @@ namespace Systems.GridInteraction
 
         private void InitializeInteractions(MainGridComponent grid)
         {
+            var selectorPrefab = IoC.Game.PrefabByName("Selector");
+            var selector = Object.Instantiate(selectorPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+            var selectorComponent = selector.GetComponent<SelectorComponent>();
             SystemUpdate(grid)
-                .Subscribe(StartInteraction)
+                .Subscribe(g => StartInteraction(g, selectorComponent))
                 .AddTo(grid);
         }
 
-        private static void StartInteraction(MainGridComponent grid)
+        private static void StartInteraction(MainGridComponent grid, SelectorComponent selector)
         {
             var fGrid = grid.foregroundGrid;
             var fGridComponent = grid.GetComponentInChildren<ForegroundParentComponent>();
             var ray = fGridComponent.mainCamera.ScreenPointToRay(Input.mousePosition);
-            
-            if (Physics.Raycast(ray, out var hit) && Input.GetMouseButtonDown(0)) {
-                var x = (int)(hit.point.x + 0.5);
-                var y = (int)(hit.point.z + 0.5);
+            var bGrid = grid.backgroundGrid;
 
-                var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
-                var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
-                nextCellType %= maxValue;
-                var foregroundCellType = (ForegroundCellType)nextCellType;
-                fGrid.Cell(x, y, foregroundCellType);
-
-                MessageBroker.Default
-                .Publish(
-                    new SetForegroundCellTypeMessage()
-                    {
-                        foregroundCellType = foregroundCellType
-                    }
-                );
+            if (!Physics.Raycast(ray, out var hit))
+            {
+                selector.shouldBeInvisible.Value = false;
+                return;
+              
+               
             }
+
+            var x = (int)(hit.point.x + 0.5);
+            var y = (int)(hit.point.z + 0.5);
+
+            selector.targetCoord = new Vector2Int(x, y);
+            selector.shouldBeInvisible.Value = true;
+            var cell = bGrid.Cell(x, y);
+            if (cell != BackgroundCellType.Harvested && cell != BackgroundCellType.Wheat &&
+                cell != BackgroundCellType.Start)
+            {
+                selector.shouldChangeTexture.Value = true;
+                return;
+            }
+
+            selector.shouldChangeTexture.Value = false;
+
+            if (!Input.GetMouseButtonDown(0)) return;
+            var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
+            var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
+            nextCellType %= maxValue;
+            fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
+            var foregroundCellType = (ForegroundCellType)nextCellType;
+            MessageBroker.Default
+            .Publish(
+                new SetForegroundCellTypeMessage()
+                {
+                        foregroundCellType = foregroundCellType
+                }
+            );
         }
     }
 }
