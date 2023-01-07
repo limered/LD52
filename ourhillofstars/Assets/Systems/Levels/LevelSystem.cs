@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+
 using Newtonsoft.Json;
 using SystemBase.Core;
 using SystemBase.Utils;
@@ -15,7 +15,7 @@ using Object = UnityEngine.Object;
 namespace Systems.Levels
 {
     [GameSystem]
-    public class LevelSystem : GameSystem<LevelOverviewComponent, MainGridComponent>
+    public class LevelSystem : GameSystem<LevelOverviewComponent>
     {
         public override void Register(LevelOverviewComponent component)
         {
@@ -57,17 +57,8 @@ namespace Systems.Levels
                     });
                 })
                 .AddTo(component);
-        }
 
-        public override void Register(MainGridComponent component)
-        {
-            var levels = GetLevels();
-
-            // // load 1st level
-            // MessageBroker.Default.Publish(new GridLoadMsg
-            // {
-            //     Level = levels.First()
-            // });
+            MessageBroker.Default.Receive<ShowLevelOverviewMsg>().Subscribe(_ => component.gameObject.SetActive(true));
         }
 
         private List<Level> GetLevels()
