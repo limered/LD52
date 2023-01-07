@@ -18,19 +18,19 @@ namespace Systems.UI
                 case ForegroundCellType.Empty:
                     break;
                 case ForegroundCellType.Left:
-                    currentLevelComponent.topArrow.Subscribe(value =>
+                    currentLevelComponent.topArrows.Subscribe(value =>
                         SetArrowElement(component, value, ForegroundCellType.Left));
                     break;
                 case ForegroundCellType.Top:
-                    currentLevelComponent.leftArrow.Subscribe(value =>
+                    currentLevelComponent.leftArrows.Subscribe(value =>
                         SetArrowElement(component, value, ForegroundCellType.Top));
                     break;
                 case ForegroundCellType.Right:
-                    currentLevelComponent.rightArrow.Subscribe(value =>
+                    currentLevelComponent.rightArrows.Subscribe(value =>
                         SetArrowElement(component, value, ForegroundCellType.Right));
                     break;
                 case ForegroundCellType.Bottom:
-                    currentLevelComponent.bottomArrow.Subscribe(value =>
+                    currentLevelComponent.bottomArrows.Subscribe(value =>
                         SetArrowElement(component, value, ForegroundCellType.Bottom));
                     break;
                 default:

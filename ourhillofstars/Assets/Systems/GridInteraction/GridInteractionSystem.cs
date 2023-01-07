@@ -83,22 +83,22 @@ namespace Systems.GridInteraction
             switch (foregroundCellType)
             {
                 case ForegroundCellType.Empty:
-                    currentLevelComponent.bottomArrow.Value += 1;
+                    currentLevelComponent.bottomArrows.Value += 1;
                     break;
                 case ForegroundCellType.Left:
-                    currentLevelComponent.topArrow.Value -= 1;
+                    currentLevelComponent.topArrows.Value -= 1;
                     break;
                 case ForegroundCellType.Top:
-                    currentLevelComponent.leftArrow.Value -= 1;
-                    currentLevelComponent.topArrow.Value += 1;
+                    currentLevelComponent.leftArrows.Value -= 1;
+                    currentLevelComponent.topArrows.Value += 1;
                     break;
                 case ForegroundCellType.Right:
-                    currentLevelComponent.rightArrow.Value -= 1;
-                    currentLevelComponent.leftArrow.Value += 1;
+                    currentLevelComponent.rightArrows.Value -= 1;
+                    currentLevelComponent.leftArrows.Value += 1;
                     break;
                 case ForegroundCellType.Bottom:
-                    currentLevelComponent.bottomArrow.Value -= 1;
-                    currentLevelComponent.rightArrow.Value += 1;
+                    currentLevelComponent.bottomArrows.Value -= 1;
+                    currentLevelComponent.rightArrows.Value += 1;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
