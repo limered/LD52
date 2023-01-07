@@ -6,6 +6,7 @@ using Systems.Grid;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Systems.GridRendering
 {
@@ -25,8 +26,11 @@ namespace Systems.GridRendering
                 .Subscribe(UpdateGrid)
                 .AddTo(component);
 
-            Observable.Timer(TimeSpan.FromSeconds(5))
-                .Subscribe(_ => component.backgroundGrid.Cell(4, 4, BackgroundCellType.Start));
+            Observable.Interval(TimeSpan.FromSeconds(2))
+                .Subscribe(_ => component.backgroundGrid.Cell(
+                    Random.Range(0, 12), 
+                    Random.Range(0, 12), 
+                    (BackgroundCellType)Random.Range(0, (int)BackgroundCellType.Harvested)));
         }
 
         private void UpdateGrid((GridUpdateMsg<BackgroundCellType> msg, MainGridComponent component) tuple)
