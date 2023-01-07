@@ -235,13 +235,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b175c89379264ce5b77d5768269f7e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topArrow:
+  topArrows:
     value: 0
-  leftArrow:
+  leftArrows:
     value: 0
-  rightArrow:
+  rightArrows:
     value: 0
-  bottomArrow:
+  bottomArrows:
+    value: 0
+  maxTopArrows:
+    value: 0
+  maxLeftArrows:
+    value: 0
+  maxRightArrows:
+    value: 0
+  maxBottomArrows:
     value: 0
   harvesterRunning:
     value: 0
