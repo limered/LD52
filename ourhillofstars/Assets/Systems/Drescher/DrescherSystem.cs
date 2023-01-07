@@ -38,7 +38,7 @@ namespace Systems.Drescher
             if (startCoord == null) throw new NullReferenceException("Level Missing Startpoint");
             var position = new Vector3((float)startCoord?.x, 0.5f, (float)startCoord?.y);
             var drescherPrefab = IoC.Game.PrefabByName("Drescher");
-            var drescher = Object.Instantiate(drescherPrefab, position, quaternion.Euler(0, 0, 0));
+            var drescher = Object.Instantiate(drescherPrefab, position, drescherPrefab.transform.rotation);
             var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
             drescher.GetComponent<DrescherComponent>().targetCellCoord = target;
         }
