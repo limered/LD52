@@ -18,15 +18,15 @@ namespace Systems.UI
         {
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
 
-            CreateArrowElement(component, currentLevelComponent.topArrows.Value, ForegroundCellType.Top);
-            CreateArrowElement(component, currentLevelComponent.leftArrows.Value, ForegroundCellType.Left);
-            CreateArrowElement(component, currentLevelComponent.rightArrows.Value, ForegroundCellType.Right);
-            CreateArrowElement(component, currentLevelComponent.bottomArrows.Value, ForegroundCellType.Bottom);
+            CreateArrowElement(component, currentLevelComponent.maxTopArrows.Value, ForegroundCellType.Top);
+            CreateArrowElement(component, currentLevelComponent.maxLeftArrows.Value, ForegroundCellType.Left);
+            CreateArrowElement(component, currentLevelComponent.maxRightArrows.Value, ForegroundCellType.Right);
+            CreateArrowElement(component, currentLevelComponent.maxBottomArrows.Value, ForegroundCellType.Bottom);
         }
 
         private void CreateArrowElement(InventoryComponent component, int amount, ForegroundCellType foregroundCellType)
         {
-            if (foregroundCellType == ForegroundCellType.Empty) return;
+            if (foregroundCellType == ForegroundCellType.Empty || amount == 0) return;
 
             var arrowElement = Object.Instantiate(component.arrowElementPrefab, component.arrows.transform);
             arrowElement.name = "ArrowElement " + foregroundCellType;
