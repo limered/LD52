@@ -1,4 +1,4 @@
-﻿using SystemBase.Adapter;
+﻿using System.Linq;
 using SystemBase.CommonSystems.Audio.Helper;
 using SystemBase.Core;
 using SystemBase.GameState.Messages;
@@ -11,6 +11,8 @@ namespace SystemBase
 {
     public class Game : GameBase
     {
+        public NamedPrefab[] prefabs;
+
         // ReSharper disable once MemberCanBePrivate.Global
         public StateContext<Game> gameStateContext;
 
@@ -39,6 +41,11 @@ namespace SystemBase
 
             IoC.RegisterSingleton(this, true);
             IoC.RegisterSingleton<ISFXComparer, SFXComparer>(true);
+        }
+
+        public GameObject PrefabByName(string prefabName)
+        {
+            return prefabs.First(prefab => prefab.name.Equals(prefabName)).prefab;
         }
     }
 }
