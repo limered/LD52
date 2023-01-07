@@ -20,16 +20,16 @@ namespace Systems.GridRendering
                 .Subscribe(InitGridRendering)
                 .AddTo(component);
 
-            MessageBroker.Default.Receive<GridUpdateMsg>()
+            MessageBroker.Default.Receive<GridUpdateMsg<BackgroundCellType>>()
                 .Select(msg => (msg, component))
                 .Subscribe(UpdateGrid)
                 .AddTo(component);
 
             Observable.Timer(TimeSpan.FromSeconds(5))
-                .Subscribe(_ => component.backgroundGrid.Cell(4, 4, GridCellType.Start));
+                .Subscribe(_ => component.backgroundGrid.Cell(4, 4, BackgroundCellType.Start));
         }
 
-        private void UpdateGrid((GridUpdateMsg msg, MainGridComponent component) tuple)
+        private void UpdateGrid((GridUpdateMsg<BackgroundCellType> msg, MainGridComponent component) tuple)
         {
             var cell = tuple.component.backgroundCells[tuple.msg.Index].GetComponent<CellComponent>();
             cell.type.Value = tuple.msg.CellType;
@@ -58,7 +58,7 @@ namespace Systems.GridRendering
 
         private void AnimateCellChange(CellComponent cell)
         {
-            if (cell.type.Value != GridCellType.Harvested)
+            if (cell.type.Value != BackgroundCellType.Harvested)
                 Observable.FromMicroCoroutine(() => SwitchGridCell(cell))
                     .Subscribe()
                     .AddTo(cell);

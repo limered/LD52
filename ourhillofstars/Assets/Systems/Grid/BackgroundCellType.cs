@@ -1,6 +1,6 @@
 ﻿namespace Systems.Grid
 {
-    public enum GridCellType
+    public enum BackgroundCellType
     {
         Empty,
         Start,

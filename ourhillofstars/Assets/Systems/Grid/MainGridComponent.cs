@@ -11,7 +11,7 @@ namespace Systems.Grid
         public GameObject[] foregroundCells;
         public readonly ReactiveCommand<MainGridComponent> gridsInitialized = new();
         public readonly ReactiveCommand<MainGridComponent> gridUpdated = new();
-        public GameGrid backgroundGrid;
-        public GameGrid foregroundGrid;
+        public GameGrid<BackgroundCellType> backgroundGrid;
+        public GameGrid<ForegroundCellType> foregroundGrid;
     }
 }
