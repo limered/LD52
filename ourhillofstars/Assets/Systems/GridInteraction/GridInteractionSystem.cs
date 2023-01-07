@@ -64,16 +64,16 @@ namespace Systems.GridInteraction
             selector.shouldChangeTexture.Value = false;
 
             if (!Input.GetMouseButtonDown(0)) return;
+
             var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
             var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
             nextCellType %= maxValue;
-            var foregroundCellType = (ForegroundCellType)nextCellType;
-            fGrid.Cell(x, y, foregroundCellType);
-            
-            SetAmountOfArrows(foregroundCellType, fGrid);
+            fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
+
+            SetAmountOfArrows(fGrid);
         }
 
-        private static void SetAmountOfArrows(ForegroundCellType foregroundCellType, GameGrid<ForegroundCellType> grid)
+        private static void SetAmountOfArrows(GameGrid<ForegroundCellType> grid)
         {
             var rightArrowCount = grid.CountElementsOfType(ForegroundCellType.Right);
             var leftArrowCount = grid.CountElementsOfType(ForegroundCellType.Left);
@@ -81,30 +81,10 @@ namespace Systems.GridInteraction
             var bottomArrowCount = grid.CountElementsOfType(ForegroundCellType.Bottom);
             
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            
-            switch (foregroundCellType)
-            {
-                case ForegroundCellType.Empty:
-                    currentLevelComponent.bottomArrows.Value += 1;
-                    break;
-                case ForegroundCellType.Left:
-                    currentLevelComponent.topArrows.Value -= 1;
-                    break;
-                case ForegroundCellType.Top:
-                    currentLevelComponent.leftArrows.Value -= 1;
-                    currentLevelComponent.topArrows.Value += 1;
-                    break;
-                case ForegroundCellType.Right:
-                    currentLevelComponent.rightArrows.Value -= 1;
-                    currentLevelComponent.leftArrows.Value += 1;
-                    break;
-                case ForegroundCellType.Bottom:
-                    currentLevelComponent.bottomArrows.Value -= 1;
-                    currentLevelComponent.rightArrows.Value += 1;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            currentLevelComponent.topArrows.Value = currentLevelComponent.maxTopArrows.Value - topArrowCount;
+            currentLevelComponent.leftArrows.Value = currentLevelComponent.maxLeftArrows.Value - leftArrowCount;
+            currentLevelComponent.rightArrows.Value = currentLevelComponent.maxRightArrows.Value - rightArrowCount;
+            currentLevelComponent.bottomArrows.Value = currentLevelComponent.maxBottomArrows.Value - bottomArrowCount;
         }
     }
 }
