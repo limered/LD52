@@ -55,15 +55,20 @@ namespace Systems.Drescher
 
             SwitchDrescherDirection(drescherComponent, g);
             CheckNextCellAndSwitchTarget(drescherComponent, g);
+            Harvest(g, position);
+            
+            // check for win || lose
+        }
 
-            // Reap
+        private static void Harvest(MainGridComponent g, Vector2 position)
+        {
             var cellCoord = new Vector2Int((int)(position.x + 0.5f), (int)(position.y + 0.5f));
             var currentCelType = g.backgroundGrid.Cell(cellCoord.x, cellCoord.y);
             if (currentCelType == BackgroundCellType.Wheat)
             {
                 g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
+                MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
             }
-            // check for win || lose
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)
