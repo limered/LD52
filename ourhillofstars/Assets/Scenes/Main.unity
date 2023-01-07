@@ -253,6 +253,10 @@ PrefabInstance:
       propertyPath: dimensions.y
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1198920522, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: backgroundCells.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
         type: 3}
       propertyPath: prefabs.Array.size
