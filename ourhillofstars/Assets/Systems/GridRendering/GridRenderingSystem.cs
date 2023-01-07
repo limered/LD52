@@ -1,8 +1,11 @@
-﻿using SystemBase.Core;
+﻿using System;
+using System.Collections;
+using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Grid;
 using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Systems.GridRendering
 {
@@ -21,12 +24,15 @@ namespace Systems.GridRendering
                 .Select(msg => (msg, component))
                 .Subscribe(UpdateGrid)
                 .AddTo(component);
+
+            Observable.Timer(TimeSpan.FromSeconds(5))
+                .Subscribe(_ => component.backgroundGrid.Cell(4, 4, GridCellType.Start));
         }
 
         private void UpdateGrid((GridUpdateMsg msg, MainGridComponent component) tuple)
         {
-            tuple.component.backgroundCells[tuple.msg.Index]
-                .GetComponent<CellComponent>().type.Value = tuple.msg.CellType;
+            var cell = tuple.component.backgroundCells[tuple.msg.Index].GetComponent<CellComponent>();
+            cell.type.Value = tuple.msg.CellType;
         }
 
         private void InitGridRendering(MainGridComponent grid)
@@ -39,19 +45,43 @@ namespace Systems.GridRendering
                 var y = i / grid.dimensions.x;
                 grid.backgroundCells[i] = Object.Instantiate(prefab, new Vector3(x, 0, y), Quaternion.Euler(0, 180, 0),
                     grid.transform);
-                
-                // TODO remove after test
-                if (i % 2 == 0) grid.backgroundCells[i].GetComponent<CellComponent>().type.Value = GridCellType.Start;
             }
         }
 
         public override void Register(CellComponent component)
         {
             component.rendererCache = component.GetComponent<Renderer>();
-            component.rendererCache.material.mainTexture = component.images[(int)component.type.Value];
+            component.type
+                .Subscribe(_ => AnimateCellChange(component))
+                .AddTo(component);
+        }
 
-            component.type.Subscribe(type =>
-                component.rendererCache.material.mainTexture = component.images[(int)type]);
+        private void AnimateCellChange(CellComponent cell)
+        {
+            if (cell.type.Value != GridCellType.Harvested)
+                Observable.FromMicroCoroutine(() => SwitchGridCell(cell))
+                    .Subscribe()
+                    .AddTo(cell);
+            else
+                cell.rendererCache.material.mainTexture = cell.images[(int)cell.type.Value];
+        }
+
+        private IEnumerator SwitchGridCell(CellComponent cell)
+        {
+            const float animationTime = 30f;
+            for (var i = 0; i < animationTime; i++)
+            {
+                cell.transform.RotateAround(cell.transform.position, Vector3.back, 3);
+                yield return null;
+            }
+
+            cell.rendererCache.material.mainTexture = cell.images[(int)cell.type.Value];
+
+            for (var i = 0; i < animationTime; i++)
+            {
+                cell.transform.RotateAround(cell.transform.position, Vector3.back, -3);
+                yield return null;
+            }
         }
     }
 }
