@@ -10,7 +10,7 @@ namespace Systems.Grid
         public float updateAnimationDelay = 0.01f;
         public GameObject[] backgroundCells;
         public GameObject[] foregroundCells;
-        public readonly ReactiveCommand<MainGridComponent> gridsInitialized = new();
+        public readonly ReactiveProperty<MainGridComponent> gridsInitialized = new(null);
         public readonly ReactiveCommand<MainGridComponent> gridUpdated = new();
         public GameGrid<BackgroundCellType> backgroundGrid;
         public GameGrid<ForegroundCellType> foregroundGrid;

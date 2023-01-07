@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using SystemBase.Core;
+using SystemBase.Utils;
 using Systems.GridRendering;
 using Systems.Levels;
 using UniRx;
@@ -17,7 +18,7 @@ namespace Systems.Grid
             component.backgroundGrid = new GameGrid<BackgroundCellType>(component.dimensions.x, component.dimensions.y);
             component.foregroundGrid = new GameGrid<ForegroundCellType>(component.dimensions.x, component.dimensions.y);
 
-            component.gridsInitialized.Execute(component);
+            component.gridsInitialized.SetValueAndForceNotify(component);
 
             MessageBroker.Default.Receive<GridLoadMsg>().Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
@@ -44,7 +45,7 @@ namespace Systems.Grid
                 {
                     try
                     {
-                        component.backgroundGrid.SetCell(x, y, ((Color32)texture.GetPixel(x, y)).ToCell());
+                        component.backgroundGrid.Cell(x, y, ((Color32)texture.GetPixel(x, y)).ToCell());
                     }
                     catch (Exception e)
                     {

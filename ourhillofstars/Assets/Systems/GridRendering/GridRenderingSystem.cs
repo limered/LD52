@@ -16,18 +16,29 @@ namespace Systems.GridRendering
             component.foregroundCells = new GameObject[component.dimensions.x * component.dimensions.y];
 
             component.gridsInitialized
+                .WhereNotNull()
                 .Subscribe(InitGridRendering)
                 .AddTo(component);
 
             MessageBroker.Default.Receive<GridUpdateMsg<BackgroundCellType>>()
                 .Select(msg => (msg, component))
-                .Subscribe(UpdateGrid)
+                .Subscribe(UpdateBackgroundGrid)
+                .AddTo(component);
+            
+            MessageBroker.Default.Receive<GridUpdateMsg<ForegroundCellType>>()
+                .Select(msg => (msg, component))
+                .Subscribe(UpdateForegroundGrid)
                 .AddTo(component);
         }
 
-        private void UpdateGrid((GridUpdateMsg<BackgroundCellType> msg, MainGridComponent component) tuple)
+        private void UpdateBackgroundGrid((GridUpdateMsg<BackgroundCellType> msg, MainGridComponent component) tuple)
         {
             var cell = tuple.component.backgroundCells[tuple.msg.Index].GetComponent<BackgroundCellComponent>();
+            cell.type.Value = tuple.msg.CellType;
+        }
+        private void UpdateForegroundGrid((GridUpdateMsg<ForegroundCellType> msg, MainGridComponent component) tuple)
+        {
+            var cell = tuple.component.foregroundCells[tuple.msg.Index].GetComponent<ForegroundCellComponent>();
             cell.type.Value = tuple.msg.CellType;
         }
 
@@ -47,7 +58,7 @@ namespace Systems.GridRendering
                 grid.backgroundCells[i] = Object.Instantiate(backgroundPrefab, new Vector3(x, 0, y),
                     Quaternion.Euler(0, 180, 0),
                     backgroundParent.transform);
-                grid.foregroundCells[i] = Object.Instantiate(foregroundPrefab, new Vector3(x, 0, y),
+                grid.foregroundCells[i] = Object.Instantiate(foregroundPrefab, new Vector3(x, 1, y),
                     Quaternion.Euler(0, 180, 0),
                     foregroundParent.transform);
             }
@@ -101,6 +112,7 @@ namespace Systems.GridRendering
 
         private static void AnimateForegroundCellChange(ForegroundCellComponent cell)
         {
+            Debug.Log("Switch Foreground");
             Observable.FromMicroCoroutine(() =>
                     SwitchGridCell(cell.gameObject, cell.rendererCache, cell.images[(int)cell.type.Value]))
                 .Subscribe()

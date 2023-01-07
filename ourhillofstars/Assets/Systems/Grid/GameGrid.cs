@@ -17,7 +17,7 @@ namespace Systems.Grid
             Clear();
         }
 
-        public void SetCell(int index, TGridType cell)
+        public void Cell(int index, TGridType cell)
         {
             _grid[index] = cell;
 
@@ -28,7 +28,7 @@ namespace Systems.Grid
                 { Coord = new Vector2Int(x, y), Index = index, CellType = cell });
         }
 
-        public void SetCell(int x, int y, TGridType cell)
+        public void Cell(int x, int y, TGridType cell)
         {
             var i = y * _x + x;
             _grid[i] = cell;

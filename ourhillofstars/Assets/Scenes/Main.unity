@@ -245,10 +245,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 770650279, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 1315322219, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 5975590573090783365}
     - target: {fileID: 7945032758725522513, guid: 79306727bb65d1c46bd63e04e381db70,
         type: 3}
       propertyPath: m_RootOrder
@@ -318,6 +318,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+        type: 3}
+      propertyPath: far clip plane
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5975590572795703714, guid: 74841a37b0e9d294a8a7abb932156342,
         type: 3}
       propertyPath: m_RootOrder
@@ -380,3 +385,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74841a37b0e9d294a8a7abb932156342, type: 3}
+--- !u!20 &5975590573090783365 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+    type: 3}
+  m_PrefabInstance: {fileID: 5975590573090783364}
+  m_PrefabAsset: {fileID: 0}
