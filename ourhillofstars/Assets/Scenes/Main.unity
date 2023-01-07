@@ -552,6 +552,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 276136053115730954, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1886572787}
+    - target: {fileID: 276136053115730954, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartDrescher
+      objectReference: {fileID: 0}
     - target: {fileID: 276136053131147999, guid: 2319e048e49a0234398046c02c87d86e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -575,6 +585,18 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1866299097, guid: 2319e048e49a0234398046c02c87d86e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2319e048e49a0234398046c02c87d86e, type: 3}
+--- !u!114 &1886572787 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6076294916140613899, guid: 2319e048e49a0234398046c02c87d86e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1886572786}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d240e60f8854eaf9cfe5c837c2b5a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5975590573090783364
 PrefabInstance:
   m_ObjectHideFlags: 0
