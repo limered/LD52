@@ -528,7 +528,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6076294916140613899}
         m_TargetAssemblyTypeName: Systems.UI.InventoryComponent, Assembly-CSharp
         m_MethodName: StartDrescher
         m_Mode: 1
