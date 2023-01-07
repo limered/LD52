@@ -68,15 +68,10 @@ namespace Systems.GridInteraction
             var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
             var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
             nextCellType %= maxValue;
-            fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
             var foregroundCellType = (ForegroundCellType)nextCellType;
-            MessageBroker.Default
-            .Publish(
-                new SetForegroundCellTypeMessage()
-                {
-                        foregroundCellType = foregroundCellType
-                }
-            );
+            fGrid.Cell(x, y, foregroundCellType);
+            
+            SetAmountOfArrows(foregroundCellType);
         }
 
         private static void SetAmountOfArrows(ForegroundCellType foregroundCellType)
