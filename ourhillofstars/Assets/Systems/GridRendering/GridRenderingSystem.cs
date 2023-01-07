@@ -25,12 +25,6 @@ namespace Systems.GridRendering
                 .Select(msg => (msg, component))
                 .Subscribe(UpdateGrid)
                 .AddTo(component);
-
-            Observable.Interval(TimeSpan.FromSeconds(2))
-                .Subscribe(_ => component.backgroundGrid.Cell(
-                    Random.Range(0, 12), 
-                    Random.Range(0, 12), 
-                    (BackgroundCellType)Random.Range(0, (int)(BackgroundCellType.Harvested) + 1)));
         }
 
         private void UpdateGrid((GridUpdateMsg<BackgroundCellType> msg, MainGridComponent component) tuple)

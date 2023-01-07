@@ -7,6 +7,7 @@ namespace Systems.Grid
     public class MainGridComponent : GameComponent
     {
         public Vector2Int dimensions = new(13, 13);
+        public float updateAnimationDelay = 0.01f;
         public GameObject[] backgroundCells;
         public GameObject[] foregroundCells;
         public readonly ReactiveCommand<MainGridComponent> gridsInitialized = new();
