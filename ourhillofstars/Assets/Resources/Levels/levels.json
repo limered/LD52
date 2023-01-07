@@ -1,6 +1,6 @@
 [
   {
-    "name": "Level #1",
+    "name": "#1",
     "file": "level_1",
     "startDirection": 0,
     "topArrows": 0,
@@ -9,7 +9,7 @@
     "bottomArrows": 0
   },
   {
-    "name": "Level #2",
+    "name": "#2",
     "file": "level_2",
     "startDirection": 0,
     "topArrows": 11,
@@ -18,7 +18,7 @@
     "bottomArrows": 8
   },
   {
-    "name": "Level #3",
+    "name": "#3",
     "file": "level_3",
     "startDirection": 0,
     "topArrows": 11,
@@ -27,7 +27,7 @@
     "bottomArrows": 8
   },
   {
-    "name": "Level #4",
+    "name": "#4",
     "file": "level_4",
     "startDirection": 0,
     "topArrows": 11,

@@ -386,6 +386,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 39494713, guid: 2319e048e49a0234398046c02c87d86e, type: 3}
+      propertyPath: m_CellSize.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 39494713, guid: 2319e048e49a0234398046c02c87d86e, type: 3}
+      propertyPath: m_CellSize.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 276136051365937243, guid: 2319e048e49a0234398046c02c87d86e,
         type: 3}
       propertyPath: m_AnchorMax.y
