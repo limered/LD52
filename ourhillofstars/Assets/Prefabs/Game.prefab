@@ -205,6 +205,8 @@ MonoBehaviour:
   - name: Drescher
     prefab: {fileID: 1229639554138365467, guid: 5a51f77c25a7ee8459d08cbf0a6658f9,
       type: 3}
+  - name: Selector
+    prefab: {fileID: 651792481192585513, guid: fbe3a362d3191634281026b82c256b29, type: 3}
 --- !u!114 &1198920522
 MonoBehaviour:
   m_ObjectHideFlags: 0
