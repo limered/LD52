@@ -21,34 +21,53 @@ namespace Systems.Levels
         {
             var cellPrefab = IoC.Game.PrefabByName("LevelButton");
             var levels = GetLevels();
-            
+
             var parentTransform = component.GetComponent<RectTransform>();
+            var layoutGroup = component.GetComponent<GridLayoutGroup>();
+            Debug.Log($"size: {parentTransform.rect.size} padding {layoutGroup.spacing.x}x{layoutGroup.spacing.y}");
+            var biggerSize =
+                Math.Max((parentTransform.rect.size.x - component.gridDimensions.x * layoutGroup.spacing.x) /
+                         component.gridDimensions.x,
+                    (parentTransform.rect.size.y - component.gridDimensions.y * layoutGroup.spacing.y) /
+                    component.gridDimensions.y);
+
+            var cellSize = new Vector2(biggerSize, biggerSize);
+            layoutGroup.cellSize = cellSize;
+
             parentTransform.DetachChildren();
 
             var max = Math.Min(levels.Count, component.gridDimensions.x * component.gridDimensions.y);
             for (var i = 0; i < max; i++)
             {
-                var x = i % component.gridDimensions.x;
-                var y = i / component.gridDimensions.x;
-
                 var cell = Object.Instantiate(cellPrefab,
                     Vector3.zero, Quaternion.Euler(0, 0, 0),
                     parentTransform);
 
+                cell.GetComponentInChildren<LevelCellComponent>().level = i;
                 cell.GetComponentInChildren<Button>().image.sprite = LoadSprite(levels[i]);
                 cell.GetComponentInChildren<TextMeshProUGUI>().text = levels[i].Name;
             }
+
+            MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
+                {
+                    component.gameObject.SetActive(false);
+                    MessageBroker.Default.Publish(new GridLoadMsg
+                    {
+                        Level = levels[msg.LevelIndex]
+                    });
+                })
+                .AddTo(component);
         }
 
         public override void Register(MainGridComponent component)
         {
             var levels = GetLevels();
 
-            // load 1st level
-            MessageBroker.Default.Publish(new GridLoadMsg
-            {
-                Level = levels.First()
-            });
+            // // load 1st level
+            // MessageBroker.Default.Publish(new GridLoadMsg
+            // {
+            //     Level = levels.First()
+            // });
         }
 
         private List<Level> GetLevels()
