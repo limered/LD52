@@ -24,7 +24,7 @@ namespace Systems.GridRendering
                 .Select(msg => (msg, component))
                 .Subscribe(UpdateBackgroundGrid)
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<GridUpdateMsg<ForegroundCellType>>()
                 .Select(msg => (msg, component))
                 .Subscribe(UpdateForegroundGrid)
@@ -36,6 +36,7 @@ namespace Systems.GridRendering
             var cell = tuple.component.backgroundCells[tuple.msg.Index].GetComponent<BackgroundCellComponent>();
             cell.type.Value = tuple.msg.CellType;
         }
+
         private void UpdateForegroundGrid((GridUpdateMsg<ForegroundCellType> msg, MainGridComponent component) tuple)
         {
             var cell = tuple.component.foregroundCells[tuple.msg.Index].GetComponent<ForegroundCellComponent>();
@@ -76,7 +77,8 @@ namespace Systems.GridRendering
         {
             if (cell.type.Value != BackgroundCellType.Harvested)
                 Observable.FromMicroCoroutine(() => SwitchGridCell(cell.gameObject,
-                        cell.rendererCache, cell.images[(int)cell.type.Value]))
+                        cell.rendererCache, cell.images[(int)cell.type.Value],
+                        cell.type.Value == BackgroundCellType.Empty ? 0f : 1f))
                     .Subscribe()
                     .AddTo(cell);
             else
@@ -84,7 +86,8 @@ namespace Systems.GridRendering
                     cell.images[(int)cell.type.Value];
         }
 
-        private static IEnumerator SwitchGridCell(GameObject backgroundCell, Renderer renderer, Texture image)
+        private static IEnumerator SwitchGridCell(GameObject backgroundCell, Renderer renderer, Texture image,
+            float alpha = 1.0f)
         {
             const float animationTime = 30f;
             for (var i = 0; i < animationTime; i++)
@@ -93,7 +96,11 @@ namespace Systems.GridRendering
                 yield return null;
             }
 
+            var col = renderer.material.color;
+            col.a = alpha;
             renderer.material.mainTexture = image;
+
+            renderer.material.color = col;
 
             for (var i = 0; i < animationTime; i++)
             {
@@ -114,7 +121,8 @@ namespace Systems.GridRendering
         {
             Debug.Log("Switch Foreground");
             Observable.FromMicroCoroutine(() =>
-                    SwitchGridCell(cell.gameObject, cell.rendererCache, cell.images[(int)cell.type.Value]))
+                    SwitchGridCell(cell.gameObject, cell.rendererCache, cell.images[(int)cell.type.Value],
+                        cell.type.Value == ForegroundCellType.Empty ? 0f : 1f))
                 .Subscribe()
                 .AddTo(cell);
         }
