@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using Newtonsoft.Json;
 using SystemBase.Core;
 using SystemBase.Utils;
@@ -50,7 +49,7 @@ namespace Systems.Levels
 
             MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
                 {
-                    component.gameObject.SetActive(false);
+                    component.transform.parent.gameObject.SetActive(false);
                     MessageBroker.Default.Publish(new GridLoadMsg
                     {
                         Level = levels[msg.LevelIndex]
@@ -58,7 +57,8 @@ namespace Systems.Levels
                 })
                 .AddTo(component);
 
-            MessageBroker.Default.Receive<ShowLevelOverviewMsg>().Subscribe(_ => component.gameObject.SetActive(true));
+            MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
+                .Subscribe(_ => component.gameObject.transform.parent.gameObject.SetActive(true));
         }
 
         private List<Level> GetLevels()
