@@ -30,7 +30,7 @@ namespace Systems.GridRendering
                 .Subscribe(_ => component.backgroundGrid.Cell(
                     Random.Range(0, 12), 
                     Random.Range(0, 12), 
-                    (BackgroundCellType)Random.Range(0, (int)BackgroundCellType.Harvested)));
+                    (BackgroundCellType)Random.Range(0, (int)(BackgroundCellType.Harvested) + 1)));
         }
 
         private void UpdateGrid((GridUpdateMsg<BackgroundCellType> msg, MainGridComponent component) tuple)
