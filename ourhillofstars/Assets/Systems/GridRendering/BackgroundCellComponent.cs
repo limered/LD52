@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Systems.GridRendering
 {
-    public class CellComponent : GameComponent
+    public class BackgroundCellComponent : GameComponent
     {
         public ReactiveProperty<BackgroundCellType> type = new(BackgroundCellType.Empty);
         public Texture[] images;
