@@ -245,49 +245,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1198920522, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
-      propertyPath: dimensions.x
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1198920522, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
-      propertyPath: dimensions.y
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 1198920522, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
-      propertyPath: updateAnimationDelay
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1198920522, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
-      propertyPath: backgroundCells.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.data[0].name
-      value: BackgroundGridCell
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.data[1].name
-      value: ForegroundGridCell
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 6961664072870543384, guid: addf749f393ed7245b05355eb7b551b7,
-        type: 3}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.data[1].prefab
-      value: 
-      objectReference: {fileID: 6961664072870543384, guid: 5eba6c697bdb0b54c944d2e6710e6e63,
-        type: 3}
     - target: {fileID: 7945032758725522513, guid: 79306727bb65d1c46bd63e04e381db70,
         type: 3}
       propertyPath: m_RootOrder

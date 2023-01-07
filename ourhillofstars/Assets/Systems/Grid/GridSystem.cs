@@ -20,10 +20,10 @@ namespace Systems.Grid
             MessageBroker.Default.Receive<GridLoadMsg>().Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
 
-            Observable.Timer(new TimeSpan(0, 0, 3)).Subscribe(_ => MessageBroker.Default.Publish(new GridLoadMsg
+            MessageBroker.Default.Publish(new GridLoadMsg
             {
                 Level = "Levels/level_1"
-            }));
+            });
         }
 
         private void LoadGrid(MainGridComponent component, string asset)
@@ -40,9 +40,9 @@ namespace Systems.Grid
 
         private IEnumerator SetGridCellsFromTexture(MainGridComponent component, Texture2D texture)
         {
-            for (int x = 0; x < component.dimensions.x; x++)
+            for (int y = component.dimensions.y-1; y >= 0; y--)
             {
-                for (int y = 0; y < component.dimensions.y; y++)
+                for (int x = 0; x < component.dimensions.x; x++)
                 {
                     try
                     {
@@ -53,9 +53,9 @@ namespace Systems.Grid
                         Debug.LogError($"unknown color at {x}, {y}");
                         Debug.LogException(e);
                     }
-
-                    yield return new WaitForSeconds(component.updateAnimationDelay);
                 }
+
+                yield return new WaitForSeconds(component.updateAnimationDelay);
             }
         }
     }
