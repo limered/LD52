@@ -13,5 +13,7 @@ namespace Systems.Drescher
         public Texture[] directionImages;
 
         public bool isMoving = false;
+
+        public float speed = 5f;
     }
 }

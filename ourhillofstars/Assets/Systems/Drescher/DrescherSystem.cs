@@ -132,7 +132,9 @@ namespace Systems.Drescher
 
         private static void AnimateDrescherToNextCell(DrescherComponent drescherComponent, Vector2 position)
         {
-            var nextPosition = Vector2.Lerp(position, drescherComponent.targetCellCoord, 0.1f);
+            var direction = (drescherComponent.targetCellCoord - position).normalized; 
+            var nextPosition = position + direction * drescherComponent.speed * Time.deltaTime;
+            
             drescherComponent.transform.position = new Vector3(nextPosition.x, 0.5f, nextPosition.y);
         }
 
