@@ -3,6 +3,7 @@ using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Grid;
 using UniRx;
+using Unity.Mathematics;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -33,18 +34,19 @@ namespace Systems.Drescher
         private void SpawnDrescher(MainGridComponent grid)
         {
             var startCoord = grid.backgroundGrid.FindStartCoord();
-            
             if (startCoord == null) throw new NullReferenceException("Level Missing Startpoint");
+            var position = new Vector3((float)startCoord?.x, 0.5f, (float)startCoord?.y);
             var drescherPrefab = IoC.Game.PrefabByName("Drescher");
-            var drescher = Object.Instantiate(drescherPrefab, new Vector3((float)startCoord?.x, 0.5f, (float)startCoord?.y),
-                Quaternion.identity);
-            drescher.GetComponent<DrescherComponent>().targetCellCoord = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
+            var drescher = Object.Instantiate(drescherPrefab, position, quaternion.Euler(0, 180, 0));
+            var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
+            drescher.GetComponent<DrescherComponent>().targetCellCoord = target;
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
         {
             var position = drescherComponent.transform.position.XZ();
-            if ((position - drescherComponent.targetCellCoord).magnitude < 0.01f)
+            
+            if ((position - drescherComponent.targetCellCoord).magnitude < 0.1f)
                 drescherComponent.isMoving = false;
             else
                 drescherComponent.isMoving = true;
@@ -53,7 +55,7 @@ namespace Systems.Drescher
             if (drescherComponent.isMoving)
             {
                 var nextPosition = Vector2.Lerp(position, drescherComponent.targetCellCoord, 0.1f);
-                drescherComponent.transform.position = nextPosition;
+                drescherComponent.transform.position = new Vector3(nextPosition.x, 0.5f, nextPosition.y);
                 return;
             }
 
@@ -80,9 +82,35 @@ namespace Systems.Drescher
                 nextCellCoord.y >= maxY) return;
 
             var nextCellType = g.backgroundGrid.Cell(nextCellCoord.x, nextCellCoord.y);
-            if (nextCellType != BackgroundCellType.Harvested && nextCellType != BackgroundCellType.Wheat) return;
+            if (nextCellType != BackgroundCellType.Harvested && 
+                nextCellType != BackgroundCellType.Wheat &&
+                nextCellType != BackgroundCellType.Start) return;
 
             drescherComponent.targetCellCoord = nextCellCoord;
+
+            var newDirection = drescherComponent.direction.Value;
+            var arrowDirType = g.foregroundGrid.Cell(nextCellCoord.x, nextCellCoord.y);
+            switch (arrowDirType)
+            {
+                case ForegroundCellType.Empty:
+                    break;
+                case ForegroundCellType.Left:
+                    newDirection = 1;
+                    break;
+                case ForegroundCellType.Top:
+                    newDirection = 0;
+                    break;
+                case ForegroundCellType.Right:
+                    newDirection = 3;
+                    break;
+                case ForegroundCellType.Bottom:
+                    newDirection = 2;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            drescherComponent.direction.Value = newDirection;
 
             // check for direction switch
             // check for win || lose

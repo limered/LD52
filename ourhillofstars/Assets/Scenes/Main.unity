@@ -1600,22 +1600,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 5975590573090783365}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.data[2].name
-      value: Drescher
-      objectReference: {fileID: 0}
-    - target: {fileID: 7945032758725522512, guid: 79306727bb65d1c46bd63e04e381db70,
-        type: 3}
-      propertyPath: prefabs.Array.data[2].prefab
-      value: 
-      objectReference: {fileID: 1229639554138365467, guid: 5a51f77c25a7ee8459d08cbf0a6658f9,
-        type: 3}
     - target: {fileID: 7945032758725522513, guid: 79306727bb65d1c46bd63e04e381db70,
         type: 3}
       propertyPath: m_RootOrder
@@ -2960,11 +2944,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
-        type: 3}
-      propertyPath: far clip plane
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5975590572795703714, guid: 74841a37b0e9d294a8a7abb932156342,
         type: 3}
       propertyPath: m_RootOrder

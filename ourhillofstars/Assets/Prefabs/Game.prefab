@@ -201,6 +201,9 @@ MonoBehaviour:
   - name: ForegroundGridCell
     prefab: {fileID: 6961664072870543384, guid: 5eba6c697bdb0b54c944d2e6710e6e63,
       type: 3}
+  - name: Drescher
+    prefab: {fileID: 1229639554138365467, guid: 5a51f77c25a7ee8459d08cbf0a6658f9,
+      type: 3}
 --- !u!114 &1198920522
 MonoBehaviour:
   m_ObjectHideFlags: 0

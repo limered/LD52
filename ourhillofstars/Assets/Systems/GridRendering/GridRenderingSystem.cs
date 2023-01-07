@@ -119,7 +119,6 @@ namespace Systems.GridRendering
 
         private static void AnimateForegroundCellChange(ForegroundCellComponent cell)
         {
-            Debug.Log("Switch Foreground");
             Observable.FromMicroCoroutine(() =>
                     SwitchGridCell(cell.gameObject, cell.rendererCache, cell.images[(int)cell.type.Value],
                         cell.type.Value == ForegroundCellType.Empty ? 0f : 1f))
