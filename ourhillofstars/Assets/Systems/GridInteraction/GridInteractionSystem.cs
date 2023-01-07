@@ -44,8 +44,6 @@ namespace Systems.GridInteraction
             {
                 selector.shouldBeInvisible.Value = false;
                 return;
-              
-               
             }
 
             var x = (int)(hit.point.x + 0.5);
@@ -70,11 +68,16 @@ namespace Systems.GridInteraction
             var foregroundCellType = (ForegroundCellType)nextCellType;
             fGrid.Cell(x, y, foregroundCellType);
             
-            SetAmountOfArrows(foregroundCellType);
+            SetAmountOfArrows(foregroundCellType, fGrid);
         }
 
-        private static void SetAmountOfArrows(ForegroundCellType foregroundCellType)
+        private static void SetAmountOfArrows(ForegroundCellType foregroundCellType, GameGrid<ForegroundCellType> grid)
         {
+            var rightArrowCount = grid.CountElementsOfType(ForegroundCellType.Right);
+            var leftArrowCount = grid.CountElementsOfType(ForegroundCellType.Left);
+            var topArrowCount = grid.CountElementsOfType(ForegroundCellType.Top);
+            var bottomArrowCount = grid.CountElementsOfType(ForegroundCellType.Bottom);
+            
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             
             switch (foregroundCellType)
