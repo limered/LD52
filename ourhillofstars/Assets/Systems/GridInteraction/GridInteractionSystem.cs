@@ -35,6 +35,8 @@ namespace Systems.GridInteraction
 
         private static void StartInteraction(MainGridComponent grid, SelectorComponent selector)
         {
+            if (IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value) return;
+            
             var fGrid = grid.foregroundGrid;
             var fGridComponent = grid.GetComponentInChildren<ForegroundParentComponent>();
             var ray = fGridComponent.mainCamera.ScreenPointToRay(Input.mousePosition);
