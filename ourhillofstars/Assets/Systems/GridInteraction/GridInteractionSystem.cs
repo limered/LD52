@@ -37,7 +37,7 @@ namespace Systems.GridInteraction
                 var x = (int)(hit.point.x + 0.5);
                 var y = (int)(hit.point.z + 0.5);
 
-                var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last();
+                var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
                 var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
                 nextCellType %= maxValue;
                 fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
