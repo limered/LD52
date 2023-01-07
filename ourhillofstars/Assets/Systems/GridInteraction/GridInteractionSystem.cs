@@ -3,7 +3,6 @@ using System.Linq;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Grid;
-using Systems.GridInteraction.Events;
 using Systems.GridRendering;
 using Systems.Levels;
 using Systems.Selector;
