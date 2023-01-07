@@ -4,6 +4,9 @@
     {
         public string Name { get; set; }
         public string File { get; set; }
-        public int Arrows { get; set; }
+        public int TopArrows { get; set; }
+        public int LeftArrows { get; set; }
+        public int RightArrows { get; set; }
+        public int BottomArrows { get; set; }
     }
 }
