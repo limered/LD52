@@ -1,7 +1,9 @@
 using SystemBase.Core;
 using SystemBase.Utils;
+using Systems.Drescher;
 using Systems.Grid;
 using Systems.Levels;
+using UniRx;
 using UnityEngine;
 
 namespace Systems.UI
@@ -11,7 +13,9 @@ namespace Systems.UI
     {
         public override void Register(InventoryComponent component)
         {
-            InitArrows(component);
+            MessageBroker.Default.Receive<SpawnPlayerMessage>()
+                .Subscribe(_ => InitArrows(component))
+                .AddTo(component);
         }
 
         private void InitArrows(InventoryComponent component)

@@ -1,7 +1,6 @@
 ﻿using SystemBase.Core;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Systems.Drescher
 {

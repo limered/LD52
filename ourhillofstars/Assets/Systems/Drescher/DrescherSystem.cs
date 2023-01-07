@@ -41,6 +41,8 @@ namespace Systems.Drescher
             var drescher = Object.Instantiate(drescherPrefab, position, drescherPrefab.transform.rotation);
             var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
             drescher.GetComponent<DrescherComponent>().targetCellCoord = target;
+            
+            
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
