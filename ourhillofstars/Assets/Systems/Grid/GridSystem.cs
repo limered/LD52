@@ -8,8 +8,10 @@ namespace Systems.Grid
     {
         public override void Register(MainGridComponent component)
         {
-            component.grid = new GameGrid(component.dimensions.x, component.dimensions.y);
-            component.gridLoaded.Execute(component);
+            component.backgroundGrid = new GameGrid(component.dimensions.x, component.dimensions.y);
+            component.foregroundGrid = new GameGrid(component.dimensions.x, component.dimensions.y);
+            
+            component.gridsInitialized.Execute(component);
         }
     }
 }

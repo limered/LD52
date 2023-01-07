@@ -11,9 +11,9 @@ namespace Systems.GridRendering
     {
         public override void Register(MainGridComponent component)
         {
-            component.Cells = new GameObject[component.dimensions.x * component.dimensions.y];
+            component.backgroundCells = new GameObject[component.dimensions.x * component.dimensions.y];
 
-            component.gridLoaded
+            component.gridsInitialized
                 .Subscribe(InitGridRendering)
                 .AddTo(component);
 
@@ -25,24 +25,23 @@ namespace Systems.GridRendering
 
         private void UpdateGrid((GridUpdateMsg msg, MainGridComponent component) tuple)
         {
-            tuple.component.Cells[tuple.msg.Index]
+            tuple.component.backgroundCells[tuple.msg.Index]
                 .GetComponent<CellComponent>().type.Value = tuple.msg.CellType;
         }
 
         private void InitGridRendering(MainGridComponent grid)
         {
-            var prefab = IoC.Game.PrefabByName("GridCell");
-            // Render all empty instances
+            var prefab = IoC.Game.PrefabByName("BackgroundGridCell");
             var max = grid.dimensions.x * grid.dimensions.y;
             for (var i = 0; i < max; i++)
             {
-                var x = i / grid.dimensions.x;
-                var y = i % grid.dimensions.x;
-                grid.Cells[i] = Object.Instantiate(prefab, new Vector3(x, 0, y), Quaternion.Euler(0, 180, 0),
+                var x = i % grid.dimensions.x;
+                var y = i / grid.dimensions.x;
+                grid.backgroundCells[i] = Object.Instantiate(prefab, new Vector3(x, 0, y), Quaternion.Euler(0, 180, 0),
                     grid.transform);
                 
                 // TODO remove after test
-                if (i % 2 == 0) grid.Cells[i].GetComponent<CellComponent>().type.Value = GridCellType.Start;
+                if (i % 2 == 0) grid.backgroundCells[i].GetComponent<CellComponent>().type.Value = GridCellType.Start;
             }
         }
 
