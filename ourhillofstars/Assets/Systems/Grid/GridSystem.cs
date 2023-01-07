@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using SystemBase.Core;
 using SystemBase.Utils;
+using Systems.Drescher;
 using Systems.GridRendering;
 using Systems.Levels;
 using UniRx;
@@ -34,7 +35,10 @@ namespace Systems.Grid
                 throw new FileNotFoundException(asset);
             }
 
-            component.StartCoroutine(SetGridCellsFromTexture(component, tex));
+            Observable.FromCoroutine(() => SetGridCellsFromTexture(component, tex))
+                .DoOnCompleted(() => MessageBroker.Default.Publish(new SpawnPlayerMessage()))
+                .Subscribe()
+                .AddTo(component);
         }
 
         private IEnumerator SetGridCellsFromTexture(MainGridComponent component, Texture2D texture)

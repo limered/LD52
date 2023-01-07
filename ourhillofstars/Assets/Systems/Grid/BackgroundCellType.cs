@@ -15,7 +15,7 @@ namespace Systems.Grid
     }
 
 
-    public static class GameGridExtensions
+    public static partial class GameGridExtensions
     {
         private static readonly Dictionary<Color32, BackgroundCellType> cellColorMap =
             new()

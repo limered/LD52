@@ -1,4 +1,5 @@
-﻿using UniRx;
+﻿using System.Collections;
+using UniRx;
 using UnityEngine;
 
 namespace Systems.Grid
@@ -8,6 +9,15 @@ namespace Systems.Grid
         private readonly TGridType[] _grid;
         private readonly int _x;
         private int _y;
+
+        public int Length => _grid.Length;
+
+        public Vector2Int IndexToCoord(int index)
+        {
+            var x = index % _x;
+            var y = index / _x;
+            return new Vector2Int(x, y);
+        }
 
         public GameGrid(int x, int y)
         {
@@ -42,7 +52,12 @@ namespace Systems.Grid
             var i = y * _x + x;
             return _grid[i];
         }
-
+        
+        public TGridType Cell(int i)
+        {
+            return _grid[i];
+        }
+        
         public void Clear()
         {
             for (var i = 0; i < _grid.Length; i++) _grid[i] = default(TGridType);
