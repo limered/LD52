@@ -1,4 +1,6 @@
 using SystemBase.Core;
+using SystemBase.Utils;
+using Systems.Levels;
 using Systems.UI.Events;
 using UniRx;
 using UnityEngine;
@@ -13,10 +15,8 @@ namespace Systems.UI
 
         public void StartDrescher()
         {
-            MessageBroker.Default
-            .Publish(
-                new UpdateGameStateMessage {}
-            );
+            var oldValue = IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value;
+            IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value = !oldValue;
         }
     }
 }
