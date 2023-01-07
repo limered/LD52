@@ -45,47 +45,29 @@ namespace Systems.Drescher
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
         {
             var position = drescherComponent.transform.position.XZ();
-            
-            if ((position - drescherComponent.targetCellCoord).magnitude < 0.1f)
-                drescherComponent.isMoving = false;
-            else
-                drescherComponent.isMoving = true;
-
+            drescherComponent.isMoving = !DrescherReachedTarget(drescherComponent, position);
 
             if (drescherComponent.isMoving)
             {
-                var nextPosition = Vector2.Lerp(position, drescherComponent.targetCellCoord, 0.1f);
-                drescherComponent.transform.position = new Vector3(nextPosition.x, 0.5f, nextPosition.y);
+                AnimateDrescherToNextCell(drescherComponent, position);
                 return;
             }
 
-            // switch direction
-            var newDirection = drescherComponent.direction.Value;
-            var arrowDirType = g.foregroundGrid.Cell(drescherComponent.targetCellCoord.x, drescherComponent.targetCellCoord.y);
-            switch (arrowDirType)
-            {
-                case ForegroundCellType.Empty:
-                    break;
-                case ForegroundCellType.Left:
-                    newDirection = 1;
-                    break;
-                case ForegroundCellType.Top:
-                    newDirection = 0;
-                    break;
-                case ForegroundCellType.Right:
-                    newDirection = 3;
-                    break;
-                case ForegroundCellType.Bottom:
-                    newDirection = 2;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            SwitchDrescherDirection(drescherComponent, g);
+            CheckNextCellAndSwitchTarget(drescherComponent, g);
 
-            drescherComponent.direction.Value = newDirection;
-            
-            // set target
-            
+            // Reap
+            var cellCoord = new Vector2Int((int)(position.x + 0.5f), (int)(position.y + 0.5f));
+            var currentCelType = g.backgroundGrid.Cell(cellCoord.x, cellCoord.y);
+            if (currentCelType == BackgroundCellType.Wheat)
+            {
+                g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
+            }
+            // check for win || lose
+        }
+
+        private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)
+        {
             var nextCellCoord = drescherComponent.targetCellCoord;
             var maxX = g.dimensions.x;
             var maxY = g.dimensions.y;
@@ -109,15 +91,50 @@ namespace Systems.Drescher
                 nextCellCoord.y >= maxY) return;
 
             var nextCellType = g.backgroundGrid.Cell(nextCellCoord.x, nextCellCoord.y);
-            if (nextCellType != BackgroundCellType.Harvested && 
+            if (nextCellType != BackgroundCellType.Harvested &&
                 nextCellType != BackgroundCellType.Wheat &&
                 nextCellType != BackgroundCellType.Start) return;
 
             drescherComponent.targetCellCoord = nextCellCoord;
+        }
 
+        private static void SwitchDrescherDirection(DrescherComponent drescherComponent, MainGridComponent g)
+        {
+            var newDirection = drescherComponent.direction.Value;
+            var arrowDirType =
+                g.foregroundGrid.Cell(drescherComponent.targetCellCoord.x, drescherComponent.targetCellCoord.y);
+            switch (arrowDirType)
+            {
+                case ForegroundCellType.Empty:
+                    break;
+                case ForegroundCellType.Left:
+                    newDirection = 1;
+                    break;
+                case ForegroundCellType.Top:
+                    newDirection = 0;
+                    break;
+                case ForegroundCellType.Right:
+                    newDirection = 3;
+                    break;
+                case ForegroundCellType.Bottom:
+                    newDirection = 2;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
+            drescherComponent.direction.Value = newDirection;
+        }
 
-            // check for win || lose
+        private static void AnimateDrescherToNextCell(DrescherComponent drescherComponent, Vector2 position)
+        {
+            var nextPosition = Vector2.Lerp(position, drescherComponent.targetCellCoord, 0.1f);
+            drescherComponent.transform.position = new Vector3(nextPosition.x, 0.5f, nextPosition.y);
+        }
+
+        private static bool DrescherReachedTarget(DrescherComponent drescherComponent, Vector2 position)
+        {
+            return (position - drescherComponent.targetCellCoord).magnitude < 0.1f;
         }
 
 

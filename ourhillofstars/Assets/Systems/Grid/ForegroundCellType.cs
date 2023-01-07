@@ -7,6 +7,5 @@
         Top,
         Right,
         Bottom,
-        
     }
 }
