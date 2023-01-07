@@ -1,8 +1,6 @@
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Levels;
-using Systems.UI.Events;
-using UniRx;
 using UnityEngine;
 
 namespace Systems.UI
