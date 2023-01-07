@@ -11,6 +11,5 @@ namespace Systems.Levels
         public ReactiveProperty<int> bottomArrow = new();
 
         public BoolReactiveProperty harvesterRunning = new();
-        
     }
 }

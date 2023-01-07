@@ -15,5 +15,12 @@ namespace Systems.Drescher
         public bool isMoving = false;
 
         public float speed = 5f;
+
+        public void Reset(Vector2Int startCoord)
+        {
+            targetCellCoord = startCoord;
+            transform.position = new Vector3(startCoord.x, 0.5f, startCoord.y);
+            direction.Value = 0;
+        }
     }
 }

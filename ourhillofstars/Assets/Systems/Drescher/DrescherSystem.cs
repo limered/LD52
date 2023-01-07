@@ -2,6 +2,7 @@
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Grid;
+using Systems.Levels;
 using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
@@ -44,6 +45,13 @@ namespace Systems.Drescher
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
         {
+            var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
+            if (!currentLevel.harvesterRunning.Value)
+            {
+                drescherComponent.Reset((Vector2Int)g.backgroundGrid.FindStartCoord());
+                g.backgroundGrid.ResetHarvested();
+            }
+            
             var position = drescherComponent.transform.position.XZ();
             drescherComponent.isMoving = !DrescherReachedTarget(drescherComponent, position);
 
