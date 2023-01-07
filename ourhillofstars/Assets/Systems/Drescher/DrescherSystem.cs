@@ -37,7 +37,7 @@ namespace Systems.Drescher
             if (startCoord == null) throw new NullReferenceException("Level Missing Startpoint");
             var position = new Vector3((float)startCoord?.x, 0.5f, (float)startCoord?.y);
             var drescherPrefab = IoC.Game.PrefabByName("Drescher");
-            var drescher = Object.Instantiate(drescherPrefab, position, quaternion.Euler(0, 180, 0));
+            var drescher = Object.Instantiate(drescherPrefab, position, quaternion.Euler(0, 0, 0));
             var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
             drescher.GetComponent<DrescherComponent>().targetCellCoord = target;
         }
@@ -59,6 +59,33 @@ namespace Systems.Drescher
                 return;
             }
 
+            // switch direction
+            var newDirection = drescherComponent.direction.Value;
+            var arrowDirType = g.foregroundGrid.Cell(drescherComponent.targetCellCoord.x, drescherComponent.targetCellCoord.y);
+            switch (arrowDirType)
+            {
+                case ForegroundCellType.Empty:
+                    break;
+                case ForegroundCellType.Left:
+                    newDirection = 1;
+                    break;
+                case ForegroundCellType.Top:
+                    newDirection = 0;
+                    break;
+                case ForegroundCellType.Right:
+                    newDirection = 3;
+                    break;
+                case ForegroundCellType.Bottom:
+                    newDirection = 2;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            drescherComponent.direction.Value = newDirection;
+            
+            // set target
+            
             var nextCellCoord = drescherComponent.targetCellCoord;
             var maxX = g.dimensions.x;
             var maxY = g.dimensions.y;
@@ -88,31 +115,8 @@ namespace Systems.Drescher
 
             drescherComponent.targetCellCoord = nextCellCoord;
 
-            var newDirection = drescherComponent.direction.Value;
-            var arrowDirType = g.foregroundGrid.Cell(nextCellCoord.x, nextCellCoord.y);
-            switch (arrowDirType)
-            {
-                case ForegroundCellType.Empty:
-                    break;
-                case ForegroundCellType.Left:
-                    newDirection = 1;
-                    break;
-                case ForegroundCellType.Top:
-                    newDirection = 0;
-                    break;
-                case ForegroundCellType.Right:
-                    newDirection = 3;
-                    break;
-                case ForegroundCellType.Bottom:
-                    newDirection = 2;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
 
-            drescherComponent.direction.Value = newDirection;
 
-            // check for direction switch
             // check for win || lose
         }
 
