@@ -235,7 +235,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b175c89379264ce5b77d5768269f7e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  topArrow:
+    value: 0
+  leftArrow:
+    value: 0
   rightArrow:
+    value: 0
+  bottomArrow:
     value: 0
   harvesterRunning:
     value: 0
