@@ -1,8 +1,7 @@
 using SystemBase.Core;
+using SystemBase.Utils;
 using Systems.Grid;
-using Systems.GridInteraction.Events;
-using Systems.UI.Events;
-using UniRx;
+using Systems.Levels;
 using UnityEngine;
 
 namespace Systems.UI
@@ -13,32 +12,16 @@ namespace Systems.UI
         public override void Register(InventoryComponent component)
         {
             InitArrows(component);
-            
-            MessageBroker.Default.Receive<SetForegroundCellTypeMessage>()
-                .Subscribe(msg =>
-                {
-                    if (msg.foregroundCellType == ForegroundCellType.Empty) return;
-                    
-                    MessageBroker.Default
-                        .Publish(
-                            new UpdateArrowElementMessage
-                            {
-                                foregroundCellType = msg.foregroundCellType,
-                                amount = 1, //TODO calculate amount
-                                image = component.arrowSprites[(int)msg.foregroundCellType - 1]
-                            }
-                        );
-                })
-                .AddTo(component);
         }
 
         private void InitArrows(InventoryComponent component)
         {
-            //TODO load arrows from somewhere
-            CreateArrowElement(component, 4, ForegroundCellType.Top);
-            CreateArrowElement(component, 4, ForegroundCellType.Left);
-            CreateArrowElement(component, 3, ForegroundCellType.Right);
-            CreateArrowElement(component, 2, ForegroundCellType.Bottom);
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+
+            CreateArrowElement(component, currentLevelComponent.topArrow.Value, ForegroundCellType.Top);
+            CreateArrowElement(component, currentLevelComponent.leftArrow.Value, ForegroundCellType.Left);
+            CreateArrowElement(component, currentLevelComponent.rightArrow.Value, ForegroundCellType.Right);
+            CreateArrowElement(component, currentLevelComponent.bottomArrow.Value, ForegroundCellType.Bottom);
         }
 
         private void CreateArrowElement(InventoryComponent component, int amount, ForegroundCellType foregroundCellType)

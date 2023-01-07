@@ -1,8 +1,9 @@
+using System;
 using SystemBase.Core;
+using SystemBase.Utils;
 using Systems.Grid;
-using Systems.UI.Events;
+using Systems.Levels;
 using UniRx;
-using UnityEngine;
 
 namespace Systems.UI
 {
@@ -11,18 +12,37 @@ namespace Systems.UI
     {
         public override void Register(ArrowElementComponent component)
         {
-            MessageBroker.Default.Receive<UpdateArrowElementMessage>()
-                .Subscribe(msg => SetArrowElement(component, msg.amount, msg.image, msg.foregroundCellType))
-                .AddTo(component);
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            switch (component.foregroundCellType)
+            {
+                case ForegroundCellType.Empty:
+                    break;
+                case ForegroundCellType.Left:
+                    currentLevelComponent.topArrow.Subscribe(value =>
+                        SetArrowElement(component, value, ForegroundCellType.Left));
+                    break;
+                case ForegroundCellType.Top:
+                    currentLevelComponent.leftArrow.Subscribe(value =>
+                        SetArrowElement(component, value, ForegroundCellType.Top));
+                    break;
+                case ForegroundCellType.Right:
+                    currentLevelComponent.rightArrow.Subscribe(value =>
+                        SetArrowElement(component, value, ForegroundCellType.Right));
+                    break;
+                case ForegroundCellType.Bottom:
+                    currentLevelComponent.bottomArrow.Subscribe(value =>
+                        SetArrowElement(component, value, ForegroundCellType.Bottom));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
-        private void SetArrowElement(ArrowElementComponent component, int amount, Sprite image,
+        private void SetArrowElement(ArrowElementComponent component, int amount,
             ForegroundCellType foregroundCellType)
         {
-            if(component.foregroundCellType != foregroundCellType) { return; }
             component.foregroundCellType = foregroundCellType;
             component.amount.text = amount + " x";
-            component.arrow.sprite = image;
         }
     }
 }

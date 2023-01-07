@@ -2,6 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 using SystemBase.Core;
+using SystemBase.Utils;
 using Systems.Grid;
 using UniRx;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Systems.Levels
         {
             var levelsJson = Resources.Load<TextAsset>("Levels/levels");
             var levels = JsonConvert.DeserializeObject<List<Level>>(levelsJson.text);
-            
+
             // load 1st level
             MessageBroker.Default.Publish(new GridLoadMsg
             {

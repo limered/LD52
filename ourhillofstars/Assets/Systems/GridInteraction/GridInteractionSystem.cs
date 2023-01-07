@@ -5,6 +5,7 @@ using SystemBase.Utils;
 using Systems.Grid;
 using Systems.GridInteraction.Events;
 using Systems.GridRendering;
+using Systems.Levels;
 using Systems.Selector;
 using UniRx;
 using UnityEngine;
@@ -76,6 +77,35 @@ namespace Systems.GridInteraction
                         foregroundCellType = foregroundCellType
                 }
             );
+        }
+
+        private static void SetAmountOfArrows(ForegroundCellType foregroundCellType)
+        {
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            
+            switch (foregroundCellType)
+            {
+                case ForegroundCellType.Empty:
+                    currentLevelComponent.bottomArrow.Value += 1;
+                    break;
+                case ForegroundCellType.Left:
+                    currentLevelComponent.topArrow.Value -= 1;
+                    break;
+                case ForegroundCellType.Top:
+                    currentLevelComponent.leftArrow.Value -= 1;
+                    currentLevelComponent.topArrow.Value += 1;
+                    break;
+                case ForegroundCellType.Right:
+                    currentLevelComponent.rightArrow.Value -= 1;
+                    currentLevelComponent.leftArrow.Value += 1;
+                    break;
+                case ForegroundCellType.Bottom:
+                    currentLevelComponent.bottomArrow.Value -= 1;
+                    currentLevelComponent.rightArrow.Value += 1;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

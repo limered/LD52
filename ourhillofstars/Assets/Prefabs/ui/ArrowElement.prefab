@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d53130ba9f24f1eb39d5802ba9f6862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foregroundCellType: 0
   amount: {fileID: 3697383647765033603}
   arrow: {fileID: 3697383649260298665}
 --- !u!1 &3697383649260298667
