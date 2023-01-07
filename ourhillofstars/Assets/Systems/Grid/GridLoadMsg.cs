@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using Systems.Levels;
 
 namespace Systems.Grid
 {
     public class GridLoadMsg
     {
-        public string Level { get; set; }
+        public Level Level { get; set; }
     }
 }

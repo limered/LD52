@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using SystemBase.Core;
 using Systems.GridRendering;
+using Systems.Levels;
 using UniRx;
 using UnityEngine;
 
@@ -17,17 +18,14 @@ namespace Systems.Grid
             component.foregroundGrid = new GameGrid<ForegroundCellType>(component.dimensions.x, component.dimensions.y);
 
             component.gridsInitialized.Execute(component);
+
             MessageBroker.Default.Receive<GridLoadMsg>().Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
-
-            MessageBroker.Default.Publish(new GridLoadMsg
-            {
-                Level = "Levels/level_1"
-            });
         }
 
-        private void LoadGrid(MainGridComponent component, string asset)
+        public void LoadGrid(MainGridComponent component, Level level)
         {
+            var asset = $"Levels/{level.File}";
             var tex = Resources.Load<Texture2D>(asset);
 
             if (!tex)
@@ -40,7 +38,7 @@ namespace Systems.Grid
 
         private IEnumerator SetGridCellsFromTexture(MainGridComponent component, Texture2D texture)
         {
-            for (int y = component.dimensions.y-1; y >= 0; y--)
+            for (int y = component.dimensions.y - 1; y >= 0; y--)
             {
                 for (int x = 0; x < component.dimensions.x; x++)
                 {
