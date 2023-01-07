@@ -1,4 +1,6 @@
 using SystemBase.Core;
+using Systems.Grid;
+using Systems.GridInteraction.Events;
 using Systems.UI.Events;
 using UniRx;
 using UnityEngine;
@@ -11,33 +13,45 @@ namespace Systems.UI
         public override void Register(InventoryComponent component)
         {
             InitArrows(component);
-
-            //TODO listen to message to update arrows
-            // MessageBroker.Default
-            // .Publish(
-            //     new UpdateArrowElementMessage
-            //     {
-            //         amount = amount,
-            //         image = component.arrowSprites[spriteIndex]
-            //     }
-            // );
+            
+            MessageBroker.Default.Receive<SetForegroundCellTypeMessage>()
+                .Subscribe(msg =>
+                {
+                    if (msg.foregroundCellType == ForegroundCellType.Empty) return;
+                    
+                    MessageBroker.Default
+                        .Publish(
+                            new UpdateArrowElementMessage
+                            {
+                                foregroundCellType = msg.foregroundCellType,
+                                amount = 1, //TODO calculate amount
+                                image = component.arrowSprites[(int)msg.foregroundCellType - 1]
+                            }
+                        );
+                })
+                .AddTo(component);
         }
 
         private void InitArrows(InventoryComponent component)
         {
             //TODO load arrows from somewhere
-            CreateArrowElement(component, 1, 0);
-            CreateArrowElement(component, 4, 1);
-            CreateArrowElement(component, 3, 2);
-            CreateArrowElement(component, 2, 3);
+            CreateArrowElement(component, 4, ForegroundCellType.Top);
+            CreateArrowElement(component, 4, ForegroundCellType.Left);
+            CreateArrowElement(component, 3, ForegroundCellType.Right);
+            CreateArrowElement(component, 2, ForegroundCellType.Bottom);
         }
 
-        private void CreateArrowElement(InventoryComponent component, int amount, int spriteIndex)
+        private void CreateArrowElement(InventoryComponent component, int amount, ForegroundCellType foregroundCellType)
         {
+            if (foregroundCellType == ForegroundCellType.Empty) return;
+
             var arrowElement = Object.Instantiate(component.arrowElementPrefab, component.arrows.transform);
-            arrowElement.name = "ArrowElement " + spriteIndex;
-            arrowElement.GetComponent<ArrowElementComponent>().amount.text = amount + " x";
-            arrowElement.GetComponent<ArrowElementComponent>().arrow.sprite = component.arrowSprites[spriteIndex];
+            arrowElement.name = "ArrowElement " + foregroundCellType;
+            var arrowElementComponent = arrowElement.GetComponent<ArrowElementComponent>();
+            arrowElementComponent.foregroundCellType = foregroundCellType;
+            arrowElementComponent.amount.text = amount + " x";
+            arrowElementComponent.arrow.sprite =
+                component.arrowSprites[(int)foregroundCellType-1];
         }
     }
 }

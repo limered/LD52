@@ -295,9 +295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowSprites:
+  - {fileID: 21300000, guid: aaf00bef581e7bc45ba1b60ee21a9501, type: 3}
   - {fileID: 21300000, guid: 3d419a08edcd16a4abe4ab61b1e6bb1a, type: 3}
   - {fileID: 21300000, guid: ae52da245cf24ab448b90f2eb7de14ef, type: 3}
-  - {fileID: 21300000, guid: aaf00bef581e7bc45ba1b60ee21a9501, type: 3}
   - {fileID: 21300000, guid: 8888af0050e8f1f48ad9f4df45dd261f, type: 3}
   arrowElementPrefab: {fileID: 3697383647796808458, guid: 8c4d40914f74e9849bbba62cc0622a02,
     type: 3}

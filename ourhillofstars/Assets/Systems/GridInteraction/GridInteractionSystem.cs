@@ -3,6 +3,7 @@ using System.Linq;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Grid;
+using Systems.GridInteraction.Events;
 using Systems.GridRendering;
 using UniRx;
 using UnityEngine;
@@ -40,7 +41,16 @@ namespace Systems.GridInteraction
                 var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
                 var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
                 nextCellType %= maxValue;
-                fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
+                var foregroundCellType = (ForegroundCellType)nextCellType;
+                fGrid.Cell(x, y, foregroundCellType);
+
+                MessageBroker.Default
+                .Publish(
+                    new SetForegroundCellTypeMessage()
+                    {
+                        foregroundCellType = foregroundCellType
+                    }
+                );
             }
         }
     }
