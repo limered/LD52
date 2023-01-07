@@ -3,13 +3,10 @@
     public enum ForegroundCellType
     {
         Empty,
-        BottomToRight,
-        TopToRight,
-        BottomToLeft,
-        TopToLeft,
-        RightToBottom,
-        RightToTop,
-        LeftToBottom,
-        LeftToTop,
+        Left,
+        Top,
+        Right,
+        Bottom,
+        
     }
 }
