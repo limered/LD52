@@ -64,11 +64,10 @@ namespace Systems.Drescher
         {
             var cellCoord = new Vector2Int((int)(position.x + 0.5f), (int)(position.y + 0.5f));
             var currentCelType = g.backgroundGrid.Cell(cellCoord.x, cellCoord.y);
-            if (currentCelType == BackgroundCellType.Wheat)
-            {
-                g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
-                MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
-            }
+            if (currentCelType != BackgroundCellType.Wheat) return;
+            
+            g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
+            MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)
@@ -141,7 +140,6 @@ namespace Systems.Drescher
         {
             return (position - drescherComponent.targetCellCoord).magnitude < 0.1f;
         }
-
 
         private static void UpdateDirection(int i, DrescherComponent component)
         {
