@@ -192,7 +192,6 @@ GameObject:
   - component: {fileID: 276136052561965696}
   - component: {fileID: 276136052561965697}
   - component: {fileID: 276136052561965698}
-  - component: {fileID: 1866299097}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -282,26 +281,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1866299097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 276136052561965699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d240e60f8854eaf9cfe5c837c2b5a8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrowSprites:
-  - {fileID: 21300000, guid: aaf00bef581e7bc45ba1b60ee21a9501, type: 3}
-  - {fileID: 21300000, guid: 3d419a08edcd16a4abe4ab61b1e6bb1a, type: 3}
-  - {fileID: 21300000, guid: ae52da245cf24ab448b90f2eb7de14ef, type: 3}
-  - {fileID: 21300000, guid: 8888af0050e8f1f48ad9f4df45dd261f, type: 3}
-  arrowElementPrefab: {fileID: 3697383647796808458, guid: 8c4d40914f74e9849bbba62cc0622a02,
-    type: 3}
-  arrows: {fileID: 276136051365937220}
 --- !u!1 &276136052987217802
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,8 +293,9 @@ GameObject:
   - component: {fileID: 276136052987217807}
   - component: {fileID: 276136052987217800}
   - component: {fileID: 276136052987217806}
+  - component: {fileID: 6076294916140613899}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -407,6 +387,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &6076294916140613899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276136052987217802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d240e60f8854eaf9cfe5c837c2b5a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowSprites:
+  - {fileID: 21300000, guid: aaf00bef581e7bc45ba1b60ee21a9501, type: 3}
+  - {fileID: 21300000, guid: 3d419a08edcd16a4abe4ab61b1e6bb1a, type: 3}
+  - {fileID: 21300000, guid: ae52da245cf24ab448b90f2eb7de14ef, type: 3}
+  - {fileID: 21300000, guid: 8888af0050e8f1f48ad9f4df45dd261f, type: 3}
+  arrowElementPrefab: {fileID: 3697383647796808458, guid: 8c4d40914f74e9849bbba62cc0622a02,
+    type: 3}
+  arrows: {fileID: 276136051365937220}
 --- !u!1 &276136053115730996
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1866299097}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Systems.UI.InventoryComponent, Assembly-CSharp
         m_MethodName: StartDrescher
         m_Mode: 1
