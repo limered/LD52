@@ -1,6 +1,7 @@
 ﻿using SystemBase.Core;
 using Systems.Levels;
 using UniRx;
+using UnityEngine.Serialization;
 
 namespace Systems.GameState
 {
@@ -8,15 +9,7 @@ namespace Systems.GameState
     {
         public LevelSo Level { get; set; }
         public bool IsPaused { get; set; }
-        public ReactiveProperty<int> topArrows = new();
-        public ReactiveProperty<int> leftArrows = new();
-        public ReactiveProperty<int> rightArrows = new();
-        public ReactiveProperty<int> bottomArrows = new();
-        
-        public ReactiveProperty<int> maxTopArrows = new();
-        public ReactiveProperty<int> maxLeftArrows = new();
-        public ReactiveProperty<int> maxRightArrows = new();
-        public ReactiveProperty<int> maxBottomArrows = new();
+        public ReactiveProperty<int> arrowsUsed = new();
 
         public BoolReactiveProperty harvesterRunning = new();
     }

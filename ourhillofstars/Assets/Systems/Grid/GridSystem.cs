@@ -55,15 +55,6 @@ namespace Systems.Grid
         {
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.Level = level;
-            // currentLevelComponent.topArrows.Value = level.TopArrows;
-            // currentLevelComponent.leftArrows.Value = level.LeftArrows;
-            // currentLevelComponent.rightArrows.Value = level.RightArrows;
-            // currentLevelComponent.bottomArrows.Value = level.BottomArrows;
-            //
-            // currentLevelComponent.maxTopArrows.Value = level.TopArrows;
-            // currentLevelComponent.maxLeftArrows.Value = level.LeftArrows;
-            // currentLevelComponent.maxRightArrows.Value = level.RightArrows;
-            // currentLevelComponent.maxBottomArrows.Value = level.BottomArrows;
 
             Observable.FromCoroutine(() => SetGridCellsFromTexture(component, level.LoadImage().texture))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new SpawnPlayerMessage

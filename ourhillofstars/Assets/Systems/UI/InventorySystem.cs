@@ -36,12 +36,7 @@ namespace Systems.UI
         private void InitArrows(InventoryComponent component)
         {
             component.arrows.RemoveAllChildren();
-            
-            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            CreateArrowElement(component, currentLevelComponent.maxTopArrows.Value, ForegroundCellType.Top);
-            CreateArrowElement(component, currentLevelComponent.maxLeftArrows.Value, ForegroundCellType.Left);
-            CreateArrowElement(component, currentLevelComponent.maxRightArrows.Value, ForegroundCellType.Right);
-            CreateArrowElement(component, currentLevelComponent.maxBottomArrows.Value, ForegroundCellType.Bottom);
+            CreateArrowElement(component, 0, ForegroundCellType.Top);
         }
 
         private void CreateArrowElement(InventoryComponent component, int amount, ForegroundCellType foregroundCellType)
