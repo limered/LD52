@@ -10,7 +10,7 @@ namespace Systems.Drescher
         public Vector2Int targetCellCoord;
         public ReactiveProperty<DrescherDirection> direction = new(0);
         public Renderer rendererCache;
-        public Texture[] directionImages;
+        public Texture2D[] directionImages;
 
         public bool isMoving = false;
 

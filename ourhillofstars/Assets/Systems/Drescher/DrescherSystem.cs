@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.Levels;
+using Systems.Theme;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -50,6 +52,31 @@ namespace Systems.Drescher
             var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
             var dresherObject = drescher.GetComponent<DrescherComponent>(); 
             dresherObject.targetCellCoord = target;
+            
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            var theme = IoC.Game.GetComponent<ThemeComponent>()
+                .harvesterThemes[currentLevelComponent.Level.playerThemeFile];
+            var sprites = new List<Texture2D>(4);
+            for (var i = 0; i < 4; i++)
+            {
+                var texture = new Texture2D(32, 32, TextureFormat.RGBA32, false)
+                {
+                    filterMode = FilterMode.Point
+                };
+                var pixels = theme.GetPixels(i * 32, 0, 32, 32);
+                texture.SetPixels(pixels);
+                texture.Apply();
+                sprites.Add(texture);
+            }
+            
+            var textureArray = new[]
+            {
+                sprites[1],
+                sprites[0],
+                sprites[3],
+                sprites[2]
+            };
+            dresherObject.directionImages = textureArray;
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
