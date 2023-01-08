@@ -1,3 +1,4 @@
+using System;
 using SystemBase.Core;
 using UnityEngine.UI;
 using Systems.Levels;
@@ -10,6 +11,7 @@ namespace Systems.UI
     public class PauseMenuComponent : GameComponent
     {
         public float volume = 0.5f;
+        [NonSerialized] public ReactiveProperty<bool> isPaused = new();
 
         public void SetVolume()
         {
