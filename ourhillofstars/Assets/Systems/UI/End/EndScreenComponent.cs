@@ -1,5 +1,6 @@
 using SystemBase.Core;
-using UnityEngine;
+using Systems.Levels;
+using UniRx;
 using UnityEngine.SceneManagement;
 
 namespace Systems.UI.End
@@ -8,8 +9,13 @@ namespace Systems.UI.End
     {
         public void RestartAllLevels()
         {
-            Debug.Log("Restart all levels");
             SceneManager.LoadScene("Main");
+        }
+
+        public void GoToLevelOverview()
+        {
+            gameObject.SetActive(false);
+            MessageBroker.Default.Publish(new ShowLevelOverviewMsg());
         }
     }
 }

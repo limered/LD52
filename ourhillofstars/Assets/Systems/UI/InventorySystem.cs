@@ -4,6 +4,7 @@ using Systems.Drescher;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.Levels;
+using Systems.Levels.Events;
 using UniRx;
 using UnityEngine;
 
@@ -36,6 +37,13 @@ namespace Systems.UI
 
             IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning
                 .Subscribe(b => SetButtonImage(b, component))
+                .AddTo(component);
+            
+            MessageBroker.Default.Receive<FinishLastLevelMsg>()
+                .Subscribe(_ =>
+                {
+                    component.gameObject.SetActive(false);
+                })
                 .AddTo(component);
         }
 
