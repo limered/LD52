@@ -1,9 +1,9 @@
 ﻿{
   "levelType": 0,
   "startDirection": 1,
-  "aGradeCount": 42,
-  "bGradeCount": 45,
-  "cGradeCount": 50,
+  "aGradeCount": 38,
+  "bGradeCount": 40,
+  "cGradeCount": 42,
    "themeFile": 1,
   "playerThemeFile": 0
 }
