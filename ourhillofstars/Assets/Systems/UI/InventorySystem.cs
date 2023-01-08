@@ -3,6 +3,7 @@ using SystemBase.Utils;
 using Systems.Drescher;
 using Systems.GameState;
 using Systems.Grid;
+using Systems.Levels;
 using UniRx;
 using UnityEngine;
 
@@ -13,6 +14,22 @@ namespace Systems.UI
     {
         public override void Register(InventoryComponent component)
         {
+            component.gameObject.SetActive(false);
+            
+            MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
+                .Subscribe(_ =>
+                {
+                    component.gameObject.SetActive(false);
+                })
+                .AddTo(component);
+            
+            MessageBroker.Default.Receive<LoadLevelMsg>()
+                .Subscribe(_ =>
+                {
+                    component.gameObject.SetActive(true);
+                })
+                .AddTo(component);
+            
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => InitArrows(component))
                 .AddTo(component);
