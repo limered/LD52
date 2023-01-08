@@ -1,40 +1,42 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
 namespace Systems.Levels
 {
+    [Serializable]
     public enum LevelType
     {
         Harvester,
         ApplePicker,
     }
     
-    [CreateAssetMenu(menuName = "Level", fileName = "level_")]
-    public class LevelSo : ScriptableObject
+    public class Level
     {
-        public int LevelNumber => int.Parse(name.Split('_').Last());
+        public string levelFile;
         public LevelType levelType;
-        public Sprite levelFile;
+        public int LevelNumber => int.Parse(levelFile.Split('_').Last());
+        public Sprite levelSprite;
 
         public DrescherDirection startDirection;
         public int aGradeCount;
         public int bGradeCount;
         public int cGradeCount;
 
-        public Texture2D theme;
-        public Texture2D playerTheme;
+        public string themeFile;
+        public string playerThemeFile;
         
         public Sprite LoadImage()
         {
-            if (levelFile) return levelFile;
-            var file = Resources.Load<Sprite>($"Levels/{name}");
+            if (levelSprite) return levelSprite;
+            var file = Resources.Load<Sprite>($"Levels/{levelFile}");
             if (file)
             {
                 return file;
             }
 
-            throw new FileLoadException($"Levels/{name}");
+            throw new FileLoadException($"Levels/{levelFile}");
         }
     }
     

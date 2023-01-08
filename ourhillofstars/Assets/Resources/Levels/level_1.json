@@ -1,0 +1,10 @@
+﻿{
+  "levelFile": "level_1",
+  "levelType": 0,
+  "startDirection": 0,
+  "aGradeCount": 3,
+  "bGradeCount": 4,
+  "cGradeCount": 5,
+  "themeFile": "TODO",
+  "playerThemeFile": "TODO"
+}

@@ -35,12 +35,14 @@ namespace Systems.Levels
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
 
-           var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToArray();
-            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
-                "you have duplicate levels!");
+            // var allLevels = GetLevels();
+            // var allLevels = Resources.LoadAll<Level>($"").OrderBy(so => so.LevelNumber).ToArray();
+            // Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelComparer()).Count(),
+                // "you have duplicate levels!");
+                
         }
 
-        private void ReloadLevelOverview(List<LevelSo> levels, LevelOverviewComponent component)
+        private void ReloadLevelOverview(List<Level> levels, LevelOverviewComponent component)
         {
             var cellPrefab = IoC.Game.PrefabByName("LevelButton");
 
@@ -66,7 +68,7 @@ namespace Systems.Levels
                     Vector3.zero, Quaternion.Euler(0, 0, 0),
                     parentTransform);
 
-                cell.GetComponentInChildren<TextMeshProUGUI>().text = levels[i].name;
+                cell.GetComponentInChildren<TextMeshProUGUI>().text = $"#{levels[i].LevelNumber}";
 #if !DEBUG
                 if (i <= furthestLevel)
 #else
@@ -85,7 +87,7 @@ namespace Systems.Levels
             }
         }
 
-        private void HandleMessages(List<LevelSo> levels, LevelOverviewComponent component)
+        private void HandleMessages(List<Level> levels, LevelOverviewComponent component)
         {
             MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
                 {
@@ -140,17 +142,39 @@ namespace Systems.Levels
             });
         }
 
-        private List<LevelSo> GetLevels()
+        private List<Level> GetLevels()
         {
-            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToList();
-            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
+            Debug.Log("get levels");
+            var allLevelJsons = Resources.LoadAll<TextAsset>("");
+            var allLevels = allLevelJsons
+                .Where(x => x.name.StartsWith("level_"))
+                .Select(x =>
+                {
+                    var level = JsonConvert.DeserializeObject<Level>(x.text);
+                    level.levelFile ??= x.name;
+                    return level;
+                })
+                .OrderBy(so => so.LevelNumber)
+                .ToList();
+            
+            // var allLevels = (Resources.LoadAll<Level>($"").Select(x =>
+            // {
+            //     Debug.Log($"type of {x.GetType().FullName}: {x}");
+            //     if(x is Level)
+            //         return (Level)x;
+            //     return null;
+            // }).Where(x => x != null)).OrderBy(so => so.LevelNumber).ToList();
+            
+            
+            Debug.Log($"level count {allLevels.Count}");
+            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelComparer()).Count(),
                 "you have duplicate levels!");
             return allLevels;
         }
 
-        public class LevelSoComparer : IEqualityComparer<LevelSo>
+        public class LevelComparer : IEqualityComparer<Level>
         {
-            public bool Equals(LevelSo x, LevelSo y)
+            public bool Equals(Level x, Level y)
             {
                 if (ReferenceEquals(x, y)) return true;
                 if (ReferenceEquals(x, null)) return false;
@@ -159,7 +183,7 @@ namespace Systems.Levels
                 return x.LevelNumber == y.LevelNumber;
             }
 
-            public int GetHashCode(LevelSo obj)
+            public int GetHashCode(Level obj)
             {
                 return obj.LevelNumber;
             }

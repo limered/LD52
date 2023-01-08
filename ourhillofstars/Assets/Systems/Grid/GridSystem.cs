@@ -69,7 +69,7 @@ namespace Systems.Grid
                 .AddTo(component);
         }
 
-        private void LoadGrid(MainGridComponent component, LevelSo level)
+        private void LoadGrid(MainGridComponent component, Level level)
         {
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.Level = level;
