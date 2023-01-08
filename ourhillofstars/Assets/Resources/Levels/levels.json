@@ -34,5 +34,14 @@
     "leftArrows": 9,
     "rightArrows": 12,
     "bottomArrows": 8
+  },
+  {
+    "name": "#5",
+    "file": "level_5",
+    "startDirection": 2,
+    "topArrows": 4,
+    "leftArrows": 6,
+    "rightArrows": 4,
+    "bottomArrows": 6
   }
 ]
