@@ -4,6 +4,7 @@ using Systems.GameState;
 using Systems.Grid;
 using Systems.Levels;
 using UniRx;
+using UnityEngine;
 
 namespace Systems.UI.Infos
 {
@@ -21,6 +22,8 @@ namespace Systems.UI.Infos
         {
             component.levelName.text = "Level " + level.LevelNumber;
             component.vehicleImage.sprite = component.vehicleSprites[level.playerThemeFile];
+            Debug.Log("load theme file " + level.themeFile);
+            component.harvestItemImage.sprite = component.harvestSprites[level.themeFile];
 
             IoC.Game.GetComponent<CurrentLevelComponent>().arrowsUsed
                 .Subscribe(_ =>
