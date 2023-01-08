@@ -36,10 +36,7 @@ namespace Systems.UI
 
         private void InitArrows(InventoryComponent component)
         {
-            for (var i = component.arrows.transform.childCount-1; i >= 0; i--)
-            {
-                Object.Destroy(component.arrows.transform.GetChild(i).gameObject);
-            }
+            component.arrows.RemoveAllChildren();
             
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             CreateArrowElement(component, currentLevelComponent.maxTopArrows.Value, ForegroundCellType.Top);
