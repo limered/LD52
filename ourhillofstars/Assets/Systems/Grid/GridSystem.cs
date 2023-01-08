@@ -27,15 +27,15 @@ namespace Systems.Grid
                 .AddTo(component);
 
             MessageBroker.Default.Receive<LevelCompleteMsg>()
-                .Subscribe(_ => { ClearGrids(component); })
+                .Subscribe(_ => { ClearGrids(component, true); })
                 .AddTo(component);
 
             MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
-                .Subscribe(_ => { ClearGrids(component); })
+                .Subscribe(_ => { ClearGrids(component, false); })
                 .AddTo(component);
         }
 
-        private static void ClearGrids(MainGridComponent component)
+        private static void ClearGrids(MainGridComponent component, bool levelDone)
         {
             var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentGame.harvesterRunning.Value = false;
