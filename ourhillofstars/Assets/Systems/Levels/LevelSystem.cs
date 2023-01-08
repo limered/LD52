@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using SystemBase.Core;
 using SystemBase.Utils;
@@ -26,6 +27,9 @@ namespace Systems.Levels
             var levels = GetLevels();
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
+
+            // Example Load of Images
+            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).Distinct();
         }
 
         private void ReloadLevelOverview(List<Level> levels, LevelOverviewComponent component)
