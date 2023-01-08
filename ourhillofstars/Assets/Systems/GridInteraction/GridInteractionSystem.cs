@@ -2,10 +2,16 @@
 using System.Linq;
 using SystemBase.Core;
 using SystemBase.Utils;
+using Systems.GameState;
 using Systems.Grid;
 using Systems.GridRendering;
+using Systems.Levels;
+using Systems.Selector;
+using Systems.UI;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace Systems.GridInteraction
 {
@@ -22,26 +28,79 @@ namespace Systems.GridInteraction
 
         private void InitializeInteractions(MainGridComponent grid)
         {
+            var selectorPrefab = IoC.Game.PrefabByName("Selector");
+            var selector = Object.Instantiate(selectorPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+            var selectorComponent = selector.GetComponent<SelectorComponent>();
             SystemUpdate(grid)
-                .Subscribe(StartInteraction)
+                .Subscribe(g => StartInteraction(g, selectorComponent))
                 .AddTo(grid);
         }
 
-        private static void StartInteraction(MainGridComponent grid)
+        private static void StartInteraction(MainGridComponent grid, SelectorComponent selector)
         {
+            var currLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
+            if (currLevel.harvesterRunning.Value) return;
+            if (currLevel.IsPaused) return;
+
             var fGrid = grid.foregroundGrid;
             var fGridComponent = grid.GetComponentInChildren<ForegroundParentComponent>();
             var ray = fGridComponent.mainCamera.ScreenPointToRay(Input.mousePosition);
-            
-            if (Physics.Raycast(ray, out var hit) && Input.GetMouseButtonDown(0)) {
-                var x = (int)(hit.point.x + 0.5);
-                var y = (int)(hit.point.z + 0.5);
+            var bGrid = grid.backgroundGrid;
 
-                var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
-                var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
-                nextCellType %= maxValue;
-                fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
+            if (!Physics.Raycast(ray, out var hit))
+            {
+                selector.shouldBeInvisible.Value = false;
+                return;
             }
+
+            var x = (int)(hit.point.x + 0.5);
+            var y = (int)(hit.point.z + 0.5);
+
+            selector.targetCoord = new Vector2Int(x, y);
+            selector.shouldBeInvisible.Value = true;
+            var cell = bGrid.Cell(x, y);
+            if (cell != BackgroundCellType.Harvested && 
+                cell != BackgroundCellType.Harvestable &&
+                cell != BackgroundCellType.Path &&
+                cell != BackgroundCellType.Start)
+            {
+                selector.shouldChangeTexture.Value = true;
+                return;
+            }
+
+            selector.shouldChangeTexture.Value = false;
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                fGrid.Cell(x, y, ForegroundCellType.Empty);
+                SetAmountOfArrows(fGrid);
+            }
+
+            if (!Input.GetMouseButtonDown(0)) return;
+            var nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y);
+
+            fGrid.Cell(x, y, nextCellType);
+            SetAmountOfArrows(fGrid);
+        }
+
+        private static int NextCellType(GameGrid<ForegroundCellType> fGrid, int x, int y, int switchAmount = 1)
+        {
+            var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
+            var nextCellType = (int)(fGrid.Cell(x, y)) + switchAmount;
+            nextCellType %= maxValue;
+            return nextCellType;
+        }
+
+        private static void SetAmountOfArrows(GameGrid<ForegroundCellType> grid)
+        {
+            var rightArrowCount = grid.CountElementsOfType(ForegroundCellType.Right);
+            var leftArrowCount = grid.CountElementsOfType(ForegroundCellType.Left);
+            var topArrowCount = grid.CountElementsOfType(ForegroundCellType.Top);
+            var bottomArrowCount = grid.CountElementsOfType(ForegroundCellType.Bottom);
+
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            currentLevelComponent.arrowsUsed.Value = topArrowCount + rightArrowCount + leftArrowCount + bottomArrowCount;
+
         }
     }
 }
