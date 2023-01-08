@@ -30,6 +30,10 @@ namespace Systems.Drescher
                         .AddTo(component);
                 })
                 .AddTo(component);
+            
+            MessageBroker.Default.Receive<SpawnPlayerMessage>()
+                .Subscribe(_ => Object.Destroy(component.gameObject))
+                .AddTo(component);
         }
 
         private void SpawnDrescher(MainGridComponent grid)
