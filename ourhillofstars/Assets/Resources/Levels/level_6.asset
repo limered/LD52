@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: level_6
   m_EditorClassIdentifier: Assembly-CSharp:Systems.Levels:LevelSo
   levelType: 0
-  levelFile: {fileID: 21300000, guid: 0c2e8d440ccece740a2c744aef0e11d9, type: 3}
+  levelFile: {fileID: 0}
   startDirection: 0
   aGradeCount: 0
   bGradeCount: 0
