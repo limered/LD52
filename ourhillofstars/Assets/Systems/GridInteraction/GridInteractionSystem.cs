@@ -10,6 +10,7 @@ using Systems.Selector;
 using Systems.UI;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace Systems.GridInteraction
@@ -37,9 +38,9 @@ namespace Systems.GridInteraction
 
         private static void StartInteraction(MainGridComponent grid, SelectorComponent selector)
         {
-            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            if (currentLevelComponent.harvesterRunning.Value) return;
-            if (currentLevelComponent.IsPaused) return;
+            var currLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
+            if (currLevel.harvesterRunning.Value) return;
+            if (currLevel.IsPaused) return;
 
             var fGrid = grid.foregroundGrid;
             var fGridComponent = grid.GetComponentInChildren<ForegroundParentComponent>();
@@ -67,9 +68,15 @@ namespace Systems.GridInteraction
 
             selector.shouldChangeTexture.Value = false;
 
+            if (Input.GetMouseButtonDown(1))
+            {
+                fGrid.Cell(x, y, ForegroundCellType.Empty);
+                SetAmountOfArrows(fGrid);
+            }
+
             if (!Input.GetMouseButtonDown(0)) return;
             var nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y);
-            var currLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
+
             var tries = 1;
             while (!CanUseArrow(grid.foregroundGrid, nextCellType, currLevel) && tries < 5)
             {
@@ -78,14 +85,14 @@ namespace Systems.GridInteraction
             }
 
             if (!CanUseArrow(grid.foregroundGrid, nextCellType, currLevel)) return;
-            
+
             fGrid.Cell(x, y, nextCellType);
             SetAmountOfArrows(fGrid);
         }
 
         private static bool CanUseArrow(
             GameGrid<ForegroundCellType> grid,
-            ForegroundCellType nextCellType, 
+            ForegroundCellType nextCellType,
             CurrentLevelComponent currLevel)
         {
             var usedArrowsOfType = grid.CountElementsOfType(nextCellType);
