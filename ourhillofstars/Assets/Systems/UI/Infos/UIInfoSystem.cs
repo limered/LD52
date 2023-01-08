@@ -39,7 +39,7 @@ namespace Systems.UI.Infos
         private void SetGradeSprite(UIInfoComponent component, Grade grade)
         {
             component.grade.sprite = grade == Grade.None ?
-                component.gradeSprites[4] : component.gradeSprites[(int)grade];
+                component.gradeSprites[0] : component.gradeSprites[(int)grade];
         }
     }
 }
