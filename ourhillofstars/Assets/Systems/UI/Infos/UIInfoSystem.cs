@@ -20,8 +20,7 @@ namespace Systems.UI.Infos
         private void LoadGameInfoForUI(UIInfoComponent component, Level level)
         {
             component.levelName.text = "Level " + level.LevelNumber;
-            component.vehicleImage.sprite = level.levelType == LevelType.Harvester ?
-                component.vehicleSprites[0] : component.vehicleSprites[1];
+            component.vehicleImage.sprite = component.vehicleSprites[level.playerThemeFile];
 
             IoC.Game.GetComponent<CurrentLevelComponent>().arrowsUsed
                 .Subscribe(_ =>
