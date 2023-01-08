@@ -572,6 +572,7 @@ MonoBehaviour:
   arrows: {fileID: 276136051365937220}
   primarySprite: {fileID: 1547776158, guid: 001741ac1a697ca4dbb781b96a86545e, type: 3}
   secondarySprite: {fileID: 306762633, guid: 001741ac1a697ca4dbb781b96a86545e, type: 3}
+  image: {fileID: 276136053115730953}
 --- !u!1 &276136053115730996
 GameObject:
   m_ObjectHideFlags: 0

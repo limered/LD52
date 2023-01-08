@@ -17,6 +17,21 @@ namespace Systems.UI
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => InitArrows(component))
                 .AddTo(component);
+
+            IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning
+                .Subscribe(b => SetButtonImage(b, component))
+                .AddTo(component);
+        }
+
+        private void SetButtonImage(bool b, InventoryComponent component)
+        {
+            var nextImage = component.secondarySprite; 
+            if (!b)
+            {
+                nextImage = component.primarySprite;
+            }
+
+            component.image.sprite = nextImage;
         }
 
         private void InitArrows(InventoryComponent component)
