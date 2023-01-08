@@ -22,8 +22,8 @@ namespace Systems.Levels
         public int bGradeCount;
         public int cGradeCount;
 
-        public Sprite theme;
-        public Sprite playerTheme;
+        public Texture2D theme;
+        public Texture2D playerTheme;
         
         public Sprite LoadImage()
         {
