@@ -110,7 +110,7 @@ namespace Systems.Levels
                     ReloadLevelOverview(levels, component);
                 });
 
-            MessageBroker.Default.Receive<LevelCompleteMsg>().Subscribe(msg =>
+            MessageBroker.Default.Receive<GoToNextLevelMsg>().Subscribe(msg =>
             {
                 // did complete a new level?
                 var furthestLevel = PlayerPrefs.GetInt(FurthestLevelKey, 0);

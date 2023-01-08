@@ -37,7 +37,8 @@ namespace Systems.Grid
 
         private static void ClearGrids(MainGridComponent component)
         {
-            IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value = false;
+            var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
+            currentGame.harvesterRunning.Value = false;
             component.backgroundGrid.Clear();
             component.foregroundGrid.Clear();
 
@@ -49,6 +50,13 @@ namespace Systems.Grid
                 component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
                     ForegroundCellType.Empty;
             }
+
+            //TODO animation
+            MessageBroker.Default.Publish(new GoToNextLevelMsg()
+            {
+                CompletedLevel = currentGame.Level.LevelNumber,
+                Grade = currentGame.CurrentGrade
+            });
         }
 
         private void LoadGrid(MainGridComponent component, LevelSo level)
@@ -65,7 +73,7 @@ namespace Systems.Grid
                 .Subscribe()
                 .AddTo(component);
         }
-
+        
         private IEnumerator SetGridCellsFromTexture(MainGridComponent component, Texture2D texture)
         {
             for (var y = component.dimensions.y - 1; y >= 0; y--)
