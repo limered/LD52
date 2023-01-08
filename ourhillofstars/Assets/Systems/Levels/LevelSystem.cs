@@ -19,14 +19,6 @@ namespace Systems.Levels
     {
         public const string LevelProgressSettingsKey = "furthest_level";
 
-        public LevelSystem()
-        {
-            MessageBroker.Default.Receive<LevelProgressUpdate>().Subscribe(msg =>
-            {
-                PlayerPrefs.SetInt(LevelProgressSettingsKey, msg.FurthestLevel);
-            });
-        }
-
         public override void Register(LevelOverviewComponent component)
         {
             IoC.Game.GetComponent<CurrentLevelComponent>().IsPaused = true;
@@ -95,6 +87,27 @@ namespace Systems.Levels
                     component.gameObject.transform.parent.gameObject.SetActive(true);
                     ReloadLevelOverview(levels, component);
                 });
+
+            MessageBroker.Default.Receive<LevelProgressUpdate>().Subscribe(msg =>
+            {
+                // did complete a new level?
+                var furthestLevel = PlayerPrefs.GetInt(LevelProgressSettingsKey, 0);
+                if (furthestLevel < msg.FurthestLevel)
+                {
+                    PlayerPrefs.SetInt(LevelProgressSettingsKey, msg.FurthestLevel);
+                }
+
+                // start next level
+                var nextLevel = msg.FurthestLevel + 1;
+                if (nextLevel < levels.Count)
+                {
+                    MessageBroker.Default.Publish(new LoadLevelMsg { LevelIndex = nextLevel });
+                }
+                else
+                {
+                    Debug.Log("Du hast das Spiel durchgespielt");
+                }
+            });
         }
 
         private List<Level> GetLevels()
