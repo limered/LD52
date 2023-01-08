@@ -7,6 +7,7 @@ using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
+using Systems.Levels.Events;
 using Systems.UI;
 using TMPro;
 using UniRx;
@@ -138,6 +139,7 @@ namespace Systems.Levels
                 else
                 {
                     Debug.Log("Du hast das Spiel durchgespielt");
+                    MessageBroker.Default.Publish(new FinishLastLevelMsg());
                 }
             });
         }
