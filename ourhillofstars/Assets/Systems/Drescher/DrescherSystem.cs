@@ -142,7 +142,7 @@ namespace Systems.Drescher
                 MessageBroker.Default.Publish(
                     new LevelCompleteMsg
                     {
-                        CompletedLevel = _currentLevelComponent.Level.LevelNumber,
+                        CompletedLevel = _currentLevelComponent.Level.LevelIndex,
                         Grade = _currentLevelComponent.CurrentGrade
                     });
         }
