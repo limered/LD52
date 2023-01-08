@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
         public string File { get; set; }
-        public StartDirection StartDirection { get; set; }
+        public DrescherDirection StartDirection { get; set; }
         public int TopArrows { get; set; }
         public int LeftArrows { get; set; }
         public int RightArrows { get; set; }

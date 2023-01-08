@@ -1,10 +1,10 @@
 ﻿namespace Systems.Levels
 {
-    public enum StartDirection
+    public enum DrescherDirection
     {
         Up = 0,
-        Right = 1,
+        Left = 1,
         Down = 2,
-        Left = 3,
+        Right = 3,
     }
 }

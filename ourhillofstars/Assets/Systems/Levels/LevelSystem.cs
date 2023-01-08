@@ -23,7 +23,6 @@ namespace Systems.Levels
 
             var parentTransform = component.GetComponent<RectTransform>();
             var layoutGroup = component.GetComponent<GridLayoutGroup>();
-            Debug.Log($"size: {parentTransform.rect.size} padding {layoutGroup.spacing.x}x{layoutGroup.spacing.y}");
             var biggerSize =
                 Math.Max((parentTransform.rect.size.x - component.gridDimensions.x * layoutGroup.spacing.x) /
                          component.gridDimensions.x,

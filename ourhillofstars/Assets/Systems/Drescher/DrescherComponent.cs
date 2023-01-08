@@ -1,4 +1,5 @@
 ﻿using SystemBase.Core;
+using Systems.Levels;
 using UniRx;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Systems.Drescher
     public class DrescherComponent : GameComponent
     {
         public Vector2Int targetCellCoord;
-        public IntReactiveProperty direction = new(0);
+        public ReactiveProperty<DrescherDirection> direction = new(0);
         public Renderer rendererCache;
         public Texture[] directionImages;
 
@@ -15,11 +16,11 @@ namespace Systems.Drescher
 
         public float speed = 5f;
 
-        public void Reset(Vector2Int startCoord)
+        public void Reset(Vector2Int startCoord, DrescherDirection dir)
         {
             targetCellCoord = startCoord;
             transform.position = new Vector3(startCoord.x, 0.5f, startCoord.y);
-            direction.Value = 0;
+            direction.Value = dir;
         }
     }
 }
