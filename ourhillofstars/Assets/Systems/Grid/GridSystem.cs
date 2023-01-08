@@ -55,7 +55,8 @@ namespace Systems.Grid
         {
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.Level = level;
-
+            currentLevelComponent.arrowsUsed.Value = 0;
+            
             Observable.FromCoroutine(() => SetGridCellsFromTexture(component, level.LoadImage().texture))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new SpawnPlayerMessage
                 {

@@ -41,7 +41,7 @@ namespace Systems.UI
 
         private void CreateArrowElement(InventoryComponent component, int amount, ForegroundCellType foregroundCellType)
         {
-            if (foregroundCellType == ForegroundCellType.Empty || amount == 0) return;
+            if (foregroundCellType == ForegroundCellType.Empty) return;
 
             var arrowElement = Object.Instantiate(component.arrowElementPrefab, component.arrows.transform);
             arrowElement.name = "ArrowElement " + foregroundCellType;
