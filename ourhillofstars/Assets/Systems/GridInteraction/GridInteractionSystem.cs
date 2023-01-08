@@ -64,13 +64,44 @@ namespace Systems.GridInteraction
             selector.shouldChangeTexture.Value = false;
 
             if (!Input.GetMouseButtonDown(0)) return;
+            var nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y);
+            var currLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
+            var tries = 1;
+            while (!CanUseArrow(grid.foregroundGrid, nextCellType, currLevel) && tries < 5)
+            {
+                tries++;
+                nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y, tries);
+            }
 
-            var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
-            var nextCellType = (int)(fGrid.Cell(x, y)) + 1;
-            nextCellType %= maxValue;
-            fGrid.Cell(x, y, (ForegroundCellType)nextCellType);
-
+            if (!CanUseArrow(grid.foregroundGrid, nextCellType, currLevel)) return;
+            
+            fGrid.Cell(x, y, nextCellType);
             SetAmountOfArrows(fGrid);
+        }
+
+        private static bool CanUseArrow(
+            GameGrid<ForegroundCellType> grid,
+            ForegroundCellType nextCellType, 
+            CurrentLevelComponent currLevel)
+        {
+            var usedArrowsOfType = grid.CountElementsOfType(nextCellType);
+            return nextCellType switch
+            {
+                ForegroundCellType.Empty => true,
+                ForegroundCellType.Left => currLevel.maxLeftArrows.Value - usedArrowsOfType > 0,
+                ForegroundCellType.Top => currLevel.maxTopArrows.Value - usedArrowsOfType > 0,
+                ForegroundCellType.Right => currLevel.maxRightArrows.Value - usedArrowsOfType > 0,
+                ForegroundCellType.Bottom => currLevel.maxBottomArrows.Value - usedArrowsOfType > 0,
+                _ => throw new ArgumentOutOfRangeException(nameof(nextCellType), nextCellType, null)
+            };
+        }
+
+        private static int NextCellType(GameGrid<ForegroundCellType> fGrid, int x, int y, int switchAmount = 1)
+        {
+            var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
+            var nextCellType = (int)(fGrid.Cell(x, y)) + switchAmount;
+            nextCellType %= maxValue;
+            return nextCellType;
         }
 
         private static void SetAmountOfArrows(GameGrid<ForegroundCellType> grid)
