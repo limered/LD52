@@ -4,6 +4,6 @@
   "aGradeCount": 16,
   "bGradeCount": 18,
   "cGradeCount": 20,
-  "themeFile": "LosInt",
-  "playerThemeFile": "LosInt"
+   "themeFile": 0,
+  "playerThemeFile": 0
 }
