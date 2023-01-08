@@ -9,14 +9,15 @@ namespace Systems.Grid
     {
         Empty,
         Start,
-        Grass,
-        Wheat,
+        StandardBlocker,
+        Harvestable,
         Harvested,
-        Basket,
-        AppleBasket,
-        Bush,
-        Rock,
-        Tree,
+        Path,
+        BlockerType2,
+        BlockerType3,
+        BlockerType4,
+        BlockerType5,
+        BlockerType6
     }
 
 
@@ -27,14 +28,15 @@ namespace Systems.Grid
             {
                 { new Color32(0, 0, 0, 255), BackgroundCellType.Empty },
                 { new Color32(255, 0, 0, 255), BackgroundCellType.Start },
-                { new Color32(0, 255, 0, 255), BackgroundCellType.Grass },
-                { new Color32(255, 235, 4, 255), BackgroundCellType.Wheat },
+                { new Color32(0, 255, 0, 255), BackgroundCellType.StandardBlocker },
+                { new Color32(255, 235, 4, 255), BackgroundCellType.Harvestable },
                 { new Color32(130, 78, 20, 255), BackgroundCellType.Harvested },
-                { new Color32(61, 25, 0, 255), BackgroundCellType.Basket },
-                { new Color32(255, 27, 195, 255), BackgroundCellType.AppleBasket },
-                { new Color32(0, 72, 229, 255), BackgroundCellType.Bush },
-                { new Color32(105, 105, 105, 255), BackgroundCellType.Rock },
-                { new Color32(0, 69, 0, 255), BackgroundCellType.Tree },
+                { new Color32(26, 35, 126, 255), BackgroundCellType.Path },
+                { new Color32(61, 25, 0, 255), BackgroundCellType.BlockerType2 },
+                { new Color32(255, 27, 195, 255), BackgroundCellType.BlockerType3 },
+                { new Color32(0, 72, 229, 255), BackgroundCellType.BlockerType4 },
+                { new Color32(105, 105, 105, 255), BackgroundCellType.BlockerType5 },
+                { new Color32(0, 69, 0, 255), BackgroundCellType.BlockerType6 },
             };
 
         public static BackgroundCellType ToCell(this Color32 cell)

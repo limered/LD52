@@ -17,7 +17,7 @@ namespace Systems.Grid
         {
             for (var i = 0; i < g.Length; i++)
                 if (g.Cell(i) == BackgroundCellType.Harvested)
-                    g.Cell(i, BackgroundCellType.Wheat);
+                    g.Cell(i, BackgroundCellType.Harvestable);
         }
 
         public static int CountElementsOfType(this GameGrid<ForegroundCellType> grid, ForegroundCellType type)
