@@ -125,7 +125,8 @@ namespace Systems.Drescher
             var nextCellType = g.backgroundGrid.Cell(nextCellCoord.x, nextCellCoord.y);
             if (nextCellType != BackgroundCellType.Harvested &&
                 nextCellType != BackgroundCellType.Harvestable &&
-                nextCellType != BackgroundCellType.Start) return;
+                nextCellType != BackgroundCellType.Start &&
+                nextCellType != BackgroundCellType.Path) return;
 
             drescherComponent.targetCellCoord = nextCellCoord;
         }

@@ -59,7 +59,9 @@ namespace Systems.GridInteraction
             selector.targetCoord = new Vector2Int(x, y);
             selector.shouldBeInvisible.Value = true;
             var cell = bGrid.Cell(x, y);
-            if (cell != BackgroundCellType.Harvested && cell != BackgroundCellType.Harvestable &&
+            if (cell != BackgroundCellType.Harvested && 
+                cell != BackgroundCellType.Harvestable &&
+                cell != BackgroundCellType.Path &&
                 cell != BackgroundCellType.Start)
             {
                 selector.shouldChangeTexture.Value = true;
