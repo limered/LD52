@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Systems.UI
+namespace Systems.UI.Infos
 {
     public class UIInfoComponent : GameComponent
     {

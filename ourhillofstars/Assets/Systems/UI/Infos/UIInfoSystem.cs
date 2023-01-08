@@ -5,7 +5,7 @@ using Systems.Grid;
 using Systems.Levels;
 using UniRx;
 
-namespace Systems.UI
+namespace Systems.UI.Infos
 {
     [GameSystem]
     public class UIInfoSystem : GameSystem<UIInfoComponent>
@@ -28,6 +28,7 @@ namespace Systems.UI
                 {
                     var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
                     
+                    //TODO render stars
                     component.grade.text = "Grade: " + currentGame.CurrentGrade;
                 })
                 .AddTo(component);
