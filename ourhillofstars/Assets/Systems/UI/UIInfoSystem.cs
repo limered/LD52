@@ -17,9 +17,9 @@ namespace Systems.UI
                 .AddTo(component);
         }
 
-        private void LoadGameInfoForUI(UIInfoComponent component, LevelSo level)
+        private void LoadGameInfoForUI(UIInfoComponent component, Level level)
         {
-            component.levelName.text = level.name;
+            component.levelName.text = "Level " + level.LevelNumber;
             component.vehicleImage.sprite = level.levelType == LevelType.Harvester ?
                 component.vehicleSprites[0] : component.vehicleSprites[1];
 
