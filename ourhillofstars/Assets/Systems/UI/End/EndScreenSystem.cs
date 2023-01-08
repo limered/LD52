@@ -37,7 +37,7 @@ namespace Systems.UI.End
             var gradeElementComponent = gradeElement.GetComponent<GradeElementComponent>();
             gradeElementComponent.levelName.text = levelName;
             gradeElementComponent.gradeImage.sprite = grade == Grade.None ?
-                component.gradeSprites[4] : component.gradeSprites[(int)grade];
+                component.gradeSprites[3] : component.gradeSprites[(int)grade];
         }
     }
 }

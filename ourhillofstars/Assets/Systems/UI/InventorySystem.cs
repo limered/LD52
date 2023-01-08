@@ -15,41 +15,38 @@ namespace Systems.UI
     {
         public override void Register(InventoryComponent component)
         {
+            component.nextLvl.gameObject.SetActive(false);
             component.gameObject.SetActive(false);
-            
-            MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
-                .Subscribe(_ =>
-                {
-                    component.gameObject.SetActive(false);
-                })
-                .AddTo(component);
-            
+
             MessageBroker.Default.Receive<LoadLevelMsg>()
-                .Subscribe(_ =>
-                {
-                    component.gameObject.SetActive(true);
-                })
+                .Subscribe(_ => { component.gameObject.SetActive(true); })
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => InitArrows(component))
                 .AddTo(component);
 
-            IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning
+            MessageBroker.Default.Receive<LevelCompleteMsg>()
+                .Subscribe(_ => component.nextLvl.gameObject.SetActive(true))
+                .AddTo(component);
+
+            MessageBroker.Default.Receive<FinishLastLevelMsg>()
+                .Subscribe(_ => { component.gameObject.SetActive(false); })
+                .AddTo(component);
+
+            var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
+            currentGame.harvesterRunning
                 .Subscribe(b => SetButtonImage(b, component))
                 .AddTo(component);
             
-            MessageBroker.Default.Receive<FinishLastLevelMsg>()
-                .Subscribe(_ =>
-                {
-                    component.gameObject.SetActive(false);
-                })
+            currentGame.IsPaused
+                .Subscribe(b => component.gameObject.SetActive(!b))
                 .AddTo(component);
         }
 
         private void SetButtonImage(bool b, InventoryComponent component)
         {
-            var nextImage = component.resetButtonSprite; 
+            var nextImage = component.resetButtonSprite;
             if (!b)
             {
                 nextImage = component.startButtonSprite;
@@ -74,7 +71,7 @@ namespace Systems.UI
             arrowElementComponent.foregroundCellType = foregroundCellType;
             arrowElementComponent.amount.text = amount + " x";
             arrowElementComponent.arrow.sprite =
-                component.arrowSprites[(int)foregroundCellType-1];
+                component.arrowSprites[(int)foregroundCellType - 1];
         }
     }
 }

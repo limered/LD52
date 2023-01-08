@@ -5,6 +5,7 @@ using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.Levels;
+using Systems.Levels.Events;
 using Systems.Theme;
 using UniRx;
 using UnityEngine;
@@ -37,8 +38,8 @@ namespace Systems.Drescher
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
-
-            MessageBroker.Default.Receive<LevelCompleteMsg>()
+            
+            MessageBroker.Default.Receive<AskToGoToNextLevelMsg>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
 
@@ -57,15 +58,14 @@ namespace Systems.Drescher
             dresherObject.targetCellCoord = target;
 
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            var theme = IoC.Game.GetComponent<ThemeComponent>()
-                .harvesterThemes[currentLevelComponent.Level.playerThemeFile];
+            var themeComponent = IoC.Game.GetComponent<ThemeComponent>();
+            var theme = themeComponent.harvesterThemes[currentLevelComponent.Level.playerThemeFile];
             var sprites = new List<Texture2D>(4);
             for (var i = 0; i < 4; i++)
             {
                 var texture = new Texture2D(32, 32, TextureFormat.RGBA32, false)
                 {
                     filterMode = FilterMode.Point,
-                    alphaIsTransparency = true
                 };
                 var pixels = theme.GetPixels(i * 32, 0, 32, 32);
                 texture.SetPixels(pixels);
@@ -81,6 +81,11 @@ namespace Systems.Drescher
                 sprites[2]
             };
             dresherObject.directionImages = textureArray;
+            
+            //set particle theme 
+            var particleSystemRenderer = dresherObject.GetComponentInChildren<ParticleSystemRenderer>();
+            var particleThemeSprite = IoC.Game.GetComponent<ThemeComponent>().harvestParticleThemes[currentLevelComponent.Level.themeFile];
+            particleSystemRenderer.material.mainTexture = particleThemeSprite.texture;
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)

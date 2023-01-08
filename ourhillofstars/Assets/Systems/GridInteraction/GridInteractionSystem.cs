@@ -37,7 +37,7 @@ namespace Systems.GridInteraction
         {
             var currLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             if (currLevel.harvesterRunning.Value) return;
-            if (currLevel.IsPaused) return;
+            if (currLevel.IsPaused.Value) return;
 
             var fGrid = grid.foregroundGrid;
             var fGridComponent = grid.GetComponentInChildren<ForegroundParentComponent>();

@@ -14,8 +14,8 @@ namespace Systems.UI
             MessageBroker.Default.Receive<ShowPauseMenuMsg>()
                 .Subscribe(_ => HandlePause(component, currentLevelComponent))
                 .AddTo(component);
-            currentLevelComponent.IsPaused = false;
-            component.gameObject.SetActive(currentLevelComponent.IsPaused);
+            currentLevelComponent.IsPaused.Value = false;
+            component.gameObject.SetActive(currentLevelComponent.IsPaused.Value);
         }
 
         private static void HandlePause(PauseMenuComponent component, CurrentLevelComponent levelComponent)
@@ -24,17 +24,17 @@ namespace Systems.UI
             {
                 case GameState.GameState.Paused:
                     component.gameObject.SetActive(false);
-                    levelComponent.IsPaused =false;
+                    levelComponent.IsPaused.Value = false;
                     levelComponent.GameState = GameState.GameState.Playing;
                     break;
                 case  GameState.GameState.Playing:
                     component.gameObject.SetActive(true);
-                    levelComponent.IsPaused =true;
+                    levelComponent.IsPaused.Value = true;
                     levelComponent.GameState = GameState.GameState.Paused;
                     break;
                 case  GameState.GameState.LevelSelect:
                     component.gameObject.SetActive(!component.gameObject.activeSelf);
-                    levelComponent.IsPaused =true;
+                    levelComponent.IsPaused.Value = true;
                     levelComponent.GameState = GameState.GameState.LevelSelect;
                     break;
             }
