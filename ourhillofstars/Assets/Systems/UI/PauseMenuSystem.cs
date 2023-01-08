@@ -1,7 +1,6 @@
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
-using Systems.Levels;
 using UniRx;
 
 namespace Systems.UI
@@ -21,8 +20,24 @@ namespace Systems.UI
 
         private static void HandlePause(PauseMenuComponent component, CurrentLevelComponent levelComponent)
         {
-            component.gameObject.SetActive(!levelComponent.IsPaused);
-            levelComponent.IsPaused = !levelComponent.IsPaused;
+            switch (levelComponent.GameState)
+            {
+                case GameState.GameState.Paused:
+                    component.gameObject.SetActive(false);
+                    levelComponent.IsPaused =false;
+                    levelComponent.GameState = GameState.GameState.Playing;
+                    break;
+                case  GameState.GameState.Playing:
+                    component.gameObject.SetActive(true);
+                    levelComponent.IsPaused =true;
+                    levelComponent.GameState = GameState.GameState.Paused;
+                    break;
+                case  GameState.GameState.LevelSelect:
+                    component.gameObject.SetActive(!component.gameObject.activeSelf);
+                    levelComponent.IsPaused =true;
+                    levelComponent.GameState = GameState.GameState.LevelSelect;
+                    break;
+            }
         }
     }
 }

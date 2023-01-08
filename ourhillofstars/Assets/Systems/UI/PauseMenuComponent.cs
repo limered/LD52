@@ -22,8 +22,10 @@ namespace Systems.UI
 
         public void ExitPause()
         {
-            IoC.Game.GetComponent<CurrentLevelComponent>().IsPaused = false;
+            var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             gameObject.SetActive(false);
+            if (currentLevel.GameState == GameState.GameState.LevelSelect) return;
+            currentLevel.IsPaused = false;
         }
 
         public void ExitGame()

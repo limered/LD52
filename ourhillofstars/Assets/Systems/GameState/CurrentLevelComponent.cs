@@ -1,14 +1,20 @@
 ﻿using SystemBase.Core;
 using Systems.Levels;
 using UniRx;
-using UnityEngine.Serialization;
 
 namespace Systems.GameState
 {
+    public enum GameState
+    {
+        Playing,
+        Paused,
+        LevelSelect,
+    }
     public class CurrentLevelComponent : GameComponent
     {
         public LevelSo Level { get; set; }
         public bool IsPaused { get; set; }
+        public GameState GameState { get; set; }
         public ReactiveProperty<int> arrowsUsed = new();
 
         public BoolReactiveProperty harvesterRunning = new();
