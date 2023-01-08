@@ -20,7 +20,7 @@ namespace Systems.UI.Infos
 
         private void LoadGameInfoForUI(UIInfoComponent component, Level level)
         {
-            component.levelName.text = "Level " + level.LevelNumber;
+            component.levelName.text = "Level " + (level.LevelIndex + 1);
             component.vehicleImage.sprite = component.vehicleSprites[level.playerThemeFile];
             Debug.Log("load theme file " + level.themeFile);
             component.harvestItemImage.sprite = component.harvestSprites[level.themeFile];

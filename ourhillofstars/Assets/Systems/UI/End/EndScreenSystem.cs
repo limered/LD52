@@ -26,13 +26,13 @@ namespace Systems.UI.End
             var levels = IoC.Resolve<LevelSystem.IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
             foreach (var level in levels)
             {
-                CreateGradeElementComponent(component, level.level.LevelNumber, level.grade);
+                CreateGradeElementComponent(component, level.level.LevelIndex, level.grade);
             }
         }
 
-        private void CreateGradeElementComponent(EndScreenComponent component, int levelNumber, Grade grade)
+        private void CreateGradeElementComponent(EndScreenComponent component, int levelIndex, Grade grade)
         {
-            var levelName = "Level " + levelNumber;
+            var levelName = "Level " + (levelIndex + 1);
             var gradeElement = Object.Instantiate(component.gradeElementPrefab, component.results.transform);
             gradeElement.name = levelName;
             var gradeElementComponent = gradeElement.GetComponent<GradeElementComponent>();

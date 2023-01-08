@@ -36,8 +36,7 @@ namespace Systems.Levels
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
         }
-        
-        
+
 
         private void ReloadLevelOverview((Level level, Grade grade)[] levels, LevelOverviewComponent component)
         {
@@ -65,7 +64,7 @@ namespace Systems.Levels
                     Vector3.zero, Quaternion.Euler(0, 0, 0),
                     parentTransform);
 
-                cell.GetComponentInChildren<TextMeshProUGUI>().text = $"#{levels[i].level.LevelNumber}";
+                cell.GetComponentInChildren<TextMeshProUGUI>().text = $"#{levels[i].level.LevelIndex + 1}";
 #if !DEBUG
                 if (i <= furthestLevel)
 #else
@@ -140,29 +139,6 @@ namespace Systems.Levels
             });
         }
 
-        private List<Level> GetLevels()
-        {
-            Debug.Log("get levels");
-            var allLevelJsons = Resources.LoadAll<TextAsset>("");
-            var allLevels = allLevelJsons
-                .Where(x => x.name.StartsWith("level_"))
-                .Select(x =>
-                {
-                    var level = JsonConvert.DeserializeObject<Level>(x.text);
-                    level.levelFile ??= x.name;
-                    return level;
-                })
-                .OrderBy(so => so.LevelNumber)
-                .ToList();
-
-            Debug.Log($"level count {allLevels.Count}");
-            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelComparer()).Count(),
-                "you have duplicate levels!");
-            
-            
-            return allLevels;
-        }
-
         public class LevelComparer : IEqualityComparer<Level>
         {
             public bool Equals(Level x, Level y)
@@ -171,12 +147,12 @@ namespace Systems.Levels
                 if (ReferenceEquals(x, null)) return false;
                 if (ReferenceEquals(y, null)) return false;
                 if (x.GetType() != y.GetType()) return false;
-                return x.LevelNumber == y.LevelNumber;
+                return x.LevelIndex == y.LevelIndex;
             }
 
             public int GetHashCode(Level obj)
             {
-                return obj.LevelNumber;
+                return obj.LevelIndex;
             }
         }
 
@@ -193,25 +169,27 @@ namespace Systems.Levels
                 var allLevelJsons = Resources.LoadAll<TextAsset>("");
                 var allLevels = allLevelJsons
                     .Where(x => x.name.StartsWith("level_"))
-                    .Select(x =>
+                    .Select((x, index) =>
                     {
                         var level = JsonConvert.DeserializeObject<Level>(x.text);
                         level.levelFile ??= x.name;
+                        level.LevelIndex = index;
                         return level;
                     })
-                    .OrderBy(so => so.LevelNumber)
+                    .OrderBy(so => so.LevelIndex)
                     .ToList();
 
                 Debug.Log($"level count {allLevels.Count}");
                 Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelComparer()).Count(),
                     "you have duplicate levels!");
-                
+
                 return allLevels
-                    .Select(level => (level, (Grade)PlayerPrefs.GetInt(LevelGradeKey(level.LevelNumber), (int)Grade.None)))
+                    .Select(level =>
+                        (level, (Grade)PlayerPrefs.GetInt(LevelGradeKey(level.LevelIndex), (int)Grade.None)))
                     .ToArray();
             }
         }
-        
+
         public class LevelAdapterRegistrations : IIocRegistration
         {
             public void Register()

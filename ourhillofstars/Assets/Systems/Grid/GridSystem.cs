@@ -66,7 +66,7 @@ namespace Systems.Grid
             Observable.FromCoroutine(() => ResetGridCellsFromTexture(component))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new GoToNextLevelMsg()
                 {
-                    CompletedLevel = currentGame.Level.LevelNumber,
+                    CompletedLevel = currentGame.Level.LevelIndex,
                     Grade = currentGame.CurrentGrade
                 }))
                 .Subscribe()
