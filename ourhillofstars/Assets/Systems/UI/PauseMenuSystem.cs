@@ -2,6 +2,7 @@ using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
 using UniRx;
+using UnityEngine;
 
 namespace Systems.UI
 {
@@ -10,16 +11,16 @@ namespace Systems.UI
     {
         public override void Register(PauseMenuComponent component)
         {
-            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            component.gameObject.SetActive(false);
+            
             MessageBroker.Default.Receive<ShowPauseMenuMsg>()
-                .Subscribe(_ => HandlePause(component, currentLevelComponent))
+                .Subscribe(_ => HandlePause(component))
                 .AddTo(component);
-            currentLevelComponent.IsPaused.Value = false;
-            component.gameObject.SetActive(currentLevelComponent.IsPaused.Value);
         }
 
-        private static void HandlePause(PauseMenuComponent component, CurrentLevelComponent levelComponent)
+        private static void HandlePause(PauseMenuComponent component)
         {
+            var levelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             switch (levelComponent.GameState)
             {
                 case GameState.GameState.Paused:
