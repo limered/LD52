@@ -1,13 +1,17 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Drescher;
 using Systems.GameState;
 using Systems.GridRendering;
 using Systems.Levels;
+using Systems.Theme;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
+using UnityEngine.U2D;
 
 namespace Systems.Grid
 {
@@ -74,6 +78,31 @@ namespace Systems.Grid
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.Level = level;
             currentLevelComponent.arrowsUsed.Value = 0;
+
+            var theme = IoC.Game.GetComponent<ThemeComponent>().levelThemes[currentLevelComponent.Level.themeFile];
+            var sprites = new List<Texture2D>(11);
+            for (var y = 0; y < 2; y++)
+            {
+                for (var x = 0; x < 5; x++)
+                {
+                    var spriteY = y == 0 ? 1 : 0;
+                    var texture = new Texture2D(32, 32, TextureFormat.RGB24, false)
+                    {
+                        filterMode = FilterMode.Point
+                    };
+                    var pixels = theme.GetPixels(x * 32, spriteY * 32, 32, 32);
+                    texture.SetPixels(pixels);
+                    texture.Apply();
+                    sprites.Add(texture);
+                }
+            }
+
+            sprites.Insert(0, new Texture2D(32, 32, TextureFormat.RGB24, false));
+            var textureArray = sprites.ToArray();
+            for (var i = 0; i < component.backgroundCells.Length; i++)
+            {
+                component.backgroundCells[i].GetComponent<BackgroundCellComponent>().images = textureArray;
+            }
             
             Observable.FromCoroutine(() => SetGridCellsFromTexture(component, level.LoadImage().texture))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new SpawnPlayerMessage

@@ -24,8 +24,8 @@ namespace Systems.Levels
         public int bGradeCount;
         public int cGradeCount;
 
-        public string themeFile;
-        public string playerThemeFile;
+        public int themeFile;
+        public int playerThemeFile;
         
         public Sprite LoadImage()
         {
