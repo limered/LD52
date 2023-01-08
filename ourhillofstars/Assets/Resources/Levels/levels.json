@@ -11,7 +11,7 @@
   {
     "name": "#2",
     "file": "level_2",
-    "startDirection": 0,
+    "startDirection": 3,
     "topArrows": 11,
     "leftArrows": 9,
     "rightArrows": 12,
@@ -20,7 +20,7 @@
   {
     "name": "#3",
     "file": "level_3",
-    "startDirection": 0,
+    "startDirection": 3,
     "topArrows": 11,
     "leftArrows": 9,
     "rightArrows": 12,
@@ -29,7 +29,7 @@
   {
     "name": "#4",
     "file": "level_4",
-    "startDirection": 0,
+    "startDirection": 2,
     "topArrows": 11,
     "leftArrows": 9,
     "rightArrows": 12,

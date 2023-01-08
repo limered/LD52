@@ -5,11 +5,11 @@ namespace Systems.Levels
 {
     public class LevelCellComponent : GameComponent
     {
-        public int level = 0;
+        public int? level = null;
 
         public void LoadLevel()
         {
-            MessageBroker.Default.Publish(new LoadLevelMsg{LevelIndex = level});
+            if(level.HasValue) MessageBroker.Default.Publish(new LoadLevelMsg{LevelIndex = level.Value});
         }
     }
 }
