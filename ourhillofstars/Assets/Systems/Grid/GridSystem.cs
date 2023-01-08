@@ -46,7 +46,7 @@ namespace Systems.Grid
                 component.backgroundCells[i].GetComponent<BackgroundCellComponent>().type.Value =
                     BackgroundCellType.Empty;
                 
-                component.backgroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
+                component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
                     ForegroundCellType.Empty;
             }
         }
