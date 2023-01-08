@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 276136051631892350}
   - component: {fileID: 276136051631892348}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: ButtonPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -719,7 +719,7 @@ GameObject:
   - component: {fileID: 276136053131147997}
   - component: {fileID: 276136053131147998}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: ArrowPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
