@@ -1,4 +1,4 @@
-﻿using SystemBase.Core;
+using SystemBase.Core;
 using UniRx;
 using UnityEngine;
 
@@ -14,6 +14,7 @@ namespace Systems.Drescher
             MessageBroker.Default.Receive<HarvestedMsg>()
                 .Subscribe(msg =>
                 {
+                    particleSystem.transform.position = new Vector3(msg.coord.x, particleSystem.transform.position.y, msg.coord.y);
                     particleSystem.Emit(40);
                 })
                 .AddTo(component);
