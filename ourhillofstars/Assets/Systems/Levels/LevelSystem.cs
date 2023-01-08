@@ -35,8 +35,7 @@ namespace Systems.Levels
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
 
-            // Example Load of Images
-            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToArray();
+           var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToArray();
             Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
                 "you have duplicate levels!");
         }
