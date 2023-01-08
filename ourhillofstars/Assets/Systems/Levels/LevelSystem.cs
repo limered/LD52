@@ -169,11 +169,10 @@ namespace Systems.Levels
                 var allLevelJsons = Resources.LoadAll<TextAsset>("");
                 var allLevels = allLevelJsons
                     .Where(x => x.name.StartsWith("level_"))
-                    .Select((x, index) =>
+                    .Select((x) =>
                     {
                         var level = JsonConvert.DeserializeObject<Level>(x.text);
                         level.levelFile ??= x.name;
-                        level.LevelIndex = index;
                         return level;
                     })
                     .OrderBy(so => so.LevelIndex)

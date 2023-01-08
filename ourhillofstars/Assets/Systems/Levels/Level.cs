@@ -16,7 +16,7 @@ namespace Systems.Levels
     {
         public string levelFile;
         public LevelType levelType;
-        public int LevelIndex { get; set; }
+        public int LevelIndex => int.Parse(levelFile.Split('_').Last()) - 1;
         public Sprite levelSprite;
 
         public DrescherDirection startDirection;
