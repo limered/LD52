@@ -15,8 +15,8 @@ MonoBehaviour:
   levelType: 0
   levelFile: {fileID: 0}
   startDirection: 0
-  aGradeCount: 2
-  bGradeCount: 3
-  cGradeCount: 4
+  aGradeCount: 3
+  bGradeCount: 4
+  cGradeCount: 5
   theme: {fileID: 2800000, guid: a4bdffad30b9cb44a90f0104dcffd4b8, type: 3}
   playerTheme: {fileID: 2800000, guid: bbb104aebde0f654ba166076a93a5856, type: 3}
