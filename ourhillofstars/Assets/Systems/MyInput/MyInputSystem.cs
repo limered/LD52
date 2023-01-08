@@ -11,7 +11,6 @@ namespace Systems.MyInput
     {
         public override void Register(MyInputComponent component)
         {
-            Debug.Log("register my input");
             SystemUpdate(component)
                 .Subscribe(_ => CheckButtonPressed() )
                 .AddTo(component);
@@ -21,7 +20,6 @@ namespace Systems.MyInput
         {
             if (Input.GetKeyDown(("p")))
             {
-                Debug.Log("Pressed p");
                 MessageBroker.Default.Publish(new ShowPauseMenuMsg());
             }
         }
