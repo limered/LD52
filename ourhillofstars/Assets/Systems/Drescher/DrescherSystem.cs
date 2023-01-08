@@ -53,12 +53,13 @@ namespace Systems.Drescher
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
         {
-            if (g.backgroundGrid.FindStartCoord() == null) return;
+            var startCoord = g.backgroundGrid.FindStartCoord();
+            if (startCoord == null) return;
             
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             if (!currentLevel.harvesterRunning.Value)
             {
-                drescherComponent.Reset((Vector2Int)g.backgroundGrid.FindStartCoord(), currentLevel.Level.StartDirection);
+                drescherComponent.Reset((Vector2Int)startCoord, currentLevel.Level.StartDirection);
                 g.backgroundGrid.ResetHarvested();
             }
 
