@@ -10,8 +10,9 @@ namespace Systems.UI.Infos
         public Image vehicleImage;
         public Image harvestItemImage;
         public TextMeshProUGUI levelName;
-        public TextMeshProUGUI grade;
+        public Image grade;
         public Sprite[] vehicleSprites;
         public Sprite[] harvestSprites;
+        public Sprite[] gradeSprites;
     }
 }

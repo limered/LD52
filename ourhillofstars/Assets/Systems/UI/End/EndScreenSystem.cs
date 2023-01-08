@@ -1,4 +1,3 @@
-
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Levels;
@@ -37,7 +36,8 @@ namespace Systems.UI.End
             gradeElement.name = levelName;
             var gradeElementComponent = gradeElement.GetComponent<GradeElementComponent>();
             gradeElementComponent.levelName.text = levelName;
-            gradeElementComponent.gradeImage.sprite = component.gradeSprites[(int)grade];
+            gradeElementComponent.gradeImage.sprite = grade == Grade.None ?
+                component.gradeSprites[4] : component.gradeSprites[(int)grade];
         }
     }
 }

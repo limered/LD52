@@ -24,16 +24,22 @@ namespace Systems.UI.Infos
             component.vehicleImage.sprite = component.vehicleSprites[level.playerThemeFile];
             Debug.Log("load theme file " + level.themeFile);
             component.harvestItemImage.sprite = component.harvestSprites[level.themeFile];
+            SetGradeSprite(component, Grade.None);
 
             IoC.Game.GetComponent<CurrentLevelComponent>().arrowsUsed
                 .Subscribe(_ =>
                 {
                     var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
-                    
-                    //TODO render stars
-                    component.grade.text = "Grade: " + currentGame.CurrentGrade;
+                    Debug.Log(currentGame + " " + (int)currentGame.CurrentGrade);
+                    SetGradeSprite(component, currentGame.CurrentGrade);
                 })
                 .AddTo(component);
+        }
+
+        private void SetGradeSprite(UIInfoComponent component, Grade grade)
+        {
+            component.grade.sprite = grade == Grade.None ?
+                component.gradeSprites[4] : component.gradeSprites[(int)grade];
         }
     }
 }
