@@ -5,6 +5,7 @@ using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.Levels;
+using Systems.Levels.Events;
 using Systems.Theme;
 using UniRx;
 using UnityEngine;
@@ -37,8 +38,8 @@ namespace Systems.Drescher
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
-
-            MessageBroker.Default.Receive<LevelCompleteMsg>()
+            
+            MessageBroker.Default.Receive<AskToGoToNextLevelMsg>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
 

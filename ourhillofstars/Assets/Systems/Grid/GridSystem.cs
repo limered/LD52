@@ -7,6 +7,7 @@ using Systems.Drescher;
 using Systems.GameState;
 using Systems.GridRendering;
 using Systems.Levels;
+using Systems.Levels.Events;
 using Systems.Theme;
 using UniRx;
 using UnityEngine;
@@ -28,8 +29,8 @@ namespace Systems.Grid
             MessageBroker.Default.Receive<GridLoadMsg>()
                 .Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
-
-            MessageBroker.Default.Receive<LevelCompleteMsg>()
+            
+            MessageBroker.Default.Receive<AskToGoToNextLevelMsg>()
                 .Subscribe(_ => { ClearGrids(component, true); })
                 .AddTo(component);
 

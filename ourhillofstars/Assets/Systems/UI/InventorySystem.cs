@@ -15,8 +15,9 @@ namespace Systems.UI
     {
         public override void Register(InventoryComponent component)
         {
+            component.nextLvl.gameObject.SetActive(false);
             component.gameObject.SetActive(false);
-            
+
             MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
                 .Subscribe(_ =>
                 {
@@ -37,6 +38,10 @@ namespace Systems.UI
 
             IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning
                 .Subscribe(b => SetButtonImage(b, component))
+                .AddTo(component);
+            
+            MessageBroker.Default.Receive<LevelCompleteMsg>()
+                .Subscribe(_ => component.nextLvl.gameObject.SetActive(true))
                 .AddTo(component);
             
             MessageBroker.Default.Receive<FinishLastLevelMsg>()
