@@ -15,6 +15,7 @@ namespace Systems.Drescher
     [GameSystem]
     public class DrescherSystem : GameSystem<DrescherComponent, MainGridComponent>
     {
+        private static CurrentLevelComponent _currentLevelComponent;
         private readonly ReactiveProperty<MainGridComponent> _grid = new();
 
         public override void Register(DrescherComponent component)
@@ -40,6 +41,8 @@ namespace Systems.Drescher
             MessageBroker.Default.Receive<LevelCompleteMsg>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
+
+            _currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
         }
 
         private void SpawnDrescher(MainGridComponent grid)
@@ -50,9 +53,9 @@ namespace Systems.Drescher
             var drescherPrefab = IoC.Game.PrefabByName("Drescher");
             var drescher = Object.Instantiate(drescherPrefab, position, drescherPrefab.transform.rotation);
             var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
-            var dresherObject = drescher.GetComponent<DrescherComponent>(); 
+            var dresherObject = drescher.GetComponent<DrescherComponent>();
             dresherObject.targetCellCoord = target;
-            
+
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             var theme = IoC.Game.GetComponent<ThemeComponent>()
                 .harvesterThemes[currentLevelComponent.Level.playerThemeFile];
@@ -62,14 +65,14 @@ namespace Systems.Drescher
                 var texture = new Texture2D(32, 32, TextureFormat.RGBA32, false)
                 {
                     filterMode = FilterMode.Point,
-                    alphaIsTransparency = true,
+                    alphaIsTransparency = true
                 };
                 var pixels = theme.GetPixels(i * 32, 0, 32, 32);
                 texture.SetPixels(pixels);
                 texture.Apply();
                 sprites.Add(texture);
             }
-            
+
             var textureArray = new[]
             {
                 sprites[1],
@@ -85,10 +88,9 @@ namespace Systems.Drescher
             var startCoord = g.backgroundGrid.FindStartCoord();
             if (startCoord == null) return;
 
-            var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
-            if (!currentLevel.harvesterRunning.Value)
+            if (!_currentLevelComponent.harvesterRunning.Value)
             {
-                drescherComponent.Reset((Vector2Int)startCoord, currentLevel.Level.startDirection);
+                drescherComponent.Reset((Vector2Int)startCoord, _currentLevelComponent.Level.startDirection);
                 g.backgroundGrid.ResetHarvested();
             }
 
@@ -108,23 +110,41 @@ namespace Systems.Drescher
 
         private static void Harvest(MainGridComponent g, Vector2 position)
         {
-            var cellCoord = new Vector2Int((int)(position.x + 0.5f), (int)(position.y + 0.5f));
-            var currentCelType = g.backgroundGrid.Cell(cellCoord.x, cellCoord.y);
-            if (currentCelType != BackgroundCellType.Harvestable) return;
+            if (_currentLevelComponent.Level.levelType == LevelType.Harvester)
+            {
+                var cellCoord = new Vector2Int((int)(position.x + 0.5f), (int)(position.y + 0.5f));
+                var currentCelType = g.backgroundGrid.Cell(cellCoord.x, cellCoord.y);
+                if (currentCelType != BackgroundCellType.Harvestable) return;
 
-            g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
-            MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
+                g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
+                MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
+            }
+            else if (_currentLevelComponent.Level.levelType == LevelType.ApplePicker)
+            {
+                var cellCoords = new Vector2Int[]
+                {
+                    new((int)(position.x + 0.5f), (int)(position.y + 1.5f)),
+                    new((int)(position.x + 0.5f), (int)(position.y - 0.5f)),
+                    new((int)(position.x + 1.5f), (int)(position.y + 0.5f)),
+                    new((int)(position.x - 0.5f), (int)(position.y + 0.5f))
+                };
+                for (var i = 0; i < cellCoords.Length; i++)
+                {
+                    var currentCelType = g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y);
+
+                    if (currentCelType != BackgroundCellType.Harvestable) continue;
+                    g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y, BackgroundCellType.Harvested);
+                    MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoords[i] });
+                }
+            }
 
             if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Harvestable) <= 0)
-            {
-                var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
                 MessageBroker.Default.Publish(
                     new LevelCompleteMsg
                     {
-                        CompletedLevel = currentLevel.Level.LevelIndex,
-                        Grade = currentLevel.CurrentGrade,
+                        CompletedLevel = _currentLevelComponent.Level.LevelNumber,
+                        Grade = _currentLevelComponent.CurrentGrade
                     });
-            }
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)
@@ -152,10 +172,18 @@ namespace Systems.Drescher
                 nextCellCoord.y >= maxY) return;
 
             var nextCellType = g.backgroundGrid.Cell(nextCellCoord.x, nextCellCoord.y);
-            if (nextCellType != BackgroundCellType.Harvested &&
-                nextCellType != BackgroundCellType.Harvestable &&
-                nextCellType != BackgroundCellType.Start &&
-                nextCellType != BackgroundCellType.Path) return;
+            if (_currentLevelComponent.Level.levelType == LevelType.Harvester)
+            {
+                if (nextCellType != BackgroundCellType.Harvested &&
+                    nextCellType != BackgroundCellType.Harvestable &&
+                    nextCellType != BackgroundCellType.Start &&
+                    nextCellType != BackgroundCellType.Path) return;
+            }
+            else if (_currentLevelComponent.Level.levelType == LevelType.ApplePicker)
+            {
+                if (nextCellType != BackgroundCellType.Start &&
+                    nextCellType != BackgroundCellType.Path) return;
+            }
 
             drescherComponent.targetCellCoord = nextCellCoord;
         }
