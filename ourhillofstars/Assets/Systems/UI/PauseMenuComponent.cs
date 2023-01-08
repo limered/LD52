@@ -25,7 +25,7 @@ namespace Systems.UI
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             gameObject.SetActive(false);
             if (currentLevel.GameState == GameState.GameState.LevelSelect) return;
-            currentLevel.IsPaused = false;
+            currentLevel.IsPaused.Value = false;
         }
 
         public void ExitGame()

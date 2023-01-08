@@ -30,7 +30,7 @@ namespace Systems.Levels
         public override void Register(LevelOverviewComponent component)
         {
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
-            currentLevel.IsPaused = true;
+            currentLevel.IsPaused.Value = true;
             currentLevel.GameState = GameState.GameState.LevelSelect;
             var levels = IoC.Resolve<IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
             ReloadLevelOverview(levels, component);
@@ -89,7 +89,7 @@ namespace Systems.Levels
                 {
                     var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
                     component.transform.parent.gameObject.SetActive(false);
-                    currentLevel.IsPaused = false;
+                    currentLevel.IsPaused.Value = false;
                     currentLevel.GameState = GameState.GameState.Playing;
                     MessageBroker.Default.Publish(new GridLoadMsg
                     {
@@ -102,7 +102,7 @@ namespace Systems.Levels
                 .Subscribe(_ =>
                 {
                     var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
-                    currentLevel.IsPaused = true;
+                    currentLevel.IsPaused.Value = true;
                     currentLevel.GameState = GameState.GameState.LevelSelect;
                     component.gameObject.transform.parent.gameObject.SetActive(true);
                     ReloadLevelOverview(levels, component);

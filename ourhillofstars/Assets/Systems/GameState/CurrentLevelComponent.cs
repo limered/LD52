@@ -13,7 +13,7 @@ namespace Systems.GameState
     public class CurrentLevelComponent : GameComponent
     {
         public Level Level { get; set; }
-        public bool IsPaused { get; set; }
+        public ReactiveProperty<bool> IsPaused = new();
         public GameState GameState { get; set; }
         public ReactiveProperty<int> arrowsUsed = new();
 
