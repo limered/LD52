@@ -1,7 +1,7 @@
 ﻿{
   "levelType": 0,
-  "startDirection": 0,
-  "aGradeCount": 46,
+  "startDirection": 2,
+  "aGradeCount": 45,
   "bGradeCount": 48,
   "cGradeCount": 50,
   "themeFile": 0,
