@@ -46,8 +46,8 @@ namespace Systems.Levels
 
             var cellSize = new Vector2(biggerSize, biggerSize);
             layoutGroup.cellSize = cellSize;
-
-            parentTransform.DetachChildren();
+            
+            parentTransform.RemoveAllChildren();
 
             var furthestLevel = PlayerPrefs.GetInt(LevelProgressSettingsKey, 0);
 
@@ -97,13 +97,13 @@ namespace Systems.Levels
             {
                 // did complete a new level?
                 var furthestLevel = PlayerPrefs.GetInt(LevelProgressSettingsKey, 0);
-                if (furthestLevel < msg.FurthestLevel)
+                var nextLevel = msg.FurthestLevel + 1;
+                if (furthestLevel < nextLevel)
                 {
-                    PlayerPrefs.SetInt(LevelProgressSettingsKey, msg.FurthestLevel);
+                    PlayerPrefs.SetInt(LevelProgressSettingsKey, nextLevel);
                 }
 
                 // start next level
-                var nextLevel = msg.FurthestLevel + 1;
                 if (nextLevel < levels.Count)
                 {
                     MessageBroker.Default.Publish(new LoadLevelMsg { LevelIndex = nextLevel });

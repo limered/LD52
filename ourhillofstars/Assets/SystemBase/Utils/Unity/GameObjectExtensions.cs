@@ -12,9 +12,14 @@ namespace SystemBase.Utils
 
         public static void RemoveAllChildren(this GameObject go)
         {
-            for (var i = go.transform.childCount-1; i >= 0; i--)
+            go.transform.RemoveAllChildren();
+        }
+        
+        public static void RemoveAllChildren(this Transform transform)
+        {
+            for (var i = transform.childCount-1; i >= 0; i--)
             {
-                Object.Destroy(go.transform.GetChild(i).gameObject);
+                Object.Destroy(transform.GetChild(i).gameObject);
             }
         }
     }
