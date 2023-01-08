@@ -67,7 +67,7 @@ namespace Systems.Drescher
             CheckNextCellAndSwitchTarget(drescherComponent, g);
             Harvest(g, position);
 
-            // check for win || lose
+            
         }
 
         private static void Harvest(MainGridComponent g, Vector2 position)
@@ -78,6 +78,15 @@ namespace Systems.Drescher
 
             g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
             MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
+
+            if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Wheat) <= 0)
+            {
+                MessageBroker.Default.Publish(
+                    new LevelProgressUpdate
+                    {
+                        FurthestLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level.Index
+                    });
+            }
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)

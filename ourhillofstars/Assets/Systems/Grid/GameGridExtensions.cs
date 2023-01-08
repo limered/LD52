@@ -28,5 +28,14 @@ namespace Systems.Grid
                     count++;
             return count;
         }
+        
+        public static int CountElementsOfType(this GameGrid<BackgroundCellType> grid, BackgroundCellType type)
+        {
+            var count = 0;
+            for (var i = 0; i < grid.Length; i++)
+                if (grid.Cell(i) == type)
+                    count++;
+            return count;
+        }
     }
 }
