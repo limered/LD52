@@ -4,6 +4,7 @@ using System.IO;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Drescher;
+using Systems.GameState;
 using Systems.GridRendering;
 using Systems.Levels;
 using UniRx;
@@ -21,7 +22,8 @@ namespace Systems.Grid
 
             component.gridsInitialized.SetValueAndForceNotify(component);
 
-            MessageBroker.Default.Receive<GridLoadMsg>().Subscribe(msg => LoadGrid(component, msg.Level))
+            MessageBroker.Default.Receive<GridLoadMsg>()
+                .Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
         }
 

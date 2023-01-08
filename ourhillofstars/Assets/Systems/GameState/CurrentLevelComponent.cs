@@ -1,7 +1,8 @@
 ﻿using SystemBase.Core;
+using Systems.Levels;
 using UniRx;
 
-namespace Systems.Levels
+namespace Systems.GameState
 {
     public class CurrentLevelComponent : GameComponent
     {
