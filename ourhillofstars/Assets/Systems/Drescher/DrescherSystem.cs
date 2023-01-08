@@ -88,28 +88,14 @@ namespace Systems.Drescher
 
             if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Harvestable) <= 0)
             {
-                var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level;
+                var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
                 MessageBroker.Default.Publish(
                     new LevelCompleteMsg
                     {
-                        CompletedLevel = currentLevel.LevelNumber,
-                        Grade = GetCurrentGrade(g),
+                        CompletedLevel = currentLevel.Level.LevelNumber,
+                        Grade = currentLevel.CurrentGrade,
                     });
             }
-        }
-
-        private static Grade GetCurrentGrade(MainGridComponent g)
-        {
-            var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level;
-            var arrows = g.foregroundGrid.CountElementsOfType(ForegroundCellType.Bottom) +
-                         g.foregroundGrid.CountElementsOfType(ForegroundCellType.Top) +
-                         g.foregroundGrid.CountElementsOfType(ForegroundCellType.Left) +
-                         g.foregroundGrid.CountElementsOfType(ForegroundCellType.Right);
-
-            return arrows < currentLevel.aGradeCount ? Grade.S :
-                arrows >= currentLevel.aGradeCount && arrows < currentLevel.bGradeCount ? Grade.A :
-                arrows >= currentLevel.bGradeCount && arrows < currentLevel.cGradeCount ? Grade.B :
-                Grade.C;
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)
