@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dimensions: {x: 13, y: 13}
-  updateAnimationDelay: 0.2
+  updateAnimationDelay: 0.1
   backgroundCells: []
   foregroundCells: []
 --- !u!114 &7573165546108701040

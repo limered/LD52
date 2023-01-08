@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections;
-using System.IO;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Drescher;
@@ -39,24 +38,35 @@ namespace Systems.Grid
         {
             var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentGame.harvesterRunning.Value = false;
-            component.backgroundGrid.Clear();
             component.foregroundGrid.Clear();
+
+            if (!levelDone)
+            {
+                component.backgroundGrid.Clear();
+                for (var i = 0; i < component.backgroundGrid.Length; i++)
+                {
+                    component.backgroundCells[i].GetComponent<BackgroundCellComponent>().type.Value =
+                        BackgroundCellType.Empty;
+                    component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
+                        ForegroundCellType.Empty;
+                }
+                return;
+            }
 
             for (var i = 0; i < component.backgroundGrid.Length; i++)
             {
-                component.backgroundCells[i].GetComponent<BackgroundCellComponent>().type.Value =
-                    BackgroundCellType.Empty;
-                
                 component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
                     ForegroundCellType.Empty;
             }
-
-            //TODO animation
-            MessageBroker.Default.Publish(new GoToNextLevelMsg()
-            {
-                CompletedLevel = currentGame.Level.LevelNumber,
-                Grade = currentGame.CurrentGrade
-            });
+            
+            Observable.FromCoroutine(() => ResetGridCellsFromTexture(component))
+                .DoOnCompleted(() => MessageBroker.Default.Publish(new GoToNextLevelMsg()
+                {
+                    CompletedLevel = currentGame.Level.LevelNumber,
+                    Grade = currentGame.CurrentGrade
+                }))
+                .Subscribe()
+                .AddTo(component);
         }
 
         private void LoadGrid(MainGridComponent component, LevelSo level)
@@ -88,6 +98,17 @@ namespace Systems.Grid
                         Debug.LogError($"unknown color at {x}, {y}");
                         Debug.LogException(e);
                     }
+
+                yield return new WaitForSeconds(component.updateAnimationDelay);
+            }
+        }
+        
+        private static IEnumerator ResetGridCellsFromTexture(MainGridComponent component)
+        {
+            for (var y = component.dimensions.y - 1; y >= 0; y--)
+            {
+                for (var x = 0; x < component.dimensions.x; x++)
+                    component.backgroundGrid.Cell(x, y, BackgroundCellType.Empty);
 
                 yield return new WaitForSeconds(component.updateAnimationDelay);
             }
