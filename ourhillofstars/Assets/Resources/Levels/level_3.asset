@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:Systems.Levels:LevelSo
   levelType: 0
   levelFile: {fileID: 0}
-  startDirection: 0
-  aGradeCount: 0
-  bGradeCount: 0
-  cGradeCount: 0
+  startDirection: 3
+  aGradeCount: 7
+  bGradeCount: 9
+  cGradeCount: 12
+  theme: {fileID: 0}
+  playerTheme: {fileID: 0}
