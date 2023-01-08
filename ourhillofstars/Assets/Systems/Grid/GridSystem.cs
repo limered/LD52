@@ -25,6 +25,23 @@ namespace Systems.Grid
             MessageBroker.Default.Receive<GridLoadMsg>()
                 .Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
+            
+            MessageBroker.Default.Receive<LevelProgressUpdate>()
+                .Subscribe(_ => {
+                    IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value = false;
+                    component.backgroundGrid.Clear();
+                    component.foregroundGrid.Clear();
+                })
+                .AddTo(component);
+            
+            MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
+                .Subscribe(_ =>
+                {
+                    IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value = false;
+                    component.backgroundGrid.Clear();
+                    component.foregroundGrid.Clear();
+                })
+                .AddTo(component);
         }
 
         public void LoadGrid(MainGridComponent component, Level level)

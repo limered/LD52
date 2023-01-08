@@ -34,6 +34,10 @@ namespace Systems.Drescher
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
+            
+            MessageBroker.Default.Receive<LevelProgressUpdate>()
+                .Subscribe(_ => Object.Destroy(component.gameObject))
+                .AddTo(component);
         }
 
         private void SpawnDrescher(MainGridComponent grid)
@@ -49,6 +53,8 @@ namespace Systems.Drescher
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
         {
+            if (g.backgroundGrid.FindStartCoord() == null) return;
+            
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             if (!currentLevel.harvesterRunning.Value)
             {
