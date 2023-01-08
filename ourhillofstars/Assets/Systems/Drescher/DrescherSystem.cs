@@ -66,7 +66,6 @@ namespace Systems.Drescher
                 var texture = new Texture2D(32, 32, TextureFormat.RGBA32, false)
                 {
                     filterMode = FilterMode.Point,
-                    alphaIsTransparency = true
                 };
                 var pixels = theme.GetPixels(i * 32, 0, 32, 32);
                 texture.SetPixels(pixels);
