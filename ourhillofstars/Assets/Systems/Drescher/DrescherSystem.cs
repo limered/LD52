@@ -35,7 +35,7 @@ namespace Systems.Drescher
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
             
-            MessageBroker.Default.Receive<LevelProgressUpdate>()
+            MessageBroker.Default.Receive<LevelCompleteMsg>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
         }
@@ -59,7 +59,7 @@ namespace Systems.Drescher
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             if (!currentLevel.harvesterRunning.Value)
             {
-                drescherComponent.Reset((Vector2Int)startCoord, currentLevel.Level.StartDirection);
+                drescherComponent.Reset((Vector2Int)startCoord, currentLevel.Level.startDirection);
                 g.backgroundGrid.ResetHarvested();
             }
 
@@ -89,9 +89,10 @@ namespace Systems.Drescher
             if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Harvestable) <= 0)
             {
                 MessageBroker.Default.Publish(
-                    new LevelProgressUpdate
+                    new LevelCompleteMsg
                     {
-                        FurthestLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level.Index
+                        CompletedLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level.LevelNumber,
+                        Grade = Grade.B, //TODO set grade here
                     });
             }
         }

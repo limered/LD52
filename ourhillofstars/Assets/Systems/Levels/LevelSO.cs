@@ -15,22 +15,23 @@ namespace Systems.Levels
     {
         public int LevelNumber => int.Parse(name.Split('_').Last());
         public LevelType levelType;
-        public Texture levelFile;
-        
+        public Sprite levelFile;
+
+        public DrescherDirection startDirection;
         public int aGradeCount;
         public int bGradeCount;
         public int cGradeCount;
         
-        public Texture LoadImage()
+        public Sprite LoadImage()
         {
             if (levelFile) return levelFile;
-            var file = Resources.Load<Texture>($"Levels/{name}");
+            var file = Resources.Load<Sprite>($"Levels/{name}");
             if (file)
             {
                 return file;
             }
 
-            throw new FileLoadException();
+            throw new FileLoadException($"Levels/{name}");
         }
     }
     

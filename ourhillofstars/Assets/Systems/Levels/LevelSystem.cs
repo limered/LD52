@@ -19,7 +19,12 @@ namespace Systems.Levels
     [GameSystem(typeof(PauseMenuSystem))]
     public class LevelSystem : GameSystem<LevelOverviewComponent>
     {
-        public const string LevelProgressSettingsKey = "furthest_level";
+        public const string FurthestLevelKey = "furthest_level";
+
+        public string LevelGradeKey(int levelNumber)
+        {
+            return $"level_grade_{levelNumber}";
+        }
 
         public override void Register(LevelOverviewComponent component)
         {
@@ -29,10 +34,12 @@ namespace Systems.Levels
             HandleMessages(levels, component);
 
             // Example Load of Images
-            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).Distinct();
+            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToArray();
+            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
+                "you have duplicate levels!");
         }
 
-        private void ReloadLevelOverview(List<Level> levels, LevelOverviewComponent component)
+        private void ReloadLevelOverview(List<LevelSo> levels, LevelOverviewComponent component)
         {
             var cellPrefab = IoC.Game.PrefabByName("LevelButton");
 
@@ -46,10 +53,10 @@ namespace Systems.Levels
 
             var cellSize = new Vector2(biggerSize, biggerSize);
             layoutGroup.cellSize = cellSize;
-            
+
             parentTransform.RemoveAllChildren();
 
-            var furthestLevel = PlayerPrefs.GetInt(LevelProgressSettingsKey, 0);
+            var furthestLevel = PlayerPrefs.GetInt(FurthestLevelKey, 0);
 
             var max = Math.Min(levels.Count, component.gridDimensions.x * component.gridDimensions.y);
             for (var i = 0; i < max; i++)
@@ -58,11 +65,15 @@ namespace Systems.Levels
                     Vector3.zero, Quaternion.Euler(0, 0, 0),
                     parentTransform);
 
-                cell.GetComponentInChildren<TextMeshProUGUI>().text = levels[i].Name;
+                cell.GetComponentInChildren<TextMeshProUGUI>().text = levels[i].name;
+#if !DEBUG
                 if (i <= furthestLevel)
+#else
+                if (true)
+#endif
                 {
                     cell.GetComponentInChildren<LevelCellComponent>().level = i;
-                    cell.GetComponentInChildren<Button>().image.sprite = LoadSprite(levels[i]);
+                    cell.GetComponentInChildren<Button>().image.sprite = levels[i].levelFile;
                 }
                 else
                 {
@@ -73,7 +84,7 @@ namespace Systems.Levels
             }
         }
 
-        private void HandleMessages(List<Level> levels, LevelOverviewComponent component)
+        private void HandleMessages(List<LevelSo> levels, LevelOverviewComponent component)
         {
             MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
                 {
@@ -93,14 +104,22 @@ namespace Systems.Levels
                     ReloadLevelOverview(levels, component);
                 });
 
-            MessageBroker.Default.Receive<LevelProgressUpdate>().Subscribe(msg =>
+            MessageBroker.Default.Receive<LevelCompleteMsg>().Subscribe(msg =>
             {
                 // did complete a new level?
-                var furthestLevel = PlayerPrefs.GetInt(LevelProgressSettingsKey, 0);
-                var nextLevel = msg.FurthestLevel + 1;
+                var furthestLevel = PlayerPrefs.GetInt(FurthestLevelKey, 0);
+                var nextLevel = msg.CompletedLevel + 1;
                 if (furthestLevel < nextLevel)
                 {
-                    PlayerPrefs.SetInt(LevelProgressSettingsKey, nextLevel);
+                    PlayerPrefs.SetInt(FurthestLevelKey, nextLevel);
+                }
+
+                //did the grade improve?
+                var lastGradeForCompletedLevel =
+                    (Grade)PlayerPrefs.GetInt(LevelGradeKey(msg.CompletedLevel), (int)Grade.None);
+                if (msg.Grade < lastGradeForCompletedLevel)
+                {
+                    PlayerPrefs.SetInt(LevelGradeKey(msg.CompletedLevel), (int)msg.Grade);
                 }
 
                 // start next level
@@ -115,29 +134,29 @@ namespace Systems.Levels
             });
         }
 
-        private List<Level> GetLevels()
+        private List<LevelSo> GetLevels()
         {
-            var levelsJson = Resources.Load<TextAsset>("Levels/levels");
-            var levels = JsonConvert.DeserializeObject<List<Level>>(levelsJson.text);
-            for (int i = 0; i < levels.Count; i++)
-            {
-                levels[i].Index = i;
-            }
-
-            return levels;
+            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToList();
+            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
+                "you have duplicate levels!");
+            return allLevels;
         }
 
-        private Sprite LoadSprite(Level level)
+        public class LevelSoComparer : IEqualityComparer<LevelSo>
         {
-            var asset = $"Levels/{level.File}";
-            var sprite = Resources.Load<Sprite>(asset);
-
-            if (!sprite)
+            public bool Equals(LevelSo x, LevelSo y)
             {
-                throw new FileNotFoundException(asset);
+                if (ReferenceEquals(x, y)) return true;
+                if (ReferenceEquals(x, null)) return false;
+                if (ReferenceEquals(y, null)) return false;
+                if (x.GetType() != y.GetType()) return false;
+                return x.LevelNumber == y.LevelNumber;
             }
 
-            return sprite;
+            public int GetHashCode(LevelSo obj)
+            {
+                return obj.LevelNumber;
+            }
         }
     }
 }

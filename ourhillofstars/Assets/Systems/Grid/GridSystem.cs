@@ -26,7 +26,7 @@ namespace Systems.Grid
                 .Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
 
-            MessageBroker.Default.Receive<LevelProgressUpdate>()
+            MessageBroker.Default.Receive<LevelCompleteMsg>()
                 .Subscribe(_ => { ClearGrids(component); })
                 .AddTo(component);
 
@@ -51,29 +51,26 @@ namespace Systems.Grid
             }
         }
 
-        private void LoadGrid(MainGridComponent component, Level level)
+        private void LoadGrid(MainGridComponent component, LevelSo level)
         {
-            var asset = $"Levels/{level.File}";
-            var tex = Resources.Load<Sprite>(asset).texture;
-
-            if (!tex) throw new FileNotFoundException(asset);
+            
 
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.Level = level;
-            currentLevelComponent.topArrows.Value = level.TopArrows;
-            currentLevelComponent.leftArrows.Value = level.LeftArrows;
-            currentLevelComponent.rightArrows.Value = level.RightArrows;
-            currentLevelComponent.bottomArrows.Value = level.BottomArrows;
+            // currentLevelComponent.topArrows.Value = level.TopArrows;
+            // currentLevelComponent.leftArrows.Value = level.LeftArrows;
+            // currentLevelComponent.rightArrows.Value = level.RightArrows;
+            // currentLevelComponent.bottomArrows.Value = level.BottomArrows;
+            //
+            // currentLevelComponent.maxTopArrows.Value = level.TopArrows;
+            // currentLevelComponent.maxLeftArrows.Value = level.LeftArrows;
+            // currentLevelComponent.maxRightArrows.Value = level.RightArrows;
+            // currentLevelComponent.maxBottomArrows.Value = level.BottomArrows;
 
-            currentLevelComponent.maxTopArrows.Value = level.TopArrows;
-            currentLevelComponent.maxLeftArrows.Value = level.LeftArrows;
-            currentLevelComponent.maxRightArrows.Value = level.RightArrows;
-            currentLevelComponent.maxBottomArrows.Value = level.BottomArrows;
-
-            Observable.FromCoroutine(() => SetGridCellsFromTexture(component, tex))
+            Observable.FromCoroutine(() => SetGridCellsFromTexture(component, level.levelFile.texture))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new SpawnPlayerMessage
                 {
-                    InitialDirection = level.StartDirection
+                    InitialDirection = level.startDirection
                 }))
                 .Subscribe()
                 .AddTo(component);
