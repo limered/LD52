@@ -58,8 +58,8 @@ namespace Systems.Drescher
             dresherObject.targetCellCoord = target;
 
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            var theme = IoC.Game.GetComponent<ThemeComponent>()
-                .harvesterThemes[currentLevelComponent.Level.playerThemeFile];
+            var themeComponent = IoC.Game.GetComponent<ThemeComponent>();
+            var theme = themeComponent.harvesterThemes[currentLevelComponent.Level.playerThemeFile];
             var sprites = new List<Texture2D>(4);
             for (var i = 0; i < 4; i++)
             {
@@ -82,6 +82,11 @@ namespace Systems.Drescher
                 sprites[2]
             };
             dresherObject.directionImages = textureArray;
+            
+            //set particle theme 
+            var particleSystemRenderer = dresherObject.GetComponentInChildren<ParticleSystemRenderer>();
+            var particleThemeSprite = IoC.Game.GetComponent<ThemeComponent>().harvestParticleThemes[currentLevelComponent.Level.themeFile];
+            particleSystemRenderer.material.mainTexture = particleThemeSprite.texture;
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
