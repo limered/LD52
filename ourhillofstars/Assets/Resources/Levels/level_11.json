@@ -1,0 +1,9 @@
+﻿{
+  "levelType": 0,
+  "startDirection": 0,
+  "aGradeCount": 46,
+  "bGradeCount": 48,
+  "cGradeCount": 50,
+  "themeFile": "LosInt",
+  "playerThemeFile": "LosInt"
+}
