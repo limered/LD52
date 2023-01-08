@@ -53,8 +53,6 @@ namespace Systems.Grid
 
         private void LoadGrid(MainGridComponent component, LevelSo level)
         {
-            
-
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.Level = level;
             // currentLevelComponent.topArrows.Value = level.TopArrows;

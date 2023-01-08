@@ -30,11 +30,11 @@ namespace Systems.Drescher
                         .AddTo(component);
                 })
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<LevelCompleteMsg>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
@@ -55,7 +55,7 @@ namespace Systems.Drescher
         {
             var startCoord = g.backgroundGrid.FindStartCoord();
             if (startCoord == null) return;
-            
+
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             if (!currentLevel.harvesterRunning.Value)
             {
@@ -88,13 +88,28 @@ namespace Systems.Drescher
 
             if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Harvestable) <= 0)
             {
+                var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level;
                 MessageBroker.Default.Publish(
                     new LevelCompleteMsg
                     {
-                        CompletedLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level.LevelNumber,
-                        Grade = Grade.B, //TODO set grade here
+                        CompletedLevel = currentLevel.LevelNumber,
+                        Grade = GetCurrentGrade(g),
                     });
             }
+        }
+
+        private static Grade GetCurrentGrade(MainGridComponent g)
+        {
+            var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>().Level;
+            var arrows = g.foregroundGrid.CountElementsOfType(ForegroundCellType.Bottom) +
+                         g.foregroundGrid.CountElementsOfType(ForegroundCellType.Top) +
+                         g.foregroundGrid.CountElementsOfType(ForegroundCellType.Left) +
+                         g.foregroundGrid.CountElementsOfType(ForegroundCellType.Right);
+
+            return arrows < currentLevel.aGradeCount ? Grade.S :
+                arrows >= currentLevel.aGradeCount && arrows < currentLevel.bGradeCount ? Grade.A :
+                arrows >= currentLevel.bGradeCount && arrows < currentLevel.cGradeCount ? Grade.B :
+                Grade.C;
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)
