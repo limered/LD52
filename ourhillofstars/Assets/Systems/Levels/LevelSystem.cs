@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Grid;
+using Systems.UI;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -13,7 +14,7 @@ using Object = UnityEngine.Object;
 
 namespace Systems.Levels
 {
-    [GameSystem]
+    [GameSystem(typeof(PauseMenuSystem))]
     public class LevelSystem : GameSystem<LevelOverviewComponent>
     {
         public const string LevelProgressSettingsKey = "furthest_level";
@@ -28,6 +29,7 @@ namespace Systems.Levels
 
         public override void Register(LevelOverviewComponent component)
         {
+            IoC.Game.GetComponent<CurrentLevelComponent>().IsPaused = true;
             var levels = GetLevels();
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
@@ -79,6 +81,7 @@ namespace Systems.Levels
             MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
                 {
                     component.transform.parent.gameObject.SetActive(false);
+                    IoC.Game.GetComponent<CurrentLevelComponent>().IsPaused = false;
                     MessageBroker.Default.Publish(new GridLoadMsg
                     {
                         Level = levels[msg.LevelIndex]
