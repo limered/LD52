@@ -24,6 +24,7 @@ namespace Systems.GameState
             get
             {
                 var arrows = arrowsUsed.Value;
+                if (arrows == 0) return Grade.None;
 
                 return arrows < Level.aGradeCount ? Grade.S :
                     arrows >= Level.aGradeCount && arrows < Level.bGradeCount ? Grade.A :

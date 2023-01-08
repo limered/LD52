@@ -1,4 +1,6 @@
 using SystemBase.Core;
+using SystemBase.Utils;
+using Systems.GameState;
 using Systems.Grid;
 using Systems.Levels;
 using UniRx;
@@ -20,7 +22,15 @@ namespace Systems.UI
             component.levelName.text = level.name;
             component.vehicleImage.sprite = level.levelType == LevelType.Harvester ?
                 component.vehicleSprites[0] : component.vehicleSprites[1];
-            // component.grade.text =
+
+            IoC.Game.GetComponent<CurrentLevelComponent>().arrowsUsed
+                .Subscribe(_ =>
+                {
+                    var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
+                    
+                    component.grade.text = "Grade: " + currentGame.CurrentGrade;
+                })
+                .AddTo(component);
         }
     }
 }
