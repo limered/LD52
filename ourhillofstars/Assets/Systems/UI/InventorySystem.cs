@@ -3,6 +3,8 @@ using SystemBase.Utils;
 using Systems.Drescher;
 using Systems.GameState;
 using Systems.Grid;
+using Systems.Levels;
+using Systems.Levels.Events;
 using UniRx;
 using UnityEngine;
 
@@ -13,6 +15,22 @@ namespace Systems.UI
     {
         public override void Register(InventoryComponent component)
         {
+            component.gameObject.SetActive(false);
+            
+            MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
+                .Subscribe(_ =>
+                {
+                    component.gameObject.SetActive(false);
+                })
+                .AddTo(component);
+            
+            MessageBroker.Default.Receive<LoadLevelMsg>()
+                .Subscribe(_ =>
+                {
+                    component.gameObject.SetActive(true);
+                })
+                .AddTo(component);
+            
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => InitArrows(component))
                 .AddTo(component);
@@ -20,17 +38,24 @@ namespace Systems.UI
             IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning
                 .Subscribe(b => SetButtonImage(b, component))
                 .AddTo(component);
+            
+            MessageBroker.Default.Receive<FinishLastLevelMsg>()
+                .Subscribe(_ =>
+                {
+                    component.gameObject.SetActive(false);
+                })
+                .AddTo(component);
         }
 
         private void SetButtonImage(bool b, InventoryComponent component)
         {
-            var nextImage = component.secondarySprite; 
+            var nextImage = component.resetButtonSprite; 
             if (!b)
             {
-                nextImage = component.primarySprite;
+                nextImage = component.startButtonSprite;
             }
 
-            component.image.sprite = nextImage;
+            component.startStopButtonImage.sprite = nextImage;
         }
 
         private void InitArrows(InventoryComponent component)

@@ -1,5 +1,8 @@
-﻿namespace Systems.Levels
+﻿using System;
+
+namespace Systems.Levels
 {
+    [Serializable]
     public enum DrescherDirection
     {
         Up = 0,

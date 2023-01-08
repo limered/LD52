@@ -7,6 +7,7 @@ using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
+using Systems.Levels.Events;
 using Systems.UI;
 using TMPro;
 using UniRx;
@@ -21,7 +22,7 @@ namespace Systems.Levels
     {
         public const string FurthestLevelKey = "furthest_level";
 
-        public string LevelGradeKey(int levelNumber)
+        public static string LevelGradeKey(int levelNumber)
         {
             return $"level_grade_{levelNumber}";
         }
@@ -31,16 +32,13 @@ namespace Systems.Levels
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevel.IsPaused = true;
             currentLevel.GameState = GameState.GameState.LevelSelect;
-            var levels = GetLevels();
+            var levels = IoC.Resolve<IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
-
-           var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToArray();
-            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
-                "you have duplicate levels!");
         }
 
-        private void ReloadLevelOverview(List<LevelSo> levels, LevelOverviewComponent component)
+
+        private void ReloadLevelOverview((Level level, Grade grade)[] levels, LevelOverviewComponent component)
         {
             var cellPrefab = IoC.Game.PrefabByName("LevelButton");
 
@@ -59,14 +57,14 @@ namespace Systems.Levels
 
             var furthestLevel = PlayerPrefs.GetInt(FurthestLevelKey, 0);
 
-            var max = Math.Min(levels.Count, component.gridDimensions.x * component.gridDimensions.y);
+            var max = Math.Min(levels.Length, component.gridDimensions.x * component.gridDimensions.y);
             for (var i = 0; i < max; i++)
             {
                 var cell = Object.Instantiate(cellPrefab,
                     Vector3.zero, Quaternion.Euler(0, 0, 0),
                     parentTransform);
 
-                cell.GetComponentInChildren<TextMeshProUGUI>().text = levels[i].name;
+                cell.GetComponentInChildren<TextMeshProUGUI>().text = $"#{levels[i].level.LevelIndex + 1}";
 #if !DEBUG
                 if (i <= furthestLevel)
 #else
@@ -74,7 +72,7 @@ namespace Systems.Levels
 #endif
                 {
                     cell.GetComponentInChildren<LevelCellComponent>().level = i;
-                    cell.GetComponentInChildren<Button>().image.sprite = levels[i].LoadImage();
+                    cell.GetComponentInChildren<Button>().image.sprite = levels[i].level.LoadImage();
                 }
                 else
                 {
@@ -85,7 +83,7 @@ namespace Systems.Levels
             }
         }
 
-        private void HandleMessages(List<LevelSo> levels, LevelOverviewComponent component)
+        private void HandleMessages((Level level, Grade grade)[] levels, LevelOverviewComponent component)
         {
             MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
                 {
@@ -95,7 +93,7 @@ namespace Systems.Levels
                     currentLevel.GameState = GameState.GameState.Playing;
                     MessageBroker.Default.Publish(new GridLoadMsg
                     {
-                        Level = levels[msg.LevelIndex]
+                        Level = levels[msg.LevelIndex].level
                     });
                 })
                 .AddTo(component);
@@ -110,7 +108,7 @@ namespace Systems.Levels
                     ReloadLevelOverview(levels, component);
                 });
 
-            MessageBroker.Default.Receive<LevelCompleteMsg>().Subscribe(msg =>
+            MessageBroker.Default.Receive<GoToNextLevelMsg>().Subscribe(msg =>
             {
                 // did complete a new level?
                 var furthestLevel = PlayerPrefs.GetInt(FurthestLevelKey, 0);
@@ -129,39 +127,73 @@ namespace Systems.Levels
                 }
 
                 // start next level
-                if (nextLevel < levels.Count)
+                if (nextLevel < levels.Length)
                 {
                     MessageBroker.Default.Publish(new LoadLevelMsg { LevelIndex = nextLevel });
                 }
                 else
                 {
                     Debug.Log("Du hast das Spiel durchgespielt");
+                    MessageBroker.Default.Publish(new FinishLastLevelMsg());
                 }
             });
         }
 
-        private List<LevelSo> GetLevels()
+        public class LevelComparer : IEqualityComparer<Level>
         {
-            var allLevels = Resources.LoadAll<LevelSo>($"").OrderBy(so => so.LevelNumber).ToList();
-            Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelSoComparer()).Count(),
-                "you have duplicate levels!");
-            return allLevels;
-        }
-
-        public class LevelSoComparer : IEqualityComparer<LevelSo>
-        {
-            public bool Equals(LevelSo x, LevelSo y)
+            public bool Equals(Level x, Level y)
             {
                 if (ReferenceEquals(x, y)) return true;
                 if (ReferenceEquals(x, null)) return false;
                 if (ReferenceEquals(y, null)) return false;
                 if (x.GetType() != y.GetType()) return false;
-                return x.LevelNumber == y.LevelNumber;
+                return x.LevelIndex == y.LevelIndex;
             }
 
-            public int GetHashCode(LevelSo obj)
+            public int GetHashCode(Level obj)
             {
-                return obj.LevelNumber;
+                return obj.LevelIndex;
+            }
+        }
+
+        public interface IGetAllLevelsAndGrades
+        {
+            (Level level, Grade grade)[] GetAllLevelsWithGrade();
+        }
+
+        public class GetAllLevelsAndGrades : IGetAllLevelsAndGrades
+        {
+            public (Level level, Grade grade)[] GetAllLevelsWithGrade()
+            {
+                Debug.Log("get levels");
+                var allLevelJsons = Resources.LoadAll<TextAsset>("");
+                var allLevels = allLevelJsons
+                    .Where(x => x.name.StartsWith("level_"))
+                    .Select((x) =>
+                    {
+                        var level = JsonConvert.DeserializeObject<Level>(x.text);
+                        level.levelFile ??= x.name;
+                        return level;
+                    })
+                    .OrderBy(so => so.LevelIndex)
+                    .ToList();
+
+                Debug.Log($"level count {allLevels.Count}");
+                Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelComparer()).Count(),
+                    "you have duplicate levels!");
+
+                return allLevels
+                    .Select(level =>
+                        (level, (Grade)PlayerPrefs.GetInt(LevelGradeKey(level.LevelIndex), (int)Grade.None)))
+                    .ToArray();
+            }
+        }
+
+        public class LevelAdapterRegistrations : IIocRegistration
+        {
+            public void Register()
+            {
+                IoC.RegisterType<IGetAllLevelsAndGrades, GetAllLevelsAndGrades>();
             }
         }
     }

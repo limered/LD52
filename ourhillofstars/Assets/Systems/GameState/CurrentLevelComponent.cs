@@ -12,7 +12,7 @@ namespace Systems.GameState
     }
     public class CurrentLevelComponent : GameComponent
     {
-        public LevelSo Level { get; set; }
+        public Level Level { get; set; }
         public bool IsPaused { get; set; }
         public GameState GameState { get; set; }
         public ReactiveProperty<int> arrowsUsed = new();
@@ -24,6 +24,7 @@ namespace Systems.GameState
             get
             {
                 var arrows = arrowsUsed.Value;
+                if (arrows == 0) return Grade.None;
 
                 return arrows < Level.aGradeCount ? Grade.S :
                     arrows >= Level.aGradeCount && arrows < Level.bGradeCount ? Grade.A :

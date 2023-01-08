@@ -1,16 +1,13 @@
-﻿using System;
+using System;
 using System.Linq;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.GridRendering;
-using Systems.Levels;
 using Systems.Selector;
-using Systems.UI;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace Systems.GridInteraction

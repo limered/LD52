@@ -9,7 +9,7 @@ namespace Systems.GridRendering
     public class BackgroundCellComponent : GameComponent
     {
         public ReactiveProperty<BackgroundCellType> type = new(BackgroundCellType.Empty);
-        public Texture[] images;
+        public Texture2D[] images;
         [NonSerialized]public Renderer rendererCache;
     }
 }

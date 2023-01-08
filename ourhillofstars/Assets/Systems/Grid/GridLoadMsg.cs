@@ -4,6 +4,6 @@ namespace Systems.Grid
 {
     public class GridLoadMsg
     {
-        public LevelSo Level { get; set; }
+        public Level Level { get; set; }
     }
 }

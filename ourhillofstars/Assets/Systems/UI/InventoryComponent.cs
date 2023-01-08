@@ -1,10 +1,7 @@
-using System.Linq;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
-using Systems.Levels;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Systems.UI
@@ -14,9 +11,9 @@ namespace Systems.UI
         public Sprite[] arrowSprites;
         public GameObject arrowElementPrefab;
         public GameObject arrows;
-        public Sprite primarySprite;
-        public Sprite secondarySprite;
-        public Image image;
+        public Sprite startButtonSprite;
+        public Sprite resetButtonSprite;
+        public Image startStopButtonImage;
 
         public void StartDrescher()
         {
