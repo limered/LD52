@@ -4,7 +4,6 @@ using SystemBase.Utils;
 using Systems.Grid;
 using Systems.Levels;
 using UniRx;
-using Unity.Mathematics;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -41,8 +40,6 @@ namespace Systems.Drescher
             var drescher = Object.Instantiate(drescherPrefab, position, drescherPrefab.transform.rotation);
             var target = new Vector2Int((int)startCoord?.x, (int)startCoord?.y);
             drescher.GetComponent<DrescherComponent>().targetCellCoord = target;
-            
-            
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
@@ -66,8 +63,6 @@ namespace Systems.Drescher
             SwitchDrescherDirection(drescherComponent, g);
             CheckNextCellAndSwitchTarget(drescherComponent, g);
             Harvest(g, position);
-
-            
         }
 
         private static void Harvest(MainGridComponent g, Vector2 position)
