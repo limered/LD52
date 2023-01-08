@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: level_3
+  m_Name: level_6
   m_EditorClassIdentifier: Assembly-CSharp:Systems.Levels:LevelSo
   levelType: 0
   levelFile: {fileID: 0}
