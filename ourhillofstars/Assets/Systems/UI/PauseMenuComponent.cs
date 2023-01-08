@@ -1,5 +1,6 @@
 using System;
 using SystemBase.Core;
+using SystemBase.Utils;
 using UnityEngine.UI;
 using Systems.Levels;
 using UniRx;
@@ -11,7 +12,6 @@ namespace Systems.UI
     public class PauseMenuComponent : GameComponent
     {
         public float volume = 0.5f;
-        [NonSerialized] public ReactiveProperty<bool> isPaused = new();
 
         public void SetVolume()
         {
@@ -21,6 +21,7 @@ namespace Systems.UI
 
         public void ExitPause()
         {
+            IoC.Game.GetComponent<CurrentLevelComponent>().IsPaused = false;
             gameObject.SetActive(false);
         }
 

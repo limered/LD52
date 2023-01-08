@@ -1,4 +1,6 @@
 using SystemBase.Core;
+using SystemBase.Utils;
+using Systems.Levels;
 using UniRx;
 
 namespace Systems.UI
@@ -8,17 +10,18 @@ namespace Systems.UI
     {
         public override void Register(PauseMenuComponent component)
         {
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             MessageBroker.Default.Receive<ShowPauseMenuMsg>()
-                .Subscribe(_ => HandlePause(component))
+                .Subscribe(_ => HandlePause(component, currentLevelComponent))
                 .AddTo(component);
-            component.isPaused.Value = false;
-            component.gameObject.SetActive(component.isPaused.Value);
+            currentLevelComponent.IsPaused = false;
+            component.gameObject.SetActive(currentLevelComponent.IsPaused);
         }
 
-        private static void HandlePause(PauseMenuComponent component)
+        private static void HandlePause(PauseMenuComponent component, CurrentLevelComponent levelComponent)
         {
-            component.gameObject.SetActive(!component.isPaused.Value);
-            component.isPaused.Value = !component.isPaused.Value;
+            component.gameObject.SetActive(!levelComponent.IsPaused);
+            levelComponent.IsPaused = !levelComponent.IsPaused;
         }
     }
 }

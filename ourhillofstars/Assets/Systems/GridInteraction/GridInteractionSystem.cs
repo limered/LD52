@@ -6,6 +6,7 @@ using Systems.Grid;
 using Systems.GridRendering;
 using Systems.Levels;
 using Systems.Selector;
+using Systems.UI;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -35,8 +36,10 @@ namespace Systems.GridInteraction
 
         private static void StartInteraction(MainGridComponent grid, SelectorComponent selector)
         {
-            if (IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value) return;
-            
+            var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            if (currentLevelComponent.harvesterRunning.Value) return;
+            if (currentLevelComponent.IsPaused) return;
+
             var fGrid = grid.foregroundGrid;
             var fGridComponent = grid.GetComponentInChildren<ForegroundParentComponent>();
             var ray = fGridComponent.mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -110,7 +113,7 @@ namespace Systems.GridInteraction
             var leftArrowCount = grid.CountElementsOfType(ForegroundCellType.Left);
             var topArrowCount = grid.CountElementsOfType(ForegroundCellType.Top);
             var bottomArrowCount = grid.CountElementsOfType(ForegroundCellType.Bottom);
-            
+
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevelComponent.topArrows.Value = currentLevelComponent.maxTopArrows.Value - topArrowCount;
             currentLevelComponent.leftArrows.Value = currentLevelComponent.maxLeftArrows.Value - leftArrowCount;

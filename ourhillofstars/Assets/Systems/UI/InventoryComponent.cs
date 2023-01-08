@@ -14,14 +14,14 @@ namespace Systems.UI
         public GameObject arrows;
         public Sprite primarySprite;
         public Sprite secondarySprite;
-        private Image _image;
+        private Image _someImage;
 
         public void StartDrescher()
         {
             var oldValue = IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value;
             IoC.Game.GetComponent<CurrentLevelComponent>().harvesterRunning.Value = !oldValue;
-            _image = GetComponentsInChildren<Image>().First(image => image.sprite.name == primarySprite.name);
-            _image.sprite = secondarySprite;
+            _someImage = GetComponentsInChildren<Image>().First(image => image.sprite.name == primarySprite.name);
+            _someImage.sprite = secondarySprite;
             (secondarySprite, primarySprite) = (primarySprite, secondarySprite);
         }
     }

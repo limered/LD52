@@ -6,6 +6,7 @@ namespace Systems.Levels
     public class CurrentLevelComponent : GameComponent
     {
         public Level Level { get; set; }
+        public bool IsPaused { get; set; }
         public ReactiveProperty<int> topArrows = new();
         public ReactiveProperty<int> leftArrows = new();
         public ReactiveProperty<int> rightArrows = new();
