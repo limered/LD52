@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Systems.Grid
 {
@@ -36,6 +37,19 @@ namespace Systems.Grid
                 if (grid.Cell(i) == type)
                     count++;
             return count;
+        }
+
+        public static Vector2Int[] GetCoordinatesOfType(this GameGrid<BackgroundCellType> grid, BackgroundCellType type)
+        {
+            var result = new List<Vector2Int>();
+            for (var i = 0; i < grid.Length; i++)
+                if (grid.Cell(i) == type)
+                {
+                    
+                    result.Add(grid.IndexToCoord(i));
+                }
+
+            return result.ToArray();
         }
     }
 }
