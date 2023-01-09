@@ -34,8 +34,14 @@ namespace Systems.UI.Levels
             var levels = IoC.Resolve<IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
+            
+            // reset save game
+            // PlayerPrefs.SetFloat(FurthestLevelKey, 1);
+            // for (int i = 0; i < 20; i++)
+            // {
+            //     PlayerPrefs.SetInt(LevelGradeKey(i), (int)Grade.None);
+            // }
         }
-
 
         private void ReloadLevelOverview((Level level, Grade grade)[] levels, LevelOverviewComponent component)
         {
