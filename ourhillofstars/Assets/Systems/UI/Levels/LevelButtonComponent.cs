@@ -1,11 +1,13 @@
 ﻿using SystemBase.Core;
 using UniRx;
+using UnityEngine.UI;
 
 namespace Systems.Levels
 {
-    public class LevelCellComponent : GameComponent
+    public class LevelButtonComponent : GameComponent
     {
         public int? level = null;
+        public Image grade;
 
         public void LoadLevel()
         {

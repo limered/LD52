@@ -2,6 +2,7 @@ using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.Levels;
 using Systems.Levels.Events;
+using Systems.UI.Levels;
 using UniRx;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace Systems.UI.End
         private void RenderEndScreen(EndScreenComponent component)
         {
             component.gameObject.SetActive(true);
-            var levels = IoC.Resolve<LevelSystem.IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
+            var levels = IoC.Resolve<LevelOverviewSystem.IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
             foreach (var level in levels)
             {
                 CreateGradeElementComponent(component, level.level.LevelIndex, level.grade);

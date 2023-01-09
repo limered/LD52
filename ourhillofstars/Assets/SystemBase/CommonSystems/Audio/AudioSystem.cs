@@ -115,12 +115,15 @@ namespace SystemBase.CommonSystems.Audio
             Observable.Timer(time).Subscribe(l => fadeIn.Dispose());
         }
 
-        private static void RemoveSourceAfterStopped(AudioSource source)
+        private void RemoveSourceAfterStopped(AudioSource source, SoundFile file)
         {
             Observable
                 .Interval(TimeSpan.FromSeconds(1))
                 .TakeWhile(_ => source.isPlaying)
-                .Subscribe(_ => { }, () => Object.Destroy(source));
+                .Subscribe(_ =>
+                {
+                    source.volume = file.Volume * _sfxVolume.Value;
+                }, () => Object.Destroy(source));
         }
 
         private Action<string> PlaySFX(SFXComponent component, PlaySFXParameters parameters)
@@ -137,7 +140,7 @@ namespace SystemBase.CommonSystems.Audio
                     source.volume = soundFile.Volume * _sfxVolume.Value;
                     source.Play();
                     // source.PlayOneShot(soundFile.File, soundFile.Volume * _sfxVolume.Value);
-                    RemoveSourceAfterStopped(source);
+                    RemoveSourceAfterStopped(source, soundFile);
                 }
                 else
                 {

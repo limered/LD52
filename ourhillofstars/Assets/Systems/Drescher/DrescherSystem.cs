@@ -45,6 +45,8 @@ namespace Systems.Drescher
                 .AddTo(component);
 
             _currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
+            
+            "tractor".Play(new PlaySFXParameters { Loop = true });
         }
 
         private void SpawnDrescher(MainGridComponent grid)
@@ -88,8 +90,6 @@ namespace Systems.Drescher
             var particleThemeSprite = IoC.Game.GetComponent<ThemeComponent>()
                 .harvestParticleThemes[currentLevelComponent.Level.themeFile];
             particleSystemRenderer.material.mainTexture = particleThemeSprite.texture;
-
-            "tractor".Play(new PlaySFXParameters { Loop = true });
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
