@@ -32,5 +32,11 @@ namespace Systems.UI
             nextLvl.gameObject.SetActive(false);
             MessageBroker.Default.Publish(new AskToGoToNextLevelMsg());
         }
+
+        public void ShowPauseMenu()
+        {
+            gameObject.SetActive(false);
+            MessageBroker.Default.Publish(new ShowPauseMenuMsg());
+        }
     }
 }
