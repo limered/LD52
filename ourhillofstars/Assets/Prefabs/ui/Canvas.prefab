@@ -200,6 +200,7 @@ MonoBehaviour:
   vehicleSprites:
   - {fileID: 21300000, guid: 4a6e47a9b9b86494d952ad4e5c0fb0cf, type: 3}
   - {fileID: 21300000, guid: f43706031e1462649a00ea90eb7f4c70, type: 3}
+  - {fileID: 21300000, guid: eee08a88cad8bcd45a99a9bbb1615ecf, type: 3}
   harvestSprites:
   - {fileID: 21300000, guid: e83294afe39082946984302c8155ceff, type: 3}
   - {fileID: 21300000, guid: 6077d251dce6d4f478c895302ddebee0, type: 3}
