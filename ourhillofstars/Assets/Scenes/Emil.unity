@@ -245,10 +245,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
-      propertyPath: backGroundBlankTexture
-      value: 
-      objectReference: {fileID: 2800000, guid: e53696c825448314eaa8068366153f0b, type: 3}
     - target: {fileID: 7945032758725522513, guid: 79306727bb65d1c46bd63e04e381db70,
         type: 3}
       propertyPath: m_RootOrder
