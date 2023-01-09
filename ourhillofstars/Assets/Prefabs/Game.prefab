@@ -259,6 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf63cd2c6bd441a88d71a2cd6ea85a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backGroundBlankTexture: {fileID: 2800000, guid: e53696c825448314eaa8068366153f0b,
+    type: 3}
   levelThemes:
   - {fileID: 2800000, guid: a4bdffad30b9cb44a90f0104dcffd4b8, type: 3}
   - {fileID: 2800000, guid: 0b13cb099ce8bc948b04dd9d04ec5c7e, type: 3}
@@ -381,6 +383,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7945032758725522513}
     m_Modifications:
+    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+        type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.11372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5975590572795703714, guid: 74841a37b0e9d294a8a7abb932156342,
         type: 3}
       propertyPath: m_RootOrder
@@ -465,34 +492,162 @@ MonoBehaviour:
   Sounds:
   - Name: complete_level1
     File: {fileID: 8300000, guid: f5c3320cea58da04b941de891229abe2, type: 3}
-    Volume: 0.3
+    Volume: 0.5
   - Name: complete_level2
     File: {fileID: 8300000, guid: 75886141c9bcc5442af60943e6f85381, type: 3}
-    Volume: 0.3
+    Volume: 0.5
   - Name: complete_level3
     File: {fileID: 8300000, guid: 32e95739282ae9348bc48d0b18709049, type: 3}
-    Volume: 0.3
+    Volume: 0.5
   - Name: complete_level4
     File: {fileID: 8300000, guid: 464d33d9d330c854f9e4943a9740c24b, type: 3}
-    Volume: 0.3
+    Volume: 0.5
   - Name: complete_level5
     File: {fileID: 8300000, guid: 017032079b0ba664ba7554a4e2bcfe58, type: 3}
-    Volume: 0.3
+    Volume: 0.5
+  - Name: complete_level6
+    File: {fileID: 8300000, guid: 805371760484f9641a2de54135efe4c3, type: 3}
+    Volume: 0.5
   - Name: harvest1
     File: {fileID: 8300000, guid: 39e381a62fe12cb48879c089616585ee, type: 3}
-    Volume: 0.1
+    Volume: 0.5
   - Name: harvest2
     File: {fileID: 8300000, guid: a3884c03301937440994115c9d513417, type: 3}
-    Volume: 0.1
+    Volume: 0.5
   - Name: harvest3
     File: {fileID: 8300000, guid: 77c1e0bec2d23af4fa823c3d2f122416, type: 3}
-    Volume: 0.1
+    Volume: 0.5
   - Name: harvest4
     File: {fileID: 8300000, guid: b7fba87bf08c57041bd2e9b4aa760d00, type: 3}
-    Volume: 0.1
+    Volume: 0.5
   - Name: tractor
     File: {fileID: 8300000, guid: 8d96f81fd4409d2429a910144cc83643, type: 3}
     Volume: 0.067
+  - Name: flupp
+    File: {fileID: 8300000, guid: 278768796a5097b47a5c795a654514f0, type: 3}
+    Volume: 0.55
+  - Name: top
+    File: {fileID: 8300000, guid: c76bd8a78921fe4428b7f6e690ebe755, type: 3}
+    Volume: 0.3
+  - Name: left
+    File: {fileID: 8300000, guid: 129893e306e184944a23fb7ba484a022, type: 3}
+    Volume: 0.3
+  - Name: down
+    File: {fileID: 8300000, guid: 294cde7d8b4039a429f17106f93a712b, type: 3}
+    Volume: 0.3
+  - Name: right
+    File: {fileID: 8300000, guid: 6bfffec08a5ca66488d84b6daf3b3522, type: 3}
+    Volume: 0.3
+--- !u!82 &1127826967
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507910251}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 6db534b5eed45804e9e4576c73e9ca7a, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.48
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1127826968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507910251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cf3821d899448c937efeea7026a710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: background
+  Source: {fileID: 1127826967}
 --- !u!20 &1507910253 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,

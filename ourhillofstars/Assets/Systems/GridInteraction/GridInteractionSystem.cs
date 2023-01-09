@@ -1,11 +1,13 @@
 using System;
 using System.Linq;
+using SystemBase.CommonSystems.Audio;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.GridRendering;
 using Systems.Selector;
+using Systems.Tutorial;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -56,7 +58,7 @@ namespace Systems.GridInteraction
             selector.targetCoord = new Vector2Int(x, y);
             selector.shouldBeInvisible.Value = true;
             var cell = bGrid.Cell(x, y);
-            if (cell != BackgroundCellType.Harvested && 
+            if (cell != BackgroundCellType.Harvested &&
                 cell != BackgroundCellType.Harvestable &&
                 cell != BackgroundCellType.Path &&
                 cell != BackgroundCellType.Start)
@@ -69,12 +71,47 @@ namespace Systems.GridInteraction
 
             if (Input.GetMouseButtonDown(1))
             {
+                if (fGrid.Cell(x, y) != ForegroundCellType.Empty) "flupp".Play();
                 fGrid.Cell(x, y, ForegroundCellType.Empty);
                 SetAmountOfArrows(fGrid);
+                MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
             }
 
             if (!Input.GetMouseButtonDown(0)) return;
             var nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y);
+            switch (nextCellType)
+            {
+                case ForegroundCellType.Left:
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.AddArrow });
+                    break;
+                case ForegroundCellType.Bottom or
+                    ForegroundCellType.Top or
+                    ForegroundCellType.Right:
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RotateArrow });
+                    break;
+                case ForegroundCellType.Empty:
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
+                    break;
+            }
+
+            switch (nextCellType)
+            {
+                case ForegroundCellType.Top:
+                    "top".Play();
+                    break;
+                case ForegroundCellType.Left:
+                    "left".Play();
+                    break;
+                case ForegroundCellType.Bottom:
+                    "down".Play();
+                    break;
+                case ForegroundCellType.Right:
+                    "right".Play();
+                    break;
+                case ForegroundCellType.Empty:
+                    "flupp".Play();
+                    break;
+            }
 
             fGrid.Cell(x, y, nextCellType);
             SetAmountOfArrows(fGrid);
@@ -83,7 +120,7 @@ namespace Systems.GridInteraction
         private static int NextCellType(GameGrid<ForegroundCellType> fGrid, int x, int y, int switchAmount = 1)
         {
             var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
-            var nextCellType = (int)(fGrid.Cell(x, y)) + switchAmount;
+            var nextCellType = (int)fGrid.Cell(x, y) + switchAmount;
             nextCellType %= maxValue;
             return nextCellType;
         }
@@ -96,8 +133,8 @@ namespace Systems.GridInteraction
             var bottomArrowCount = grid.CountElementsOfType(ForegroundCellType.Bottom);
 
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            currentLevelComponent.arrowsUsed.Value = topArrowCount + rightArrowCount + leftArrowCount + bottomArrowCount;
-
+            currentLevelComponent.arrowsUsed.Value =
+                topArrowCount + rightArrowCount + leftArrowCount + bottomArrowCount;
         }
     }
 }

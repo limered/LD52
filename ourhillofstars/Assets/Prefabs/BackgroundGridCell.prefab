@@ -99,7 +99,7 @@ MonoBehaviour:
   type:
     value: 0
   images:
-  - {fileID: 0}
+  - {fileID: 2800000, guid: e53696c825448314eaa8068366153f0b, type: 3}
   - {fileID: 2800000, guid: 975173b578ba3704bb53414facb38d08, type: 3}
   - {fileID: 2800000, guid: adbd781dab0429242934ef18159b8f66, type: 3}
   - {fileID: 2800000, guid: b8c467c105ee92646b17d10aa466d10c, type: 3}

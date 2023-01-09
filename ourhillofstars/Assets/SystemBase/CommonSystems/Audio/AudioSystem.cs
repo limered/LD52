@@ -56,7 +56,6 @@ namespace SystemBase.CommonSystems.Audio
                 .Receive<AudioActSFXPlay>()
                 .Where(_ => !_sfxIsMuted.Value)
                 .DistinctUntilChanged(IoC.Resolve<ISFXComparer>())
-                // .Select(play => play.Name)
                 .Subscribe(play => PlaySFX(component, play.Parameters)(play.Name))
                 .AddTo(component);
         }
@@ -138,8 +137,8 @@ namespace SystemBase.CommonSystems.Audio
                     source.loop = parameters?.Loop ?? false;
                     source.clip = soundFile.File;
                     source.volume = soundFile.Volume * _sfxVolume.Value;
-                    source.Play();
-                    // source.PlayOneShot(soundFile.File, soundFile.Volume * _sfxVolume.Value);
+                    if(source.loop) source.Play();
+                    else source.PlayOneShot(soundFile.File, soundFile.Volume * _sfxVolume.Value);
                     RemoveSourceAfterStopped(source, soundFile);
                 }
                 else

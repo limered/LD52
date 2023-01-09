@@ -80,7 +80,8 @@ namespace Systems.Grid
             currentLevelComponent.Level = level;
             currentLevelComponent.arrowsUsed.Value = 0;
 
-            var theme = IoC.Game.GetComponent<ThemeComponent>().levelThemes[currentLevelComponent.Level.themeFile];
+            var theme = IoC.Game.GetComponent<ThemeComponent>();
+            var levelTheme = theme.levelThemes[currentLevelComponent.Level.themeFile];
             var sprites = new List<Texture2D>(11);
             for (var y = 0; y < 2; y++)
             {
@@ -91,14 +92,14 @@ namespace Systems.Grid
                     {
                         filterMode = FilterMode.Point
                     };
-                    var pixels = theme.GetPixels(x * 32, spriteY * 32, 32, 32);
+                    var pixels = levelTheme.GetPixels(x * 32, spriteY * 32, 32, 32);
                     texture.SetPixels(pixels);
                     texture.Apply();
                     sprites.Add(texture);
                 }
             }
 
-            sprites.Insert(0, new Texture2D(32, 32, TextureFormat.RGB24, false));
+            sprites.Insert(0, theme.backGroundBlankTexture);
             var textureArray = sprites.ToArray();
             for (var i = 0; i < component.backgroundCells.Length; i++)
             {
