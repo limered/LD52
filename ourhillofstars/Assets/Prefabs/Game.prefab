@@ -240,6 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b175c89379264ce5b77d5768269f7e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsPaused:
+    value: 0
   arrowsUsed:
     value: 0
   harvesterRunning:
@@ -263,6 +265,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 8a68c07b564fbef46848482a1f7b0309, type: 3}
   - {fileID: 2800000, guid: ab3bfb5abc532e34fa673eb88fc5190d, type: 3}
   - {fileID: 2800000, guid: 61af4d82c593dea40a94469440b0d440, type: 3}
+  - {fileID: 2800000, guid: 68a0a0f399a337a4285566f03d557494, type: 3}
+  - {fileID: 2800000, guid: 630a1fa45eed9c449ac3c298fe4e1682, type: 3}
   harvestParticleThemes:
   - {fileID: -1774370807, guid: 267e5235fdd24a74b90e12549fc32ec1, type: 3}
   - {fileID: -626433727, guid: 6b90ba4af21f13b4c9dcb5cabdc44a08, type: 3}
@@ -270,6 +274,8 @@ MonoBehaviour:
   - {fileID: -1583195826, guid: fe3e50c7e224f2544bd0d3571217b8da, type: 3}
   - {fileID: 1868849022, guid: cf1fccae0821e0145b5ae174ca15ab32, type: 3}
   - {fileID: 1577942856, guid: 6b802a2bdf2571e40bf03af1d197adbf, type: 3}
+  - {fileID: 21300000, guid: ef98c985d78fc7a40be56c9371448aa4, type: 3}
+  - {fileID: 21300000, guid: aef3019889b565e48bc04ee47c5432ca, type: 3}
   harvesterThemes:
   - {fileID: 2800000, guid: bbb104aebde0f654ba166076a93a5856, type: 3}
   - {fileID: 2800000, guid: efa7a0bab92eecd41afe2bea33055d10, type: 3}
@@ -386,6 +392,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74841a37b0e9d294a8a7abb932156342, type: 3}
+--- !u!1 &1507910251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5975590572795703719, guid: 74841a37b0e9d294a8a7abb932156342,
+    type: 3}
+  m_PrefabInstance: {fileID: 5975590572135142348}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4815246920906854899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507910251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc230bb4099941f49832cf1ca1a0ee31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxPitchChange: 0.25
+  Sounds:
+  - Name: complete_level1
+    File: {fileID: 8300000, guid: f5c3320cea58da04b941de891229abe2, type: 3}
+    Volume: 0.3
+  - Name: complete_level2
+    File: {fileID: 8300000, guid: 75886141c9bcc5442af60943e6f85381, type: 3}
+    Volume: 0.3
+  - Name: complete_level3
+    File: {fileID: 8300000, guid: 32e95739282ae9348bc48d0b18709049, type: 3}
+    Volume: 0.3
+  - Name: complete_level4
+    File: {fileID: 8300000, guid: 464d33d9d330c854f9e4943a9740c24b, type: 3}
+    Volume: 0.3
+  - Name: complete_level5
+    File: {fileID: 8300000, guid: 017032079b0ba664ba7554a4e2bcfe58, type: 3}
+    Volume: 0.3
+  - Name: harvest1
+    File: {fileID: 8300000, guid: 39e381a62fe12cb48879c089616585ee, type: 3}
+    Volume: 0.1
+  - Name: harvest2
+    File: {fileID: 8300000, guid: a3884c03301937440994115c9d513417, type: 3}
+    Volume: 0.1
+  - Name: harvest3
+    File: {fileID: 8300000, guid: 77c1e0bec2d23af4fa823c3d2f122416, type: 3}
+    Volume: 0.1
+  - Name: harvest4
+    File: {fileID: 8300000, guid: b7fba87bf08c57041bd2e9b4aa760d00, type: 3}
+    Volume: 0.1
+  - Name: tractor
+    File: {fileID: 8300000, guid: 8d96f81fd4409d2429a910144cc83643, type: 3}
+    Volume: 0.067
 --- !u!20 &1507910253 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5975590572795703713, guid: 74841a37b0e9d294a8a7abb932156342,

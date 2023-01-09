@@ -56,8 +56,8 @@ namespace SystemBase.CommonSystems.Audio
                 .Receive<AudioActSFXPlay>()
                 .Where(_ => !_sfxIsMuted.Value)
                 .DistinctUntilChanged(IoC.Resolve<ISFXComparer>())
-                .Select(play => play.Name)
-                .Subscribe(PlaySFX(component))
+                // .Select(play => play.Name)
+                .Subscribe(play => PlaySFX(component, play.Parameters)(play.Name))
                 .AddTo(component);
         }
 
@@ -123,7 +123,7 @@ namespace SystemBase.CommonSystems.Audio
                 .Subscribe(_ => { }, () => Object.Destroy(source));
         }
 
-        private Action<string> PlaySFX(SFXComponent component)
+        private Action<string> PlaySFX(SFXComponent component, PlaySFXParameters parameters)
         {
             return name =>
             {
@@ -132,7 +132,11 @@ namespace SystemBase.CommonSystems.Audio
                 {
                     var source = component.gameObject.AddComponent<AudioSource>();
                     source.pitch = 1 + (UnityEngine.Random.value - 0.5f) * 2f * component.MaxPitchChange;
-                    source.PlayOneShot(soundFile.File, soundFile.Volume * _sfxVolume.Value);
+                    source.loop = parameters?.Loop ?? false;
+                    source.clip = soundFile.File;
+                    source.volume = soundFile.Volume * _sfxVolume.Value;
+                    source.Play();
+                    // source.PlayOneShot(soundFile.File, soundFile.Volume * _sfxVolume.Value);
                     RemoveSourceAfterStopped(source);
                 }
                 else

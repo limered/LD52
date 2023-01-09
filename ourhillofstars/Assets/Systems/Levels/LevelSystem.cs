@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using SystemBase.Core;
@@ -72,7 +71,7 @@ namespace Systems.Levels
 #endif
                 {
                     cell.GetComponentInChildren<LevelCellComponent>().level = i;
-                    cell.GetComponentInChildren<Button>().image.sprite = levels[i].level.LoadImage();
+                    cell.GetComponentInChildren<Button>().image.sprite = component.levelThumbnails[i];
                 }
                 else
                 {
@@ -133,7 +132,6 @@ namespace Systems.Levels
                 }
                 else
                 {
-                    Debug.Log("Du hast das Spiel durchgespielt");
                     MessageBroker.Default.Publish(new FinishLastLevelMsg());
                 }
             });
@@ -165,7 +163,6 @@ namespace Systems.Levels
         {
             public (Level level, Grade grade)[] GetAllLevelsWithGrade()
             {
-                Debug.Log("get levels");
                 var allLevelJsons = Resources.LoadAll<TextAsset>("");
                 var allLevels = allLevelJsons
                     .Where(x => x.name.StartsWith("level_"))
@@ -178,7 +175,6 @@ namespace Systems.Levels
                     .OrderBy(so => so.LevelIndex)
                     .ToList();
 
-                Debug.Log($"level count {allLevels.Count}");
                 Debug.Assert(allLevels.Count() == allLevels.Distinct(new LevelComparer()).Count(),
                     "you have duplicate levels!");
 

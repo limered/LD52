@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SystemBase.CommonSystems.Audio;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
@@ -38,7 +39,7 @@ namespace Systems.Drescher
             MessageBroker.Default.Receive<SpawnPlayerMessage>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<AskToGoToNextLevelMsg>()
                 .Subscribe(_ => Object.Destroy(component.gameObject))
                 .AddTo(component);
@@ -81,11 +82,14 @@ namespace Systems.Drescher
                 sprites[2]
             };
             dresherObject.directionImages = textureArray;
-            
-            //set particle theme 
+
+            //set particle theme
             var particleSystemRenderer = dresherObject.GetComponentInChildren<ParticleSystemRenderer>();
-            var particleThemeSprite = IoC.Game.GetComponent<ThemeComponent>().harvestParticleThemes[currentLevelComponent.Level.themeFile];
+            var particleThemeSprite = IoC.Game.GetComponent<ThemeComponent>()
+                .harvestParticleThemes[currentLevelComponent.Level.themeFile];
             particleSystemRenderer.material.mainTexture = particleThemeSprite.texture;
+
+            "tractor".Play(new PlaySFXParameters { Loop = true });
         }
 
         private static void Drive(DrescherComponent drescherComponent, MainGridComponent g)
@@ -123,6 +127,7 @@ namespace Systems.Drescher
 
                 g.backgroundGrid.Cell(cellCoord.x, cellCoord.y, BackgroundCellType.Harvested);
                 MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoord });
+                new[] { "harvest1", "harvest2", "harvest3", "harvest4" }.PlayRandom();
             }
             else if (_currentLevelComponent.Level.levelType == LevelType.ApplePicker)
             {
@@ -135,21 +140,38 @@ namespace Systems.Drescher
                 };
                 for (var i = 0; i < cellCoords.Length; i++)
                 {
+                    if (cellCoords[i].x < 0 || cellCoords[i].y < 0 || cellCoords[i].x >= g.dimensions.x ||
+                        cellCoords[i].y >= g.dimensions.y)
+                    {
+                        continue;
+                    }
+                    
                     var currentCelType = g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y);
-
                     if (currentCelType != BackgroundCellType.Harvestable) continue;
                     g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y, BackgroundCellType.Harvested);
                     MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoords[i] });
                 }
             }
 
+            // level complete
             if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Harvestable) <= 0)
+            {
+                new[]
+                {
+                    "complete_level1",
+                    "complete_level2",
+                    "complete_level3",
+                    "complete_level4",
+                    "complete_level5",
+                }.PlayRandom();
+
                 MessageBroker.Default.Publish(
                     new LevelCompleteMsg
                     {
                         CompletedLevel = _currentLevelComponent.Level.LevelIndex,
                         Grade = _currentLevelComponent.CurrentGrade
                     });
+            }
         }
 
         private static void CheckNextCellAndSwitchTarget(DrescherComponent drescherComponent, MainGridComponent g)

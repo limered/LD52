@@ -1,8 +1,6 @@
 ﻿using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
-using Systems.Grid;
-using Systems.Levels;
 using Systems.Theme;
 using UniRx;
 using UnityEngine;
@@ -21,7 +19,6 @@ namespace Systems.Drescher
                     var particleSystemRenderer = component.GetComponentInChildren<ParticleSystemRenderer>();
                     var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
                     var theme = IoC.Game.GetComponent<ThemeComponent>().harvestParticleThemes[currentLevelComponent.Level.themeFile];
-                    Debug.Log($"Loading theme: {currentLevelComponent.Level.themeFile}");
                     particleSystemRenderer.material.mainTexture = theme.texture;
                 })
                 .AddTo(component);
