@@ -76,9 +76,8 @@ namespace Systems.GridRendering
         private void AnimateBackgroundCellChange(BackgroundCellComponent cell)
         {
             if (cell.type.Value != BackgroundCellType.Harvested)
-                Observable.FromMicroCoroutine(() => SwitchGridCell(cell.gameObject,
-                        cell.rendererCache, cell.images[(int)cell.type.Value],
-                        cell.type.Value == BackgroundCellType.Empty ? 0f : 1f))
+                Observable.FromCoroutine(() => SwitchBackgroundGridCell(cell.gameObject,
+                        cell.rendererCache, cell.images[(int)cell.type.Value]))
                     .Subscribe()
                     .AddTo(cell);
             else
@@ -86,26 +85,19 @@ namespace Systems.GridRendering
                     cell.images[(int)cell.type.Value];
         }
 
-        private static IEnumerator SwitchGridCell(GameObject backgroundCell, Renderer renderer, Texture image,
-            float alpha = 1.0f)
+        private static IEnumerator SwitchBackgroundGridCell(GameObject backgroundCell, Renderer renderer, Texture image)
         {
             const float animationTime = 30f;
             for (var i = 0; i < animationTime; i++)
             {
                 backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, 3);
-                yield return null;
+                yield return new WaitForSeconds(0.01f);
             }
-
-            var col = renderer.material.color;
-            col.a = alpha;
             renderer.material.mainTexture = image;
-
-            renderer.material.color = col;
-
             for (var i = 0; i < animationTime; i++)
             {
                 backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, -3);
-                yield return null;
+                yield return new WaitForSeconds(0.01f);
             }
         }
 
@@ -119,11 +111,39 @@ namespace Systems.GridRendering
 
         private static void AnimateForegroundCellChange(ForegroundCellComponent cell)
         {
-            Observable.FromMicroCoroutine(() =>
-                    SwitchGridCell(cell.gameObject, cell.rendererCache, cell.images[(int)cell.type.Value],
+            Observable.FromCoroutine(() =>
+                    SwitchForegroundGridCell(
+                        cell.gameObject, 
+                        cell.rendererCache, 
+                        cell.images[(int)cell.type.Value],
                         cell.type.Value == ForegroundCellType.Empty ? 0f : 1f))
                 .Subscribe()
                 .AddTo(cell);
+        }
+        
+        private static IEnumerator SwitchForegroundGridCell(
+            GameObject backgroundCell, 
+            Renderer renderer, 
+            Texture image,
+            float alpha)
+        {
+            const float animationTime = 15f;
+            for (var i = 0; i < animationTime; i++)
+            {
+                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, 6);
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            var col = renderer.material.color;
+            col.a = alpha;
+            renderer.material.mainTexture = image;
+            renderer.material.color = col;
+
+            for (var i = 0; i < animationTime; i++)
+            {
+                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, -6);
+                yield return new WaitForSeconds(0.01f);
+            }
         }
     }
 }
