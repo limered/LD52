@@ -28,6 +28,13 @@ namespace Systems.UI.Levels
 
         public override void Register(LevelOverviewComponent component)
         {
+            // uncomment to reset save game
+            // PlayerPrefs.SetFloat(FurthestLevelKey, 1);
+            // for (int i = 0; i < 20; i++)
+            // {
+            //     PlayerPrefs.SetInt(LevelGradeKey(i), (int)Grade.None);
+            // }
+
             var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentLevel.IsPaused.Value = true;
             currentLevel.GameState = GameState.GameState.LevelSelect;
@@ -35,12 +42,6 @@ namespace Systems.UI.Levels
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
 
-            // reset save game
-            // PlayerPrefs.SetFloat(FurthestLevelKey, 1);
-            // for (int i = 0; i < 20; i++)
-            // {
-            //     PlayerPrefs.SetInt(LevelGradeKey(i), (int)Grade.None);
-            // }
         }
 
         private void ReloadLevelOverview((Level level, Grade grade)[] levels, LevelOverviewComponent component)
