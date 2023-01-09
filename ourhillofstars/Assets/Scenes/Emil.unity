@@ -245,6 +245,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: levelThemes.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: levelThemes.Array.data[6]
+      value: 
+      objectReference: {fileID: 2800000, guid: 68a0a0f399a337a4285566f03d557494, type: 3}
+    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: levelThemes.Array.data[7]
+      value: 
+      objectReference: {fileID: 2800000, guid: 630a1fa45eed9c449ac3c298fe4e1682, type: 3}
+    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: harvestParticleThemes.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: harvestParticleThemes.Array.data[6]
+      value: 
+      objectReference: {fileID: 1868849022, guid: cf1fccae0821e0145b5ae174ca15ab32,
+        type: 3}
+    - target: {fileID: 218094341, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
+      propertyPath: harvestParticleThemes.Array.data[7]
+      value: 
+      objectReference: {fileID: -1583195826, guid: fe3e50c7e224f2544bd0d3571217b8da,
+        type: 3}
     - target: {fileID: 7945032758725522513, guid: 79306727bb65d1c46bd63e04e381db70,
         type: 3}
       propertyPath: m_RootOrder
