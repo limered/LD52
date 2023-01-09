@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSubstitute.Exceptions;
 using SystemBase.CommonSystems.Audio;
 using SystemBase.Core;
 using SystemBase.Utils;
@@ -119,6 +120,8 @@ namespace Systems.Drescher
 
         private static void Harvest(MainGridComponent g, Vector2 position)
         {
+            if (g.backgroundGrid.CountElementsOfType(BackgroundCellType.Harvestable) <= 0) return;
+            
             if (_currentLevelComponent.Level.levelType == LevelType.Harvester)
             {
                 var cellCoord = new Vector2Int((int)(position.x + 0.5f), (int)(position.y + 0.5f));
@@ -150,6 +153,7 @@ namespace Systems.Drescher
                     if (currentCelType != BackgroundCellType.Harvestable) continue;
                     g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y, BackgroundCellType.Harvested);
                     MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoords[i] });
+                    new[] { "harvest1", "harvest2", "harvest3", "harvest4" }.PlayRandom();
                 }
             }
 
