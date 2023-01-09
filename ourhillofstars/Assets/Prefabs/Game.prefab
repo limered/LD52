@@ -274,8 +274,8 @@ MonoBehaviour:
   - {fileID: -1583195826, guid: fe3e50c7e224f2544bd0d3571217b8da, type: 3}
   - {fileID: 1868849022, guid: cf1fccae0821e0145b5ae174ca15ab32, type: 3}
   - {fileID: 1577942856, guid: 6b802a2bdf2571e40bf03af1d197adbf, type: 3}
-  - {fileID: 1868849022, guid: cf1fccae0821e0145b5ae174ca15ab32, type: 3}
-  - {fileID: -1583195826, guid: fe3e50c7e224f2544bd0d3571217b8da, type: 3}
+  - {fileID: 21300000, guid: ef98c985d78fc7a40be56c9371448aa4, type: 3}
+  - {fileID: 21300000, guid: aef3019889b565e48bc04ee47c5432ca, type: 3}
   harvesterThemes:
   - {fileID: 2800000, guid: bbb104aebde0f654ba166076a93a5856, type: 3}
   - {fileID: 2800000, guid: efa7a0bab92eecd41afe2bea33055d10, type: 3}
