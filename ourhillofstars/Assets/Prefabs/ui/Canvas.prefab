@@ -84,6 +84,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridDimensions: {x: 5, y: 5}
+  levelThumbnails:
+  - {fileID: 21300000, guid: 832651cd0c9b7f34d9b4d4e9d52b44c3, type: 3}
+  - {fileID: 21300000, guid: a00bb387dfb0b28469103521d2da8ab3, type: 3}
+  - {fileID: 21300000, guid: e670b0820a68e054cafbc9b13c5b4f79, type: 3}
+  - {fileID: 21300000, guid: edf73bd365e118f48a31cfde4d331093, type: 3}
+  - {fileID: 21300000, guid: 73af6a7b9ba88704b97a74776600e4f1, type: 3}
+  - {fileID: 21300000, guid: 3211bfcbc2ff5a94292fa134f367bf3b, type: 3}
+  - {fileID: 21300000, guid: df69fb594917261468d72f7bd181de10, type: 3}
+  - {fileID: 21300000, guid: 774b2a83f33d9e04291ea5a777e9f4a8, type: 3}
+  - {fileID: 21300000, guid: 6d549f27c5dd4284a97123e99864531e, type: 3}
+  - {fileID: 21300000, guid: d68a984cc9bcc4b469a2313bc61a43b5, type: 3}
+  - {fileID: 21300000, guid: c2f7cb5699b1452408ad20bbb8ccace2, type: 3}
+  - {fileID: 21300000, guid: cf31e87999c3629428d97b47b4abdbd9, type: 3}
+  - {fileID: 21300000, guid: 9f95ad56385afd449ae7e89f3892d22e, type: 3}
+  - {fileID: 21300000, guid: ce973ecf05dd6464692eed983d1e412c, type: 3}
+  - {fileID: 21300000, guid: 49214ff66565da647b80b8671006411b, type: 3}
+  - {fileID: 21300000, guid: 78a3feba25f43ff4c898140c789f6d13, type: 3}
+  - {fileID: 21300000, guid: 56bd252dbba937e43927e8a1ab3d01f6, type: 3}
+  - {fileID: 21300000, guid: 933e1bb8e83c5c24194e06cf779a87f8, type: 3}
+  - {fileID: 21300000, guid: 02eeb553fbd127043be9bfd8de942faa, type: 3}
+  - {fileID: 21300000, guid: 0ae5ca539f7cf17489c60cc47a8b7309, type: 3}
 --- !u!1 &48437407
 GameObject:
   m_ObjectHideFlags: 0

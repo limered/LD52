@@ -71,7 +71,7 @@ namespace Systems.Levels
 #endif
                 {
                     cell.GetComponentInChildren<LevelCellComponent>().level = i;
-                    cell.GetComponentInChildren<Button>().image.sprite = levels[i].level.LoadImage();
+                    cell.GetComponentInChildren<Button>().image.sprite = component.levelThumbnails[i];
                 }
                 else
                 {
