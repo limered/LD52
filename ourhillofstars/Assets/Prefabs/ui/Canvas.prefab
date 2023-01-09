@@ -105,6 +105,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 933e1bb8e83c5c24194e06cf779a87f8, type: 3}
   - {fileID: 21300000, guid: 02eeb553fbd127043be9bfd8de942faa, type: 3}
   - {fileID: 21300000, guid: 0ae5ca539f7cf17489c60cc47a8b7309, type: 3}
+  gradeSprites:
+  - {fileID: 21300000, guid: d8663b3dcc37b8c43b62fb293f515524, type: 3}
+  - {fileID: 21300000, guid: 701e1ebf39ebe5e4f8e75a32d3419532, type: 3}
+  - {fileID: 21300000, guid: 908711316ff087c44aec24d6a163f7c3, type: 3}
+  - {fileID: 21300000, guid: cc0684100a7074c4e97847e75c5f393d, type: 3}
 --- !u!1 &48437407
 GameObject:
   m_ObjectHideFlags: 0
