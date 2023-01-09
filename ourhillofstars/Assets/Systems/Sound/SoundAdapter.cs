@@ -13,7 +13,9 @@ namespace Systems.Sound
             if (ReferenceEquals(x, null)) return false;
             if (ReferenceEquals(y, null)) return false;
             if (x.GetType() != y.GetType()) return false;
-            return x.Name == y.Name && x.Tag == y.Tag;
+            if (x.Parameters == null || x.Parameters?.Loop == false) return false;
+            
+            return x.Name == y.Name && x.Tag == y.Tag && x.Parameters?.Loop == y.Parameters?.Loop;
         }
 
         public int GetHashCode(AudioActSFXPlay obj)

@@ -13,7 +13,7 @@ namespace SystemBase.CommonSystems.Audio
         
         public static void PlayRandom(this string[] soundArray, PlaySFXParameters parameters = null, string tag = null)
         {
-            MessageBroker.Default.Publish(new AudioActSFXPlay { Name = soundArray[Random.Range(0, soundArray.Length - 1)], Tag = tag, Parameters = parameters });
+            MessageBroker.Default.Publish(new AudioActSFXPlay { Name = soundArray[Random.Range(0, soundArray.Length)], Tag = tag, Parameters = parameters });
         }
     }
 }

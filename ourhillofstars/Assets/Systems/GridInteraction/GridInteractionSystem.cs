@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using SystemBase.CommonSystems.Audio;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
@@ -70,6 +71,7 @@ namespace Systems.GridInteraction
 
             if (Input.GetMouseButtonDown(1))
             {
+                if (fGrid.Cell(x, y) != ForegroundCellType.Empty) "flupp".Play();
                 fGrid.Cell(x, y, ForegroundCellType.Empty);
                 SetAmountOfArrows(fGrid);
                 MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
@@ -89,6 +91,25 @@ namespace Systems.GridInteraction
                     break;
                 case ForegroundCellType.Empty:
                     MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
+                    break;
+            }
+
+            switch (nextCellType)
+            {
+                case ForegroundCellType.Top:
+                    "top".Play();
+                    break;
+                case ForegroundCellType.Left:
+                    "left".Play();
+                    break;
+                case ForegroundCellType.Bottom:
+                    "down".Play();
+                    break;
+                case ForegroundCellType.Right:
+                    "right".Play();
+                    break;
+                case ForegroundCellType.Empty:
+                    "flupp".Play();
                     break;
             }
 

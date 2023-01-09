@@ -163,6 +163,7 @@ namespace Systems.Drescher
                     "complete_level3",
                     "complete_level4",
                     "complete_level5",
+                    "complete_level6",
                 }.PlayRandom();
 
                 MessageBroker.Default.Publish(
