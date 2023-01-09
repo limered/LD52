@@ -20,12 +20,14 @@ namespace Systems.UI
             base.OverwriteStart();
             volumeSlider.value = PlayerPrefs.GetFloat("volume", volumeSlider.value);
             MessageBroker.Default.Publish(new AudioActSFXSetVolume(volumeSlider.value));
+            MessageBroker.Default.Publish(new AudioActMusicSetVolume(volumeSlider.value));
         }
 
         public void SetVolume()
         {
             PlayerPrefs.SetFloat("volume", volumeSlider.value);
             MessageBroker.Default.Publish(new AudioActSFXSetVolume(volumeSlider.value));
+            MessageBroker.Default.Publish(new AudioActMusicSetVolume(volumeSlider.value));
         }
 
         public void ExitPause()
