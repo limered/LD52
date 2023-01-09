@@ -56,7 +56,7 @@ namespace Systems.Tutorial
                 case TutorialStep.None:
                     break;
                 case TutorialStep.AddArrow:
-                    _grid.foregroundGrid.Cell(5, 8, ForegroundCellType.Left);
+                    _grid.foregroundGrid.Cell(5, 8, ForegroundCellType.Right);
                     component.messageRotateArrow.SetActive(true);
                     component.messageAddArrow.SetActive(false);
                     component.currentStep.Value = TutorialStep.RotateArrow;
