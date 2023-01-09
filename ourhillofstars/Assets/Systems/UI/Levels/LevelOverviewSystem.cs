@@ -88,7 +88,7 @@ namespace Systems.UI.Levels
                 else
                 {
                     cell.GetComponentInChildren<LevelButtonComponent>().level = null;
-                    cell.GetComponentInChildren<Button>().image.sprite = null;
+                    cell.GetComponentInChildren<Button>().image.sprite = component.blockedLevelSprite;
                     cell.GetComponentInChildren<TextMeshProUGUI>().color = Color.grey;
                     cell.GetComponentInChildren<LevelButtonComponent>().grade.color = new Color();
                 }

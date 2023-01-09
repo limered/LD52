@@ -6,6 +6,7 @@ using SystemBase.Utils;
 using Systems.GameState;
 using Systems.Grid;
 using Systems.GridRendering;
+using Systems.Levels;
 using Systems.Selector;
 using Systems.Tutorial;
 using UniRx;
@@ -58,13 +59,25 @@ namespace Systems.GridInteraction
             selector.targetCoord = new Vector2Int(x, y);
             selector.shouldBeInvisible.Value = true;
             var cell = bGrid.Cell(x, y);
-            if (cell != BackgroundCellType.Harvested &&
-                cell != BackgroundCellType.Harvestable &&
-                cell != BackgroundCellType.Path &&
-                cell != BackgroundCellType.Start)
+            if (currLevel.Level.levelType == LevelType.Harvester)
             {
-                selector.shouldChangeTexture.Value = true;
-                return;
+                if (cell != BackgroundCellType.Harvested &&
+                    cell != BackgroundCellType.Harvestable &&
+                    cell != BackgroundCellType.Path &&
+                    cell != BackgroundCellType.Start)
+                {
+                    selector.shouldChangeTexture.Value = true;
+                    return;
+                }
+            }
+            else if (currLevel.Level.levelType == LevelType.ApplePicker)
+            {
+                if (cell != BackgroundCellType.Path &&
+                    cell != BackgroundCellType.Start)
+                {
+                    selector.shouldChangeTexture.Value = true;
+                    return;
+                }
             }
 
             selector.shouldChangeTexture.Value = false;

@@ -1,6 +1,7 @@
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
+using Systems.Grid;
 using Systems.Levels.Events;
 using Systems.Tutorial;
 using UniRx;
@@ -31,6 +32,16 @@ namespace Systems.UI
         {
             nextLvl.gameObject.SetActive(false);
             MessageBroker.Default.Publish(new AskToGoToNextLevelMsg());
+        }
+
+        public void ShowPauseMenu()
+        {
+            MessageBroker.Default.Publish(new ShowPauseMenuMsg());
+        }
+
+        public void ResetArrows()
+        {
+            MessageBroker.Default.Publish(new ClearArrowsMsg());
         }
     }
 }

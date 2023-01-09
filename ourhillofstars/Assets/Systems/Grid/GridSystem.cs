@@ -37,6 +37,24 @@ namespace Systems.Grid
             MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
                 .Subscribe(_ => { ClearGrids(component, false); })
                 .AddTo(component);
+            
+            MessageBroker.Default.Receive<ClearArrowsMsg>()
+                .Subscribe(_ => { ClearArrows(component); })
+                .AddTo(component);
+        }
+
+        private void ClearArrows(MainGridComponent component)
+        {
+            component.foregroundGrid.Clear();
+            
+            for (var i = 0; i < component.backgroundGrid.Length; i++)
+            {
+                component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
+                    ForegroundCellType.Empty;
+            }
+            
+            var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
+            currentGame.arrowsUsed.Value = 0;
         }
 
         private static void ClearGrids(MainGridComponent component, bool levelDone)
