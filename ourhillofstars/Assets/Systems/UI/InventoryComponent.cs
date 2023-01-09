@@ -1,6 +1,7 @@
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
+using Systems.Grid;
 using Systems.Levels.Events;
 using Systems.Tutorial;
 using UniRx;
@@ -35,8 +36,12 @@ namespace Systems.UI
 
         public void ShowPauseMenu()
         {
-            gameObject.SetActive(false);
             MessageBroker.Default.Publish(new ShowPauseMenuMsg());
+        }
+
+        public void ResetArrows()
+        {
+            MessageBroker.Default.Publish(new ClearArrowsMsg());
         }
     }
 }
