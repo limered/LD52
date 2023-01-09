@@ -8,5 +8,6 @@ namespace Systems.UI.Levels
         public Vector2Int gridDimensions = new Vector2Int(5, 5);
         public Sprite[] levelThumbnails;
         public Sprite[] gradeSprites;
+        public Sprite blockedLevelSprite;
     }
 }
