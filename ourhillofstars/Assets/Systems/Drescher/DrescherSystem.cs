@@ -135,8 +135,13 @@ namespace Systems.Drescher
                 };
                 for (var i = 0; i < cellCoords.Length; i++)
                 {
+                    if (cellCoords[i].x < 0 || cellCoords[i].y < 0 || cellCoords[i].x >= g.dimensions.x ||
+                        cellCoords[i].y >= g.dimensions.y)
+                    {
+                        continue;
+                    }
+                    
                     var currentCelType = g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y);
-
                     if (currentCelType != BackgroundCellType.Harvestable) continue;
                     g.backgroundGrid.Cell(cellCoords[i].x, cellCoords[i].y, BackgroundCellType.Harvested);
                     MessageBroker.Default.Publish(new HarvestedMsg { coord = cellCoords[i] });
