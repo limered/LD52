@@ -94,6 +94,10 @@ namespace Systems.Tutorial
         private static void HideAllTutorialSteps(TutorialComponent component)
         {
             component.currentStep.Value = TutorialStep.None;
+            component.messageAddArrow.SetActive(false);
+            component.messageClickStart.SetActive(false);
+            component.messageRemoveArrow.SetActive(false);
+            component.messageRotateArrow.SetActive(false);
         }
 
         public override void Register(MainGridComponent component)
