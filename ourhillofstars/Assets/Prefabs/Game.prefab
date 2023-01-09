@@ -259,6 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf63cd2c6bd441a88d71a2cd6ea85a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backGroundBlankTexture: {fileID: 2800000, guid: e53696c825448314eaa8068366153f0b,
+    type: 3}
   levelThemes:
   - {fileID: 2800000, guid: a4bdffad30b9cb44a90f0104dcffd4b8, type: 3}
   - {fileID: 2800000, guid: 0b13cb099ce8bc948b04dd9d04ec5c7e, type: 3}
