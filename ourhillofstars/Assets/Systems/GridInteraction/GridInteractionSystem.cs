@@ -6,6 +6,7 @@ using Systems.GameState;
 using Systems.Grid;
 using Systems.GridRendering;
 using Systems.Selector;
+using Systems.Tutorial;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -56,7 +57,7 @@ namespace Systems.GridInteraction
             selector.targetCoord = new Vector2Int(x, y);
             selector.shouldBeInvisible.Value = true;
             var cell = bGrid.Cell(x, y);
-            if (cell != BackgroundCellType.Harvested && 
+            if (cell != BackgroundCellType.Harvested &&
                 cell != BackgroundCellType.Harvestable &&
                 cell != BackgroundCellType.Path &&
                 cell != BackgroundCellType.Start)
@@ -71,10 +72,25 @@ namespace Systems.GridInteraction
             {
                 fGrid.Cell(x, y, ForegroundCellType.Empty);
                 SetAmountOfArrows(fGrid);
+                MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
             }
 
             if (!Input.GetMouseButtonDown(0)) return;
             var nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y);
+            switch (nextCellType)
+            {
+                case ForegroundCellType.Left:
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.AddArrow });
+                    break;
+                case ForegroundCellType.Bottom or
+                    ForegroundCellType.Top or
+                    ForegroundCellType.Right:
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RotateArrow });
+                    break;
+                case ForegroundCellType.Empty:
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
+                    break;
+            }
 
             fGrid.Cell(x, y, nextCellType);
             SetAmountOfArrows(fGrid);
@@ -83,7 +99,7 @@ namespace Systems.GridInteraction
         private static int NextCellType(GameGrid<ForegroundCellType> fGrid, int x, int y, int switchAmount = 1)
         {
             var maxValue = Enum.GetValues(typeof(ForegroundCellType)).Cast<int>().Last() + 1;
-            var nextCellType = (int)(fGrid.Cell(x, y)) + switchAmount;
+            var nextCellType = (int)fGrid.Cell(x, y) + switchAmount;
             nextCellType %= maxValue;
             return nextCellType;
         }
@@ -96,8 +112,8 @@ namespace Systems.GridInteraction
             var bottomArrowCount = grid.CountElementsOfType(ForegroundCellType.Bottom);
 
             var currentLevelComponent = IoC.Game.GetComponent<CurrentLevelComponent>();
-            currentLevelComponent.arrowsUsed.Value = topArrowCount + rightArrowCount + leftArrowCount + bottomArrowCount;
-
+            currentLevelComponent.arrowsUsed.Value =
+                topArrowCount + rightArrowCount + leftArrowCount + bottomArrowCount;
         }
     }
 }

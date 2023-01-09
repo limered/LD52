@@ -6,11 +6,12 @@ namespace Systems.Tutorial
 {
     public class TutorialComponent : GameComponent
     {
-        public ReactiveProperty<TutorialStep> currentStep = new(TutorialStep.None);
+        public ReactiveProperty<TutorialStep> currentStep = new();
         
         public GameObject messageAddArrow;
         public GameObject messageRotateArrow;
         public GameObject messageRemoveArrow;
         public GameObject messageClickStart;
+        public float waitTime = 1;
     }
 }
