@@ -34,7 +34,7 @@ namespace Systems.UI.Levels
             var levels = IoC.Resolve<IGetAllLevelsAndGrades>().GetAllLevelsWithGrade();
             ReloadLevelOverview(levels, component);
             HandleMessages(levels, component);
-            
+
             // reset save game
             // PlayerPrefs.SetFloat(FurthestLevelKey, 1);
             // for (int i = 0; i < 20; i++)
@@ -116,10 +116,10 @@ namespace Systems.UI.Levels
                     currentLevel.IsPaused.Value = true;
                     currentLevel.GameState = GameState.GameState.LevelSelect;
                     component.gameObject.transform.parent.gameObject.SetActive(true);
-                    ReloadLevelOverview(levels, component);
+                    ReloadLevelOverview(IoC.Resolve<IGetAllLevelsAndGrades>().GetAllLevelsWithGrade(), component);
                 });
 
-            MessageBroker.Default.Receive<GoToNextLevelMsg>().Subscribe(msg =>
+            MessageBroker.Default.Receive<LevelCompleteMsg>().Subscribe(msg =>
             {
                 // did complete a new level?
                 var furthestLevel = PlayerPrefs.GetInt(FurthestLevelKey, 0);
@@ -136,7 +136,11 @@ namespace Systems.UI.Levels
                 {
                     PlayerPrefs.SetInt(LevelGradeKey(msg.CompletedLevel), (int)msg.Grade);
                 }
-
+            });
+            
+            MessageBroker.Default.Receive<GoToNextLevelMsg>().Subscribe(msg =>
+            {
+                var nextLevel = msg.CompletedLevel + 1;
                 // start next level
                 if (nextLevel < levels.Length)
                 {
