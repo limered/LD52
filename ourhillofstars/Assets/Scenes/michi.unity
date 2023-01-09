@@ -123,6 +123,30 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &13015765 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7634767038013576122, guid: 2319e048e49a0234398046c02c87d86e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1886572786}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9de3c48a9c24149b8487af0106e557b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &324442825 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1886572786}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &991965072
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,56 +331,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79306727bb65d1c46bd63e04e381db70, type: 3}
---- !u!1 &1198920521 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1507910251, guid: 79306727bb65d1c46bd63e04e381db70,
-    type: 3}
-  m_PrefabInstance: {fileID: 1198920520}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1198920522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198920521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc230bb4099941f49832cf1ca1a0ee31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxPitchChange: 0.25
-  Sounds:
-  - Name: complete_level1
-    File: {fileID: 8300000, guid: f5c3320cea58da04b941de891229abe2, type: 3}
-    Volume: 0.3
-  - Name: complete_level2
-    File: {fileID: 8300000, guid: 75886141c9bcc5442af60943e6f85381, type: 3}
-    Volume: 0.3
-  - Name: complete_level3
-    File: {fileID: 8300000, guid: 32e95739282ae9348bc48d0b18709049, type: 3}
-    Volume: 0.3
-  - Name: complete_level4
-    File: {fileID: 8300000, guid: 464d33d9d330c854f9e4943a9740c24b, type: 3}
-    Volume: 0.3
-  - Name: complete_level5
-    File: {fileID: 8300000, guid: 017032079b0ba664ba7554a4e2bcfe58, type: 3}
-    Volume: 0.3
-  - Name: harvest1
-    File: {fileID: 8300000, guid: 39e381a62fe12cb48879c089616585ee, type: 3}
-    Volume: 0.1
-  - Name: harvest2
-    File: {fileID: 8300000, guid: a3884c03301937440994115c9d513417, type: 3}
-    Volume: 0.1
-  - Name: harvest3
-    File: {fileID: 8300000, guid: 77c1e0bec2d23af4fa823c3d2f122416, type: 3}
-    Volume: 0.1
-  - Name: harvest4
-    File: {fileID: 8300000, guid: b7fba87bf08c57041bd2e9b4aa760d00, type: 3}
-    Volume: 0.1
-  - Name: tractor
-    File: {fileID: 8300000, guid: 8d96f81fd4409d2429a910144cc83643, type: 3}
-    Volume: 0.067
 --- !u!1 &1369130470
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +702,36 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 13015765}
+    - target: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Systems.UI.PauseMenuComponent, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3746457558425950023, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3942292891190395964, guid: 2319e048e49a0234398046c02c87d86e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -903,6 +907,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7634767038013576122, guid: 2319e048e49a0234398046c02c87d86e,
+        type: 3}
+      propertyPath: volumeSlider
+      value: 
+      objectReference: {fileID: 324442825}
     - target: {fileID: 8881429903030812636, guid: 2319e048e49a0234398046c02c87d86e,
         type: 3}
       propertyPath: m_AnchorMax.x

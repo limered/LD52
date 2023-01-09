@@ -1,4 +1,5 @@
-using System;
+using SystemBase.CommonSystems.Audio;
+using SystemBase.CommonSystems.Audio.Actions;
 using SystemBase.Core;
 using SystemBase.Utils;
 using Systems.GameState;
@@ -12,12 +13,19 @@ namespace Systems.UI
 {
     public class PauseMenuComponent : GameComponent
     {
-        public float volume = 0.5f;
+        public Slider volumeSlider;
+
+        protected override void OverwriteStart()
+        {
+            base.OverwriteStart();
+            volumeSlider.value = PlayerPrefs.GetFloat("volume", volumeSlider.value);
+            MessageBroker.Default.Publish(new AudioActSFXSetVolume(volumeSlider.value));
+        }
 
         public void SetVolume()
         {
-            var slider = GetComponent<Slider>();
-            volume = slider.value;
+            PlayerPrefs.SetFloat("volume", volumeSlider.value);
+            MessageBroker.Default.Publish(new AudioActSFXSetVolume(volumeSlider.value));
         }
 
         public void ExitPause()
