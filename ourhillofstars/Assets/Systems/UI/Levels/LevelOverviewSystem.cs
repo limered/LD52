@@ -50,13 +50,10 @@ namespace Systems.UI.Levels
 
             var parentTransform = component.GetComponent<RectTransform>();
             var layoutGroup = component.GetComponent<GridLayoutGroup>();
-            var biggerSize =
-                Math.Max((parentTransform.rect.size.x - component.gridDimensions.x * layoutGroup.spacing.x) /
-                         component.gridDimensions.x,
-                    (parentTransform.rect.size.y - component.gridDimensions.y * layoutGroup.spacing.y) /
-                    component.gridDimensions.y);
 
-            var cellSize = new Vector2(biggerSize, biggerSize);
+            var xSize = (parentTransform.rect.size.x - component.gridDimensions.x * layoutGroup.spacing.x) / component.gridDimensions.x;
+
+            var cellSize = new Vector2(xSize, xSize);
             layoutGroup.cellSize = cellSize;
 
             parentTransform.RemoveAllChildren();
