@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -51,7 +51,8 @@ namespace Systems.UI.Levels
             var parentTransform = component.GetComponent<RectTransform>();
             var layoutGroup = component.GetComponent<GridLayoutGroup>();
 
-            var xSize = (parentTransform.rect.size.x - component.gridDimensions.x * layoutGroup.spacing.x) / component.gridDimensions.x;
+            var xSize = 400;//(parentTransform.rect.size.x - component.gridDimensions.x * layoutGroup.spacing.x) /
+                        //component.gridDimensions.x;
 
             var cellSize = new Vector2(xSize, xSize);
             layoutGroup.cellSize = cellSize;

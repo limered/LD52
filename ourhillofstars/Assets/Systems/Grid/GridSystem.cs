@@ -29,7 +29,7 @@ namespace Systems.Grid
             MessageBroker.Default.Receive<GridLoadMsg>()
                 .Subscribe(msg => LoadGrid(component, msg.Level))
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<AskToGoToNextLevelMsg>()
                 .Subscribe(_ => { ClearGrids(component, true); })
                 .AddTo(component);
@@ -37,7 +37,7 @@ namespace Systems.Grid
             MessageBroker.Default.Receive<ShowLevelOverviewMsg>()
                 .Subscribe(_ => { ClearGrids(component, false); })
                 .AddTo(component);
-            
+
             MessageBroker.Default.Receive<ClearArrowsMsg>()
                 .Subscribe(_ => { ClearArrows(component); })
                 .AddTo(component);
@@ -46,13 +46,13 @@ namespace Systems.Grid
         private void ClearArrows(MainGridComponent component)
         {
             component.foregroundGrid.Clear();
-            
+
             for (var i = 0; i < component.backgroundGrid.Length; i++)
             {
                 component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
                     ForegroundCellType.Empty;
             }
-            
+
             var currentGame = IoC.Game.GetComponent<CurrentLevelComponent>();
             currentGame.arrowsUsed.Value = 0;
         }
@@ -73,6 +73,7 @@ namespace Systems.Grid
                     component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
                         ForegroundCellType.Empty;
                 }
+
                 return;
             }
 
@@ -81,7 +82,7 @@ namespace Systems.Grid
                 component.foregroundCells[i].GetComponent<ForegroundCellComponent>().type.Value =
                     ForegroundCellType.Empty;
             }
-            
+
             Observable.FromCoroutine(() => ResetGridCellsFromTexture(component))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new GoToNextLevelMsg()
                 {
@@ -123,7 +124,7 @@ namespace Systems.Grid
             {
                 component.backgroundCells[i].GetComponent<BackgroundCellComponent>().images = textureArray;
             }
-            
+
             Observable.FromCoroutine(() => SetGridCellsFromTexture(component, level.LoadImage().texture))
                 .DoOnCompleted(() => MessageBroker.Default.Publish(new SpawnPlayerMessage
                 {
@@ -132,7 +133,7 @@ namespace Systems.Grid
                 .Subscribe()
                 .AddTo(component);
         }
-        
+
         private IEnumerator SetGridCellsFromTexture(MainGridComponent component, Texture2D texture)
         {
             for (var y = component.dimensions.y - 1; y >= 0; y--)
@@ -151,7 +152,7 @@ namespace Systems.Grid
                 yield return new WaitForSeconds(component.updateAnimationDelay);
             }
         }
-        
+
         private static IEnumerator ResetGridCellsFromTexture(MainGridComponent component)
         {
             for (var y = component.dimensions.y - 1; y >= 0; y--)
