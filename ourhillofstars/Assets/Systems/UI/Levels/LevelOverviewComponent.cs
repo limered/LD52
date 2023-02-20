@@ -9,5 +9,6 @@ namespace Systems.UI.Levels
         public Sprite[] levelThumbnails;
         public Sprite[] gradeSprites;
         public Sprite blockedLevelSprite;
+        public GameObject levelOverview;
     }
 }

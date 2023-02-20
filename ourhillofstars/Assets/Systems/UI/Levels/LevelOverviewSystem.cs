@@ -98,7 +98,7 @@ namespace Systems.UI.Levels
             MessageBroker.Default.Receive<LoadLevelMsg>().Subscribe(msg =>
                 {
                     var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
-                    component.transform.parent.gameObject.SetActive(false);
+                    component.levelOverview.gameObject.SetActive(false);
                     currentLevel.IsPaused.Value = false;
                     currentLevel.GameState = GameState.GameState.Playing;
                     MessageBroker.Default.Publish(new GridLoadMsg
