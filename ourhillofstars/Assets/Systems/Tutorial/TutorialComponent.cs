@@ -10,7 +10,7 @@ namespace Systems.Tutorial
         
         public GameObject messageAddArrow;
         public GameObject messageRotateArrow;
-        public GameObject messageRemoveArrow;
+        // public GameObject messageRemoveArrow;
         public GameObject messageClickStart;
         public float waitTime = 1;
     }

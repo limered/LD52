@@ -1177,7 +1177,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 296}
+  m_AnchoredPosition: {x: 95, y: 296}
   m_SizeDelta: {x: 400, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &784168754
@@ -3641,7 +3641,6 @@ MonoBehaviour:
     value: 0
   messageAddArrow: {fileID: 784168751}
   messageRotateArrow: {fileID: 1367849325}
-  messageRemoveArrow: {fileID: 288598548}
   messageClickStart: {fileID: 683282119}
   waitTime: 1
 --- !u!1 &276136052987217802

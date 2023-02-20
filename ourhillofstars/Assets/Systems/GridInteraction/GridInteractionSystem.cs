@@ -82,15 +82,16 @@ namespace Systems.GridInteraction
 
             selector.shouldChangeTexture.Value = false;
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (fGrid.Cell(x, y) != ForegroundCellType.Empty) "flupp".Play();
-                fGrid.Cell(x, y, ForegroundCellType.Empty);
-                SetAmountOfArrows(fGrid);
-                MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
-            }
+            // if (Input.GetMouseButtonDown(1))
+            // {
+            //     if (fGrid.Cell(x, y) != ForegroundCellType.Empty) "flupp".Play();
+            //     fGrid.Cell(x, y, ForegroundCellType.Empty);
+            //     SetAmountOfArrows(fGrid);
+            //     MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
+            // }
 
             if (!Input.GetMouseButtonDown(0)) return;
+
             var nextCellType = (ForegroundCellType)NextCellType(fGrid, x, y);
             switch (nextCellType)
             {
@@ -103,7 +104,7 @@ namespace Systems.GridInteraction
                     MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RotateArrow });
                     break;
                 case ForegroundCellType.Empty:
-                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.RemoveArrow });
+                    MessageBroker.Default.Publish(new TutorialMessage { stepToEnd = TutorialStep.ClickStart });
                     break;
             }
 

@@ -15,7 +15,7 @@ namespace Systems.Tutorial
         None,
         AddArrow,
         RotateArrow,
-        RemoveArrow,
+        // RemoveArrow,
         ClickStart
     }
 
@@ -63,19 +63,19 @@ namespace Systems.Tutorial
                     break;
                 case TutorialStep.RotateArrow:
                     _grid.foregroundGrid.Cell(5, 3, ForegroundCellType.Left);
-                    component.messageRemoveArrow.SetActive(true);
-                    component.messageRotateArrow.SetActive(false);
-                    component.currentStep.Value = TutorialStep.RemoveArrow;
-                    break;
-                case TutorialStep.RemoveArrow:
                     component.messageClickStart.SetActive(true);
-                    component.messageRemoveArrow.SetActive(false);
+                    component.messageRotateArrow.SetActive(false);
                     component.currentStep.Value = TutorialStep.ClickStart;
                     break;
+                // case TutorialStep.RemoveArrow:
+                //     component.messageClickStart.SetActive(true);
+                //     component.messageRemoveArrow.SetActive(false);
+                //     component.currentStep.Value = TutorialStep.ClickStart;
+                //     break;
                 case TutorialStep.ClickStart:
                     component.messageAddArrow.SetActive(false);
                     component.messageClickStart.SetActive(false);
-                    component.messageRemoveArrow.SetActive(false);
+                    // component.messageRemoveArrow.SetActive(false);
                     component.messageRotateArrow.SetActive(false);
                     component.currentStep.Value = TutorialStep.None;
                     break;
@@ -96,7 +96,7 @@ namespace Systems.Tutorial
             component.currentStep.Value = TutorialStep.None;
             component.messageAddArrow.SetActive(false);
             component.messageClickStart.SetActive(false);
-            component.messageRemoveArrow.SetActive(false);
+            // component.messageRemoveArrow.SetActive(false);
             component.messageRotateArrow.SetActive(false);
         }
 
