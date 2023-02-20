@@ -114,7 +114,7 @@ namespace Systems.UI.Levels
                     var currentLevel = IoC.Game.GetComponent<CurrentLevelComponent>();
                     currentLevel.IsPaused.Value = true;
                     currentLevel.GameState = GameState.GameState.LevelSelect;
-                    component.gameObject.transform.parent.gameObject.SetActive(true);
+                    component.levelOverview.gameObject.SetActive(true);
                     ReloadLevelOverview(IoC.Resolve<IGetAllLevelsAndGrades>().GetAllLevelsWithGrade(), component);
                 });
 
