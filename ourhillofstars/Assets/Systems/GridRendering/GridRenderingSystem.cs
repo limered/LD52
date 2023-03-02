@@ -87,17 +87,17 @@ namespace Systems.GridRendering
 
         private static IEnumerator SwitchBackgroundGridCell(GameObject backgroundCell, Renderer renderer, Texture image)
         {
-            const float animationTime = 30f;
+            const float animationTime = 15f;
             for (var i = 0; i < animationTime; i++)
             {
-                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, 3);
-                yield return new WaitForSeconds(0.01f);
+                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, 6);
+                yield return null;
             }
             renderer.material.mainTexture = image;
             for (var i = 0; i < animationTime; i++)
             {
-                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, -3);
-                yield return new WaitForSeconds(0.01f);
+                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, -6);
+                yield return null;
             }
         }
 
