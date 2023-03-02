@@ -9,6 +9,7 @@ using Systems.Levels;
 using Systems.Levels.Events;
 using Systems.Theme;
 using UniRx;
+using Unity.Mathematics;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -250,7 +251,7 @@ namespace Systems.Drescher
         private static void AnimateDrescherToNextCell(DrescherComponent drescherComponent, Vector2 position)
         {
             var direction = (drescherComponent.targetCellCoord - position).normalized;
-            var nextPosition = position + direction * drescherComponent.speed * Time.deltaTime;
+            var nextPosition = position + direction * drescherComponent.speed * math.min(Time.deltaTime, 0.05f);
 
             drescherComponent.transform.position = new Vector3(nextPosition.x, 0.5f, nextPosition.y);
         }
