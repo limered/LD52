@@ -31,7 +31,7 @@ namespace Systems.Drescher
             _grid.WhereNotNull()
                 .Subscribe(g =>
                 {
-                    SystemUpdate(component)
+                    SystemFixedUpdate(component)
                         .Subscribe(drescher => Drive(drescher, g))
                         .AddTo(component);
                 })
@@ -251,14 +251,14 @@ namespace Systems.Drescher
         private static void AnimateDrescherToNextCell(DrescherComponent drescherComponent, Vector2 position)
         {
             var direction = (drescherComponent.targetCellCoord - position).normalized;
-            var nextPosition = position + direction * drescherComponent.speed * math.min(Time.deltaTime, 0.05f);
+            var nextPosition = position + direction * drescherComponent.speed * Time.fixedDeltaTime;
 
             drescherComponent.transform.position = new Vector3(nextPosition.x, 0.5f, nextPosition.y);
         }
 
         private static bool DrescherReachedTarget(DrescherComponent drescherComponent, Vector2 position)
         {
-            return (position - drescherComponent.targetCellCoord).magnitude < 0.1f;
+            return (position - drescherComponent.targetCellCoord).magnitude < 0.2f;
         }
 
         private static void UpdateDirection(DrescherDirection direction, DrescherComponent component)

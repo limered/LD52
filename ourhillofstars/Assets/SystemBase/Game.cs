@@ -32,7 +32,7 @@ namespace SystemBase
         {
             // MessageBroker.Default.Publish(new GameMsgStart());
             QualitySettings.vSyncCount = 0;
-            // Application.targetFrameRate = 60;
+            Application.targetFrameRate = 30;
         }
 
         public override void Init()
