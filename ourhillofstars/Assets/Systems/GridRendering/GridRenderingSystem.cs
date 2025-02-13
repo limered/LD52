@@ -111,39 +111,12 @@ namespace Systems.GridRendering
 
         private static void AnimateForegroundCellChange(ForegroundCellComponent cell)
         {
-            Observable.FromCoroutine(() =>
-                    SwitchForegroundGridCell(
-                        cell.gameObject, 
-                        cell.rendererCache, 
-                        cell.images[(int)cell.type.Value],
-                        cell.type.Value == ForegroundCellType.Empty ? 0f : 1f))
-                .Subscribe()
-                .AddTo(cell);
-        }
-        
-        private static IEnumerator SwitchForegroundGridCell(
-            GameObject backgroundCell, 
-            Renderer renderer, 
-            Texture image,
-            float alpha)
-        {
-            const float animationTime = 15f;
-            for (var i = 0; i < animationTime; i++)
-            {
-                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, 6);
-                yield return new WaitForSeconds(0.01f);
-            }
-
-            var col = renderer.material.color;
-            col.a = alpha;
-            renderer.material.mainTexture = image;
-            renderer.material.color = col;
-
-            for (var i = 0; i < animationTime; i++)
-            {
-                backgroundCell.transform.RotateAround(backgroundCell.transform.position, Vector3.back, -6);
-                yield return new WaitForSeconds(0.01f);
-            }
+            var mat = cell.rendererCache.material;
+            mat.mainTexture = cell.images[(int)cell.type.Value];
+            
+            var col = mat.color;
+            col.a = cell.type.Value == ForegroundCellType.Empty ? 0f : 1f;
+            mat.color = col;
         }
     }
 }
